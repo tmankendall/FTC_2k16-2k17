@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -29,10 +30,9 @@ public class NeilPushbot
     public DcMotor  left_balllauncher   = null;
     public DcMotor  right_balllauncher  = null;
     public Servo    button_pusher       = null;
-    public Servo    ball_launcher       = null;
-    public Servo    left_motor          = null;
-    public Servo    right_motor         = null;
-
+    public Servo      ball_launcher       = null;
+    public CRServo    left_motor          = null;
+    public CRServo    right_motor         = null;
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
@@ -58,8 +58,8 @@ public class NeilPushbot
         right_balllauncher  = hwMap.dcMotor.get("right_balllauncher");
         button_pusher       = hwMap.servo.get("button_pusher");
         ball_launcher       = hwMap.servo.get("ball_launcher");
-        left_motor          = hwMap.servo.get("left_motor");
-        right_motor         = hwMap.servo.get("right_motor");
+        left_motor          = hwMap.crservo.get("left_motor");
+        right_motor         = hwMap.crservo.get("right_motor");
 
         //leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         //rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
@@ -68,7 +68,7 @@ public class NeilPushbot
         forklift.setPower(0);
         sweeper.setPower(0);
         left_balllauncher.setPower(0);
-        right_balllauncher.setPower(0)
+        right_balllauncher.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -80,8 +80,8 @@ public class NeilPushbot
         // Define and initialize ALL installed servos.
         button_pusher.setPosition(MID_SERVO);
         ball_launcher.setPosition(MID_SERVO);
-        left_motor.setPosition(MID_SERVO);
-        right_motor.setPosition(MID_SERVO);
+        left_motor.setPower(0);
+        right_motor.setPower(0);
     }
 
     /***

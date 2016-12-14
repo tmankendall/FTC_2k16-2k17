@@ -108,8 +108,8 @@ public class TestingOPMode extends OpMode{
         robot.sweeper.setPower(left);
         robot.left_balllauncher.setPower(left);
         robot.right_balllauncher.setPower(left);
-        robot.right_motor.setPosition(left);
-        robot.left_motor.setPosition(left);
+        robot.right_motor.setPower(left);
+        robot.left_motor.setPower(left);
         robot.ball_launcher.setPosition(left);
         robot.button_pusher.setPosition(left);
 
