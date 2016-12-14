@@ -59,7 +59,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 public class TestingOPMode extends OpMode{
 
     /* Declare OpMode members. */
-    NeilPushBot robot       = new NeilPushbot(); // use the class created to define a Pushbot's hardware
+    NeilPushbot robot       = new NeilPushbot(); // use the class created to define a Pushbot's hardware
                                                          // could also use HardwarePushbotMatrix class.
     double          clawOffset  = 0.0 ;                  // Servo mid position
     final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
@@ -99,14 +99,14 @@ public class TestingOPMode extends OpMode{
     @Override
     public void loop() {
         double left;
-        //double right;
+        double right;
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
         left = -gamepad1.left_stick_y;
         right = -gamepad1.right_stick_y;
         robot.forklift.setPower(left);
         robot.sweeper.setPower(left);
-        robot.let_balllauncher.setPower(left);
+        robot.left_balllauncher.setPower(left);
         robot.right_balllauncher.setPower(left);
 
         /*

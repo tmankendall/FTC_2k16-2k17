@@ -24,11 +24,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class NeilPushbot
 {
     /* Public OpMode members. */
-    public DcMotor  leftMotor   = null;
-    public DcMotor  rightMotor  = null;
-    public DcMotor  armMotor    = null;
-    public Servo    leftClaw    = null;
-    public Servo    rightClaw   = null;
+    public DcMotor  forklift            = null;
+    public DcMotor  sweeper             = null;
+    public DcMotor  left_balllauncher   = null;
+    public DcMotor  right_balllauncher  = null;
+    public Servo    button_pusher       = null;
+    public Servo    ball_launcher       = null;
+    public Servo    left_motor          = null;
+    public Servo    right_motor         = null;
 
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
@@ -49,28 +52,36 @@ public class NeilPushbot
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftMotor   = hwMap.dcMotor.get("left_drive");
-        rightMotor  = hwMap.dcMotor.get("right_drive");
-        armMotor    = hwMap.dcMotor.get("left_arm");
-        leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        forklift            = hwMap.dcMotor.get("forklift");
+        sweeper             = hwMap.dcMotor.get("sweeper");
+        left_balllauncher   = hwMap.dcMotor.get("left_balllauncher");
+        right_balllauncher  = hwMap.dcMotor.get("right_balllauncher");
+        button_pusher       = hwMap.servo.get("button_pusher");
+        ball_launcher       = hwMap.servo.get("ball_launcher");
+        left_motor          = hwMap.servo.get("left_motor");
+        right_motor         = hwMap.servo.get("right_motor");
+
+        //leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        //rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Set all motors to zero power
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
-        armMotor.setPower(0);
+        forklift.setPower(0);
+        sweeper.setPower(0);
+        left_balllauncher.setPower(0);
+        right_balllauncher.setPower(0)
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        forklift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        sweeper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        left_balllauncher.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        right_balllauncher.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.
-        leftClaw = hwMap.servo.get("left_hand");
-        rightClaw = hwMap.servo.get("right_hand");
-        leftClaw.setPosition(MID_SERVO);
-        rightClaw.setPosition(MID_SERVO);
+        button_pusher.setPosition(MID_SERVO);
+        ball_launcher.setPosition(MID_SERVO);
+        left_motor.setPosition(MID_SERVO);
+        right_motor.setPosition(MID_SERVO);
     }
 
     /***
