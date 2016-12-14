@@ -54,7 +54,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Testing: All DC motors", group="Ashley")
+@TeleOp(name="Testing: All DC motors and all Servos", group="Andrew")
 //@Disabled
 public class TestingOPMode extends OpMode{
 
@@ -108,6 +108,10 @@ public class TestingOPMode extends OpMode{
         robot.sweeper.setPower(left);
         robot.left_balllauncher.setPower(left);
         robot.right_balllauncher.setPower(left);
+        robot.right_motor.setPosition(left);
+        robot.left_motor.setPosition(left);
+        robot.ball_launcher.setPosition(left);
+        robot.button_pusher.setPosition(left);
 
         /*
         // Use gamepad left & right Bumpers to open and close the claw
