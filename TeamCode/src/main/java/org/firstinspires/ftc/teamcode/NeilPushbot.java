@@ -93,6 +93,7 @@ public class NeilPushbot
         left_motor.setPower(0);
         right_motor.setPower(0);
         left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
     }
 

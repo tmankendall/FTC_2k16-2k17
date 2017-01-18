@@ -57,17 +57,17 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
+    NeilPushbot robot = new NeilPushbot();
+
     // DcMotor rightMotor = null;
 
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-        NeilPushbot robot = new NeilPushbot();
         robot.init(hardwareMap);
 
-        robot.left_motor.setPower(1);
-        robot.right_motor.setPower(1);
+
 
         /* eg: Initialize the hardware variables. Note that the strings used here as parameters
          * to 'get' must correspond to the names assigned during the robot configuration
@@ -84,6 +84,17 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
+        fire();
+        driveUntilB(15);
+        turnRUntil(90);
+        driveUntilF(5);
+        RorBforOurTeam();
+        robot.left_motor(1);
+        robot.right_motor(1);
+        sleep(5000);
+        robot.left_motor(0);
+        robot.right_motor(0);
+
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -94,5 +105,19 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
             // leftMotor.setPower(-gamepad1.left_stick_y);
             // rightMotor.setPower(-gamepad1.right_stick_y);
         }
+    }
+    private void fire()
+    {
+        for(int i =0; i < 1; i+=.01)
+        {
+            robot.left_balllauncher.setPower(i);
+            robot.right_balllauncher.setPower(i);
+            sleep(15);
+        }
+        robot.forklift.setPower(.1);
+        sleep(500);
+        robot.forklift.setPower(0);
+        robot.left_balllauncher.setPower(0);
+        robot.right_balllauncher.setPower(0);
     }
 }
