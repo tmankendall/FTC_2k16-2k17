@@ -35,15 +35,19 @@ public class NeilPushbot
 {
     /* Public OpMode members. */
     public DcMotor  forklift            = null;
-    public DcMotor  sweeper             = null;
     public DcMotor  left_balllauncher   = null;
     public DcMotor  right_balllauncher  = null;
     public Servo    button_pusher       = null;
     public Servo      ball_launcher       = null;
+<<<<<<< HEAD
     public CRServo    left_motor          = null;
     public CRServo    right_motor         = null;
     public ColorSensor right_color_sensor   = null;
     public ColorSensor  left_color_sensor   = null;
+=======
+    public DcMotor    left_motor          = null;
+    public DcMotor    right_motor         = null;
+>>>>>>> origin/master
     public I2cDevice ultrasonic2 = null;
     public GyroSensor gyro              = null;
     public static final double MID_SERVO       =  0.5 ;
