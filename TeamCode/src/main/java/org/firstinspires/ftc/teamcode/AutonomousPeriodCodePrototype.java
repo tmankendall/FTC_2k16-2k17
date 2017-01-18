@@ -36,6 +36,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -105,6 +106,38 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
             // leftMotor.setPower(-gamepad1.left_stick_y);
             // rightMotor.setPower(-gamepad1.right_stick_y);
         }
+    }
+    // This code checks what side
+    private void RorBforOurTeam()
+    {
+        boolean right = false;
+        int surelyRed = 1400;
+        if (robot.right_color_sensor.red() > robot.left_color_sensor.red())
+        {
+            robot.button_pusher.setPosition(45);
+            robot.right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+            while (robot.left_color_sensor.red() > surelyRed) {
+                robot.right_motor(.5);
+                robot.left_motor(.5);
+                sleep(10);
+            }
+            robot.right_motor(0);
+            robot.left_motor(0);
+        }
+        else
+        {
+            robot.button_pusher.setPosition(90);
+            robot.right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+            while (robot.right_color_sensor.red() > surelyRed) {
+                robot.right_motor(.5);
+                robot.left_motor(.5);
+                sleep(10);
+            }
+            robot.right_motor(0);
+            robot.left_motor(0);
+        }
+
+
     }
     private void fire()
     {

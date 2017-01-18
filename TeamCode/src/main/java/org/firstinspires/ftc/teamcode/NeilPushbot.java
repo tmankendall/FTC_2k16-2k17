@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.adafruit.AdafruitBNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
@@ -40,6 +42,8 @@ public class NeilPushbot
     public Servo      ball_launcher       = null;
     public CRServo    left_motor          = null;
     public CRServo    right_motor         = null;
+    public ColorSensor right_color_sensor   = null;
+    public ColorSensor  left_color_sensor   = null;
     public I2cDevice ultrasonic2 = null;
     public GyroSensor gyro              = null;
     public static final double MID_SERVO       =  0.5 ;
