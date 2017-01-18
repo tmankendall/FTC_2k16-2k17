@@ -114,10 +114,12 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
             robot.right_balllauncher.setPower(i);
             sleep(15);
         }
-        robot.forklift.setPower(.1);
+        robot.ball_launcher.setPosition(120);
         sleep(500);
-        robot.forklift.setPower(0);
+        robot.ball_launcher.setPosition(90);
         robot.left_balllauncher.setPower(0);
         robot.right_balllauncher.setPower(0);
+
+
     }
 }

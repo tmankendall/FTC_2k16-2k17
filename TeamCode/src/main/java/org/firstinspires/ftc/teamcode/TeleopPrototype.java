@@ -35,6 +35,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
@@ -68,7 +69,7 @@ public class TeleopPrototype extends OpMode{
     int maxSweeperSpeed = 100;
     int notPushingButton = 0;
     int pushingButton = 90;
-
+    int n = 0;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -136,10 +137,43 @@ public class TeleopPrototype extends OpMode{
         else if(gamepad1.dpad_down){
             robot.button_pusher.setPosition(notPushingButton);
         }
+        if (gamepad2.y) {
+            robot.forklift.setPower(1);
+        }
 
+        if (gamepad2.b){
+            robot.forklift.setPower(0);
+        }
+
+        if (gamepad2.dpad_up) {
+            n = n + 1;
+
+        }
+
+        if (gamepad2.dpad_down){
+            n = n - 1;
+        }
 
     }
 
+    private void fire()
+    {
+        ElapsedTime runtime = new ElapsedTime();
+        runtime.reset();
+
+        for(int i =0; i < 1; i+=.01)
+        {
+            runtime.milliseconds();
+            robot.left_balllauncher.setPower(i);
+            robot.right_balllauncher.setPower(i);
+        }
+        robot.ball_launcher.setPosition(120 + n);
+        robot.ball_launcher.setPosition(90);
+        robot.left_balllauncher.setPower(0);
+        robot.right_balllauncher.setPower(0);
+
+
+    }
     /*
      * Code to run ONCE after the driver hits STOP
      */
