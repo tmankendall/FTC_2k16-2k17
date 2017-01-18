@@ -1,4 +1,6 @@
-package org.firstinspires.ftc.robotcontroller.external.samples;
+
+
+package org.firstinspires.ftc.teamcode;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -24,6 +26,10 @@ public class UltrasonicWallStop extends LinearOpMode{
     static double odsReadingLinear;
     static double distanceFromWall = 1;
     static int maxSpeed = 15;
+    static double average = 0;
+    static int counter = 0;
+    static double totalReads = 0;
+    double[] pastReadings = new double[5];
 
     @Override
     public void runOpMode()
@@ -44,15 +50,29 @@ public class UltrasonicWallStop extends LinearOpMode{
 
             odsReadingRaw = ODS.getRawLightDetected();
             odsReadingLinear = Math.pow(odsReadingRaw, -0.5);
-
-            if (odsReadingLinear > maxSpeed)
+            if (counter < 5)
             {
+                counter++;
+            }
+            if (counter > 1)
+            {
+                for (int i = counter; i > 1; i++) {
+                    pastReadings[counter - 1] = pastReadings[counter - 2];
+                }
+            }
+            pastReadings[0] = odsReadingLinear;
+            for (int i = 0; i < counter; i++)
+            {
+                totalReads += pastReadings[i];
+            }
+            average = (totalReads/counter);
+            if (average > maxSpeed) {
                 rightMotor.setPower(maxSpeed);
                 leftMotor.setPower(maxSpeed);
             }
             else {
-                rightMotor.setPower(odsReadingLinear - distanceFromWall);
-                leftMotor.setPower(odsReadingLinear - distanceFromWall);
+                rightMotor.setPower(average - distanceFromWall);
+                leftMotor.setPower(average - distanceFromWall);
             }
         }
     }
