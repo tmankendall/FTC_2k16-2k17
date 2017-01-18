@@ -1,10 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
  * This is NOT an opmode.
@@ -33,6 +40,8 @@ public class NeilPushbot
     public Servo      ball_launcher       = null;
     public CRServo    left_motor          = null;
     public CRServo    right_motor         = null;
+    public I2cDevice ultrasonic2 = null;
+    public GyroSensor gyro              = null;
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
@@ -60,7 +69,7 @@ public class NeilPushbot
         ball_launcher       = hwMap.servo.get("ball_launcher");
         left_motor          = hwMap.crservo.get("left_motor");
         right_motor         = hwMap.crservo.get("right_motor");
-
+        gyro                = hwMap.gyroSensor.get("gyro");
         //leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         //rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
@@ -69,6 +78,7 @@ public class NeilPushbot
         sweeper.setPower(0);
         left_balllauncher.setPower(0);
         right_balllauncher.setPower(0);
+
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -82,6 +92,8 @@ public class NeilPushbot
         ball_launcher.setPosition(MID_SERVO);
         left_motor.setPower(0);
         right_motor.setPower(0);
+        left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+
     }
 
     /***

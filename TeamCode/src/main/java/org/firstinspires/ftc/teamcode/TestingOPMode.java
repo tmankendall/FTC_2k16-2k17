@@ -38,6 +38,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 /**
  * This file provides basic Telop driving for a Pushbot robot.
@@ -54,8 +56,8 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Testing: All DC motors and all Servos", group="Andrew")
-//@Disabled
+@TeleOp(name="Testing: All DC motors, all Servos, an ultrasonic and a gyroscope", group="Andrew")
+@Disabled
 public class TestingOPMode extends OpMode{
 
     /* Declare OpMode members. */
@@ -76,7 +78,7 @@ public class TestingOPMode extends OpMode{
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Hello Driver");    //
+        telemetry.addData("Say", "Hello Driver, Gyro is done");
     }
 
     /*
@@ -91,6 +93,10 @@ public class TestingOPMode extends OpMode{
      */
     @Override
     public void start() {
+
+
+
+
     }
 
     /*
@@ -103,8 +109,10 @@ public class TestingOPMode extends OpMode{
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
         left = -gamepad1.left_stick_y;
-        right = -gamepad1.right_stick_y;
-        robot.forklift.setPower(left);
+        right = -gamepad2.right_stick_y;
+        robot.forklift.setPower(right);
+        telemetry.clear();
+        telemetry.addData("Left stick Y:", left);
         robot.sweeper.setPower(left);
         robot.left_balllauncher.setPower(left);
         robot.right_balllauncher.setPower(left);
@@ -112,6 +120,14 @@ public class TestingOPMode extends OpMode{
         robot.left_motor.setPower(left);
         robot.ball_launcher.setPosition(left);
         robot.button_pusher.setPosition(left);
+        //double reading = robot.ultrasonic2.getDistance(DistanceUnit.CM);
+        //telemetry.addData("Ultrasonic Distance:", reading);
+        //int reading2 = robot.gyro.getHeading();
+        //telemetry.addData("Gyro heading ", reading2);
+        //double putin = robot.gyro.rawX();
+        //telemetry.addData("GyroX reading", putin);
+        //telemetry.update();
+
 
         /*
         // Use gamepad left & right Bumpers to open and close the claw

@@ -55,7 +55,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  */
 
 @TeleOp(name="CoolNameHere: Teleop Tankstyle", group="Andrew")
-@Disabled
+//@Disabled
 public class TeleopPrototype extends OpMode{
 
     /* Declare OpMode members. */
@@ -82,6 +82,7 @@ public class TeleopPrototype extends OpMode{
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");
         telemetry.addData("Say", "Remember the driving contorls\nTank style driving\nRight Trigger is the pulley\n X, B, and Y are speeds for the launcher\n");
+        telemetry.update();
     }
 
     /*
