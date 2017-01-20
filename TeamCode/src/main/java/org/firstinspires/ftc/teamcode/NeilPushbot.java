@@ -44,17 +44,17 @@ public class NeilPushbot
 {
     /* Public OpMode members. */
     public DcMotor  forklift            = null;
-    public DcMotor  left_balllauncher   = null;
     public DcMotor  right_balllauncher  = null;
     public Servo    button_pusher       = null;
-    public Servo      ball_launcher       = null;
+    public Servo      ball_feeder       = null;
     public ColorSensor right_color_sensor   = null;
     public ColorSensor  left_color_sensor   = null;
-    public DcMotor    left_motor          = null;
-    public DcMotor    right_motor         = null;
+    public DcMotor    left_motor        = null;
+    public DcMotor    right_motor       = null;
     public OpticalDistanceSensor frontUSensor = null;
     public IrSeekerSensor backUSensor   = null;
-    public ModernRoboticsI2cGyro gyro              = null;
+    public ModernRoboticsI2cGyro gyro   = null;
+    public CRServo forkliftGrabber      = null;
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
@@ -77,10 +77,10 @@ public class NeilPushbot
 
         // Define and Initialize Motors
         forklift            = hwMap.dcMotor.get("forklift");
-        left_balllauncher   = hwMap.dcMotor.get("left_balllauncher");
-        right_balllauncher  = hwMap.dcMotor.get("right_balllauncher");
+        right_balllauncher  = hwMap.dcMotor.get("ball_launcher");
         button_pusher       = hwMap.servo.get("button_pusher");
-        ball_launcher       = hwMap.servo.get("ball_launcher");
+        ball_feeder         = hwMap.servo.get("ball_feeder");
+        forkliftGrabber     = hwMap.crservo.get("forklift_grabber");
         left_motor          = hwMap.dcMotor.get("left_motor");
         right_motor         = hwMap.dcMotor.get("right_motor");
         gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
@@ -91,19 +91,17 @@ public class NeilPushbot
 
         // Set all motors to zero power
         forklift.setPower(0);
-        left_balllauncher.setPower(0);
         right_balllauncher.setPower(0);
 
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         forklift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        left_balllauncher.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         right_balllauncher.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.
         button_pusher.setPosition(MID_SERVO);
-        ball_launcher.setPosition(MID_SERVO);
+        ball_feeder.setPosition(MID_SERVO);
         left_motor.setPower(0);
         right_motor.setPower(0);
         left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -116,7 +114,7 @@ public class NeilPushbot
 
 
         right_color_sensor  = hwMap.colorSensor.get("colorSensor");
-        left_color_sensor   = hwMap.colorSensor.get("colorSensor2");
+        left_color_sensor   = hwMap.colorSensor.get("color_sensor2");
 
     }
 

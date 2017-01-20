@@ -67,6 +67,8 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         robot.init(hardwareMap);
+        int pushingRight = 0;
+        int pushingLeft = 90;
 
         telemetry.addData(">", "Gyro Calibrating. Do Not move!");
         telemetry.update();
@@ -96,16 +98,12 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-        fire();
         driveUntilB(15);
+        fire();
+        fire();
         turnRUntil(90);
         driveUntilF(5);
-        RorBforOurTeam();
-        robot.left_motor.setPower(1);
-        robot.right_motor.setPower(1);
-        sleep(5000);
-        robot.left_motor.setPower(0);
-        robot.right_motor.setPower(0);
+        MakingThingRed();
 
 
         // run until the end of the match (driver presses STOP)
@@ -116,6 +114,7 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
             // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
             // leftMotor.setPower(-gamepad1.left_stick_y);
             // rightMotor.setPower(-gamepad1.right_stick_y);
+            idle();
         }
     }
     private void turnRUntil(int headingChange)
@@ -131,7 +130,7 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         // track of the current heading for the Z axis only.
         double heading = robot.gyro.getHeading();
         double angleZ  = robot.gyro.getIntegratedZValue();
-        while(robot.gyro.getHeading() - heading < 90)
+        while(robot.gyro.getHeading() - heading < headingChange)
         {
             sleep(10);
             idle();
@@ -189,15 +188,15 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         robot.right_motor.setPower(0);
     }
     // This code checks what side
-    private void RorBforOurTeam()
+    private void MakingThingRed()
     {
         boolean right = false;
         int surelyRed = 1400;
         if (robot.right_color_sensor.red() > robot.left_color_sensor.red())
         {
-            robot.button_pusher.setPosition(45);
+            robot.button_pusher.setPosition(pushingLeft);
             robot.right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-            while (robot.left_color_sensor.red() > surelyRed) {
+            while (robot.left_color_sensor.red() < surelyRed) {
                 robot.right_motor.setPower(.5);
                 robot.left_motor.setPower(.5);
                 sleep(10);
@@ -210,9 +209,9 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         }
         else
         {
-            robot.button_pusher.setPosition(90);
+            robot.button_pusher.setPosition(pushingRight);
             robot.right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-            while (robot.right_color_sensor.red() > surelyRed) {
+            while (robot.right_color_sensor.red() < surelyRed) {
                 robot.right_motor.setPower(.5);
                 robot.left_motor.setPower(.5);
                 sleep(10);
@@ -230,14 +229,13 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
     {
         for(int i =0; i < 1; i+=.01)
         {
-            robot.left_balllauncher.setPower(i);
+
             robot.right_balllauncher.setPower(i);
             sleep(15);
         }
-        robot.ball_launcher.setPosition(120);
+        robot.ball_feeder.setPosition(120);
         sleep(500);
-        robot.ball_launcher.setPosition(90);
-        robot.left_balllauncher.setPower(0);
+        robot.ball_feeder.setPosition(90);
         robot.right_balllauncher.setPower(0);
     }
     private double takeRead(int ForB)
