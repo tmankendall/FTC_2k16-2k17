@@ -119,7 +119,8 @@ public class TeleopPrototype extends OpMode{
         // Use gamepad left & right Bumpers to open and close the claw
         if (gamepad1.b) {
             robot.right_balllauncher.setPower(B);
-        } else if (gamepad1.y) {
+        }
+        else if (gamepad1.y) {
             robot.right_balllauncher.setPower(Y);
         }
         else if (gamepad1.x) {
@@ -160,6 +161,10 @@ public class TeleopPrototype extends OpMode{
 
         if (gamepad2.dpad_down){
             n = n - 1;
+        }
+        if (gamepad2.left_stick_y != 0)
+        {
+            robot.forkliftGrabber.setPower(gamepad2.left_stick_y);
         }
 
     }
