@@ -1,14 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.app.Activity;
+import android.view.View;
+
 import com.qualcomm.hardware.adafruit.AdafruitBNO055IMU;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cIrSeekerSensorV3;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
+import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cDevice;
+import com.qualcomm.robotcore.hardware.IrSeekerSensor;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -39,17 +48,13 @@ public class NeilPushbot
     public DcMotor  right_balllauncher  = null;
     public Servo    button_pusher       = null;
     public Servo      ball_launcher       = null;
-<<<<<<< HEAD
-    public CRServo    left_motor          = null;
-    public CRServo    right_motor         = null;
     public ColorSensor right_color_sensor   = null;
     public ColorSensor  left_color_sensor   = null;
-=======
     public DcMotor    left_motor          = null;
     public DcMotor    right_motor         = null;
->>>>>>> origin/master
-    public I2cDevice ultrasonic2 = null;
-    public GyroSensor gyro              = null;
+    public OpticalDistanceSensor frontUSensor = null;
+    public IrSeekerSensor backUSensor   = null;
+    public ModernRoboticsI2cGyro gyro              = null;
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
@@ -61,29 +66,31 @@ public class NeilPushbot
     /* Constructor */
     public NeilPushbot(){
 
+
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
+
         // Save reference to Hardware map
         hwMap = ahwMap;
 
         // Define and Initialize Motors
         forklift            = hwMap.dcMotor.get("forklift");
-        sweeper             = hwMap.dcMotor.get("sweeper");
         left_balllauncher   = hwMap.dcMotor.get("left_balllauncher");
         right_balllauncher  = hwMap.dcMotor.get("right_balllauncher");
         button_pusher       = hwMap.servo.get("button_pusher");
         ball_launcher       = hwMap.servo.get("ball_launcher");
-        left_motor          = hwMap.crservo.get("left_motor");
-        right_motor         = hwMap.crservo.get("right_motor");
-        gyro                = hwMap.gyroSensor.get("gyro");
+        left_motor          = hwMap.dcMotor.get("left_motor");
+        right_motor         = hwMap.dcMotor.get("right_motor");
+        gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
+        frontUSensor        = hwMap.opticalDistanceSensor.get("frontUSensor");
+        backUSensor         = hwMap.irSeekerSensor.get("backUSensor");
         //leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         //rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Set all motors to zero power
         forklift.setPower(0);
-        sweeper.setPower(0);
         left_balllauncher.setPower(0);
         right_balllauncher.setPower(0);
 
@@ -91,7 +98,6 @@ public class NeilPushbot
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         forklift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        sweeper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         left_balllauncher.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         right_balllauncher.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -102,6 +108,15 @@ public class NeilPushbot
         right_motor.setPower(0);
         left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
         right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        // values is a reference to the hsvValues array.
+
+        // get a reference to the RelativeLayout so we can change the background
+        // color of the Robot Controller app to match the hue detected by the RGB sensor.
+
+
+        right_color_sensor  = hwMap.colorSensor.get("colorSensor");
+        left_color_sensor   = hwMap.colorSensor.get("colorSensor2");
 
     }
 

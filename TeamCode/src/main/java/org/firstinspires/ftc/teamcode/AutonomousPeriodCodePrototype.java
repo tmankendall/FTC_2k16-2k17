@@ -68,7 +68,18 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         telemetry.update();
         robot.init(hardwareMap);
 
+        telemetry.addData(">", "Gyro Calibrating. Do Not move!");
+        telemetry.update();
+        robot.gyro.calibrate();
 
+        // make sure the gyro is calibrated.
+        while (!isStopRequested() && robot.gyro.isCalibrating())  {
+            sleep(50);
+            idle();
+        }
+
+        telemetry.addData(">", "Gyro Calibrated.  Press Start.");
+        telemetry.update();
 
         /* eg: Initialize the hardware variables. Note that the strings used here as parameters
          * to 'get' must correspond to the names assigned during the robot configuration
@@ -90,11 +101,11 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         turnRUntil(90);
         driveUntilF(5);
         RorBforOurTeam();
-        robot.left_motor(1);
-        robot.right_motor(1);
+        robot.left_motor.setPower(1);
+        robot.right_motor.setPower(1);
         sleep(5000);
-        robot.left_motor(0);
-        robot.right_motor(0);
+        robot.left_motor.setPower(0);
+        robot.right_motor.setPower(0);
 
 
         // run until the end of the match (driver presses STOP)
@@ -107,6 +118,76 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
             // rightMotor.setPower(-gamepad1.right_stick_y);
         }
     }
+    private void turnRUntil(int headingChange)
+    {
+        robot.right_motor.setPower(0);
+        robot.left_motor.setPower(.5);
+        robot.gyro.resetZAxisIntegrator();
+        // get the x, y, and z values (rate of change of angle).
+
+
+        // get the heading info.
+        // the Modern Robotics' gyro sensor keeps
+        // track of the current heading for the Z axis only.
+        double heading = robot.gyro.getHeading();
+        double angleZ  = robot.gyro.getIntegratedZValue();
+        while(robot.gyro.getHeading() - heading < 90)
+        {
+            sleep(10);
+            idle();
+        }
+        robot.left_motor.setPower(0);
+        robot.right_motor.setPower(0);
+
+    }
+    private void driveUntilF(int distanceNeeded)
+    {
+        double odsReadingRaw;
+        double odsReadingLinear;
+        double distanceFromWall = distanceNeeded;
+        int maxSpeed = 15;
+        double average = 0;
+        int counter = 0;
+        double totalReads = 0;
+        double[] pastReadings = new double[5];
+        odsReadingRaw = robot.frontUSensor.getRawLightDetected();
+        odsReadingLinear = Math.pow(odsReadingRaw, -0.5);
+        while(average > distanceFromWall+.1) {
+            if (counter < 5) {
+                counter++;
+            }
+            if (counter > 1) {
+                for (int i = 1; i < counter; i++) {
+                    pastReadings[i] = pastReadings[i - 1];
+                }
+            }
+            pastReadings[0] = odsReadingLinear;
+            for (int i = 0; i < counter; i++) {
+                totalReads += pastReadings[i];
+            }
+            average = (totalReads / counter);
+            if (average > distanceFromWall + 1) {
+                robot.right_motor.setPower(maxSpeed);
+                robot.left_motor.setPower(maxSpeed);
+            } else {
+                robot.right_motor.setPower(average - distanceFromWall);
+                robot.left_motor.setPower(average - distanceFromWall);
+            }
+        }
+
+    }
+    private void driveUntilB(int distanceNeeded)
+    {
+        robot.left_motor.setPower(1);
+        robot.right_motor.setPower(1);
+        while(takeRead(0) < distanceNeeded)
+        {
+            sleep(30);
+            idle();
+        }
+        robot.left_motor.setPower(0);
+        robot.right_motor.setPower(0);
+    }
     // This code checks what side
     private void RorBforOurTeam()
     {
@@ -117,24 +198,30 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
             robot.button_pusher.setPosition(45);
             robot.right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
             while (robot.left_color_sensor.red() > surelyRed) {
-                robot.right_motor(.5);
-                robot.left_motor(.5);
+                robot.right_motor.setPower(.5);
+                robot.left_motor.setPower(.5);
                 sleep(10);
             }
-            robot.right_motor(0);
-            robot.left_motor(0);
+            robot.right_motor.setPower(-.2);
+            robot.left_motor.setPower(-.2);
+            sleep(300);
+            robot.left_motor.setPower(0);
+            robot.right_motor.setPower(0);
         }
         else
         {
             robot.button_pusher.setPosition(90);
             robot.right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
             while (robot.right_color_sensor.red() > surelyRed) {
-                robot.right_motor(.5);
-                robot.left_motor(.5);
+                robot.right_motor.setPower(.5);
+                robot.left_motor.setPower(.5);
                 sleep(10);
             }
-            robot.right_motor(0);
-            robot.left_motor(0);
+            robot.right_motor.setPower(-.2);
+            robot.left_motor.setPower(-.2);
+            sleep(300);
+            robot.left_motor.setPower(0);
+            robot.right_motor.setPower(0);
         }
 
 
@@ -152,7 +239,32 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         robot.ball_launcher.setPosition(90);
         robot.left_balllauncher.setPower(0);
         robot.right_balllauncher.setPower(0);
+    }
+    private double takeRead(int ForB)
+    {
+        if(ForB == 1) {
+            if (robot.backUSensor.signalDetected()) {
+                // Display angle and strength
+                telemetry.addData("Angle", robot.backUSensor.getAngle());
+                telemetry.addData("Strength", robot.backUSensor.getStrength());
+            } else {
+                // Display loss of signal
+                telemetry.addData("Seeker", "Signal Lost");
+                return(robot.backUSensor.getSignalDetectedThreshold());
+            }
 
+            telemetry.update();
+            return (robot.backUSensor.getStrength());
+        }
+        if (ForB == 0){
+            telemetry.addData("Raw",    robot.frontUSensor.getRawLightDetected());
+            telemetry.addData("Normal", robot.frontUSensor.getLightDetected());
 
+            telemetry.update();
+            return (robot.frontUSensor.getLightDetected());
+        }
+        else{
+            throw (new IllegalArgumentException());
+        }
     }
 }

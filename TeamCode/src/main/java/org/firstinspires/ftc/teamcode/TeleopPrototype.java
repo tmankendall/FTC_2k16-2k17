@@ -99,7 +99,7 @@ public class TeleopPrototype extends OpMode{
      */
     @Override
     public void start() {
-        robot.sweeper.setPower(maxSweeperSpeed);
+
     }
 
     /*
