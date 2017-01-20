@@ -118,14 +118,11 @@ public class TeleopPrototype extends OpMode{
 
         // Use gamepad left & right Bumpers to open and close the claw
         if (gamepad1.b) {
-            robot.left_balllauncher.setPower(B);
             robot.right_balllauncher.setPower(B);
         } else if (gamepad1.y) {
-            robot.left_balllauncher.setPower(Y);
             robot.right_balllauncher.setPower(Y);
         }
         else if (gamepad1.x) {
-            robot.left_balllauncher.setPower(X);
             robot.right_balllauncher.setPower(X);
         }
         double pulleySpeed = gamepad1.right_trigger;
@@ -164,12 +161,10 @@ public class TeleopPrototype extends OpMode{
         for(int i =0; i < 1; i+=.01)
         {
             runtime.milliseconds();
-            robot.left_balllauncher.setPower(i);
             robot.right_balllauncher.setPower(i);
         }
         robot.ball_launcher.setPosition(120 + n);
         robot.ball_launcher.setPosition(90);
-        robot.left_balllauncher.setPower(0);
         robot.right_balllauncher.setPower(0);
 
 
