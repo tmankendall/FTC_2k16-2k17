@@ -113,12 +113,12 @@ public class TestingOPMode extends OpMode{
         robot.forklift.setPower(right);
         telemetry.clear();
         telemetry.addData("Left stick Y:", left);
-        robot.sweeper.setPower(left);
-        robot.left_balllauncher.setPower(left);
+        //robot.sweeper.setPower(left);
+        //robot.left_balllauncher.setPower(left);
         robot.right_balllauncher.setPower(left);
         robot.right_motor.setPower(left);
         robot.left_motor.setPower(left);
-        robot.ball_launcher.setPosition(left);
+        //robot.ball_launcher.setPosition(left);
         robot.button_pusher.setPosition(left);
         //double reading = robot.ultrasonic2.getDistance(DistanceUnit.CM);
         //telemetry.addData("Ultrasonic Distance:", reading);

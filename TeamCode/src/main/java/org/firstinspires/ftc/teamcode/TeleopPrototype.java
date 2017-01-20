@@ -67,8 +67,8 @@ public class TeleopPrototype extends OpMode{
     double Y = .5;
     int X = 1;
     int maxSweeperSpeed = 100;
-    int notPushingButton = 0;
-    int pushingButton = 90;
+    int notPushingButton = 30;
+    int pushingButton = 120;
     int n = 0;
     /*
      * Code to run ONCE when the driver hits INIT
@@ -111,8 +111,8 @@ public class TeleopPrototype extends OpMode{
         double right;
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-        left = -gamepad1.left_stick_y;
-        right = -gamepad1.right_stick_y;
+        left = -.5*gamepad1.left_stick_y;
+        right = -.5*gamepad1.right_stick_y;
         robot.left_motor.setPower(left);
         robot.right_motor.setPower(right);
 
@@ -139,11 +139,12 @@ public class TeleopPrototype extends OpMode{
         {
             fire();
         }
+        robot.right_balllauncher.setPower(gamepad1.right_trigger);
 
         if (gamepad1.dpad_up){
             robot.button_pusher.setPosition(pushingButton);
         }
-        else if(gamepad1.dpad_down){
+        if(gamepad1.dpad_down){
             robot.button_pusher.setPosition(notPushingButton);
         }
         if (gamepad2.y) {
@@ -174,14 +175,15 @@ public class TeleopPrototype extends OpMode{
         ElapsedTime runtime = new ElapsedTime();
         runtime.reset();
 
-        for(int i =0; i < 1; i+=.01)
+        for(int i = 0; i < 1; i+=.01)
         {
-            runtime.milliseconds();
             robot.right_balllauncher.setPower(i);
+
         }
         robot.ball_feeder.setPosition(120 + n);
         robot.ball_feeder.setPosition(90);
         robot.right_balllauncher.setPower(0);
+        return;
 
 
     }
