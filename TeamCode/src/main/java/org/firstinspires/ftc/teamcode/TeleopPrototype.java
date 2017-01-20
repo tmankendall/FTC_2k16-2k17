@@ -63,9 +63,9 @@ public class TeleopPrototype extends OpMode{
     NeilPushbot robot       = new NeilPushbot(); // use the class created to define a Pushbot's hardware
                                                          // could also use HardwarePushbotMatrix class.
     int currentSpeed;
-    int B = 10;
-    int Y = 50;
-    int X = 100;
+    double B = .1;
+    double Y = .5;
+    int X = 1;
     int maxSweeperSpeed = 100;
     int notPushingButton = 0;
     int pushingButton = 90;
@@ -125,8 +125,19 @@ public class TeleopPrototype extends OpMode{
         else if (gamepad1.x) {
             robot.right_balllauncher.setPower(X);
         }
-        double pulleySpeed = gamepad1.right_trigger;
-        robot.forklift.setPower(pulleySpeed);
+        if(gamepad2.dpad_left)
+        {
+            robot.forklift.setPower(1);
+        }
+        else if(gamepad2.dpad_right)
+        {
+            robot.forklift.setPower(0);
+        }
+
+        if(gamepad1.a)
+        {
+            fire();
+        }
 
         if (gamepad1.dpad_up){
             robot.button_pusher.setPosition(pushingButton);
@@ -163,8 +174,8 @@ public class TeleopPrototype extends OpMode{
             runtime.milliseconds();
             robot.right_balllauncher.setPower(i);
         }
-        robot.ball_launcher.setPosition(120 + n);
-        robot.ball_launcher.setPosition(90);
+        robot.ball_feeder.setPosition(120 + n);
+        robot.ball_feeder.setPosition(90);
         robot.right_balllauncher.setPower(0);
 
 
