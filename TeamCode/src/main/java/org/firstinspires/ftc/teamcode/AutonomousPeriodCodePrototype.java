@@ -104,6 +104,7 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         turnRUntil(90);
         driveUntilF(5);
         MakingThingRed();
+        MakingThingBlue();
 
 
         // run until the end of the match (driver presses STOP)
@@ -190,12 +191,10 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
     // This code checks what side
     private void MakingThingRed()
     {
-        boolean right = false;
         int surelyRed = 1400;
         if (robot.right_color_sensor.red() > robot.left_color_sensor.red())
         {
-            robot.button_pusher.setPosition(pushingLeft);
-            robot.right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.button_pusher.setPosition(pushingRight);
             while (robot.left_color_sensor.red() < surelyRed) {
                 robot.right_motor.setPower(.5);
                 robot.left_motor.setPower(.5);
@@ -209,8 +208,7 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         }
         else
         {
-            robot.button_pusher.setPosition(pushingRight);
-            robot.right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.button_pusher.setPosition(pushingLeft);
             while (robot.right_color_sensor.red() < surelyRed) {
                 robot.right_motor.setPower(.5);
                 robot.left_motor.setPower(.5);
@@ -222,9 +220,39 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
             robot.left_motor.setPower(0);
             robot.right_motor.setPower(0);
         }
-
-
     }
+    // This code checks what side
+    private void MakingThingBlue()
+    {
+        int surelyBlue = 400;
+        if (robot.right_color_sensor.red() > robot.left_color_sensor.red())
+        {
+            robot.button_pusher.setPosition(pushingLeft);
+            while (robot.right_color_sensor.red() > surelyBlue) {
+                robot.right_motor.setPower(.5);
+                robot.left_motor.setPower(.5);
+                sleep(10);
+            }
+            robot.right_motor.setPower(-.2);
+            robot.left_motor.setPower(-.2);
+            sleep(300);
+            robot.left_motor.setPower(0);
+            robot.right_motor.setPower(0);
+        }
+        else
+        {
+            robot.button_pusher.setPosition(pushingRight);
+            while (robot.left_color_sensor.red() > surelyBlue) {
+                robot.right_motor.setPower(.5);
+                robot.left_motor.setPower(.5);
+                sleep(10);
+            }
+            robot.right_motor.setPower(-.2);
+            robot.left_motor.setPower(-.2);
+            sleep(300);
+            robot.left_motor.setPower(0);
+            robot.right_motor.setPower(0);
+        }
     private void fire()
     {
         for(int i =0; i < 1; i+=.01)
