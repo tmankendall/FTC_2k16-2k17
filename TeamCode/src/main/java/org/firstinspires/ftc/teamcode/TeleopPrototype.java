@@ -70,7 +70,7 @@ public class TeleopPrototype extends OpMode{
     double notPushingButton = 30.0/180.0;
     double pushingButton = 120.0/180.0;
     int n = 0;
-    int j = 0;
+    double j = 0;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -183,9 +183,18 @@ public class TeleopPrototype extends OpMode{
         {
             robot.forkliftGrabber.setPower(gamepad2.left_stick_y);
         }
-        if (gamepad2.right_stick_x != 0)
+        if (gamepad2.right_stick_x > 0)
         {
-            j = j;
+            if (j != 1) {
+                j = j + .1;
+            }
+            robot.button_pusher.setPosition();
+        }
+        if (gamepad2.right_stick_x < 0)
+        {
+            if (j != 1) {
+                j = j - .1;
+            }
             robot.button_pusher.setPosition();
         }
 
