@@ -59,6 +59,8 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     NeilPushbot robot = new NeilPushbot();
+    double pushingRight = 1;
+    double pushingLeft =  .3;
 
     // DcMotor rightMotor = null;
 
@@ -67,8 +69,6 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         robot.init(hardwareMap);
-        int pushingRight = 0;
-        int pushingLeft = 90;
 
         telemetry.addData(">", "Gyro Calibrating. Do Not move!");
         telemetry.update();
@@ -222,11 +222,9 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         }
     }
     // This code checks what side
-    private void MakingThingBlue()
-    {
+    private void MakingThingBlue() {
         int surelyBlue = 400;
-        if (robot.right_color_sensor.red() > robot.left_color_sensor.red())
-        {
+        if (robot.right_color_sensor.red() > robot.left_color_sensor.red()) {
             robot.button_pusher.setPosition(pushingLeft);
             while (robot.right_color_sensor.red() > surelyBlue) {
                 robot.right_motor.setPower(.5);
@@ -238,9 +236,7 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
             sleep(300);
             robot.left_motor.setPower(0);
             robot.right_motor.setPower(0);
-        }
-        else
-        {
+        } else {
             robot.button_pusher.setPosition(pushingRight);
             while (robot.left_color_sensor.red() > surelyBlue) {
                 robot.right_motor.setPower(.5);
@@ -253,6 +249,7 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
             robot.left_motor.setPower(0);
             robot.right_motor.setPower(0);
         }
+    }
     private void fire()
     {
         for(int i =0; i < 1; i+=.01)

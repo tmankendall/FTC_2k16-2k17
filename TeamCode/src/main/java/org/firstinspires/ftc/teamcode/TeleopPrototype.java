@@ -67,8 +67,8 @@ public class TeleopPrototype extends OpMode{
     double Y = .5;
     int X = 1;
     int maxSweeperSpeed = 100;
-    int notPushingButton = 30;
-    int pushingButton = 120;
+    double notPushingButton = 30.0/180.0;
+    double pushingButton = 120.0/180.0;
     int n = 0;
     /*
      * Code to run ONCE when the driver hits INIT
@@ -130,23 +130,37 @@ public class TeleopPrototype extends OpMode{
         {
             robot.forklift.setPower(1);
         }
+
         else if(gamepad2.dpad_right)
         {
             robot.forklift.setPower(0);
+        }
+
+        if(gamepad1.left_bumper)
+        {
+            robot.ball_feeder.setPosition(.3);
+        }
+
+        if(gamepad1.right_bumper)
+        {
+            robot.ball_feeder.setPosition(90.0/180.0 + n/180.0 );
         }
 
         if(gamepad1.a)
         {
             fire();
         }
-        robot.right_balllauncher.setPower(gamepad1.right_trigger);
+
+        robot.right_balllauncher.setPower(-gamepad1.right_trigger);
 
         if (gamepad1.dpad_up){
             robot.button_pusher.setPosition(pushingButton);
         }
+
         if(gamepad1.dpad_down){
             robot.button_pusher.setPosition(notPushingButton);
         }
+
         if (gamepad2.y) {
             robot.forklift.setPower(1);
         }
@@ -163,6 +177,7 @@ public class TeleopPrototype extends OpMode{
         if (gamepad2.dpad_down){
             n = n - 1;
         }
+
         if (gamepad2.left_stick_y != 0)
         {
             robot.forkliftGrabber.setPower(gamepad2.left_stick_y);
@@ -175,13 +190,12 @@ public class TeleopPrototype extends OpMode{
         ElapsedTime runtime = new ElapsedTime();
         runtime.reset();
 
-        for(int i = 0; i < 1; i+=.01)
+        for(int i = 0; i < 1; i += .01)
         {
             robot.right_balllauncher.setPower(i);
-
         }
-        robot.ball_feeder.setPosition(120 + n);
-        robot.ball_feeder.setPosition(90);
+        robot.ball_feeder.setPosition(120.0/180.0 + n/180.0);
+        robot.ball_feeder.setPosition(.5);
         robot.right_balllauncher.setPower(0);
         return;
 
