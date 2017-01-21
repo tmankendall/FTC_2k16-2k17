@@ -188,14 +188,14 @@ public class TeleopPrototype extends OpMode{
             if (j != 1) {
                 j = j + .1;
             }
-            robot.button_pusher.setPosition();
+            robot.button_pusher.setPosition(j);
         }
         if (gamepad2.right_stick_x < 0)
         {
-            if (j != 1) {
+            if (j != 0) {
                 j = j - .1;
             }
-            robot.button_pusher.setPosition();
+            robot.button_pusher.setPosition(j);
         }
 
     }
