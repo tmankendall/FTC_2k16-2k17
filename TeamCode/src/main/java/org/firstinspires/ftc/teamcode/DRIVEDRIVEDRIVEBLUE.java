@@ -33,10 +33,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -52,16 +49,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="AutonomousDRIVEDRIVEDRIVE", group="Andrew")  // @Autonomous(...) is the other common choice
+@Autonomous(name="AutonomousDRIVEDRIVEDRIVERED", group="Andrew")  // @Autonomous(...) is the other common choice
 //@Disabled
-public class drivedrivedrive extends LinearOpMode {
+public class DRIVEDRIVEDRIVEBLUE extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     NeilPushbot robot = new NeilPushbot();
     boolean right = true;
     boolean angled = true;
-    boolean blue = true;
+    boolean blue = false;
     double pushingRight = 1;
     double pushingLeft = .3;
 

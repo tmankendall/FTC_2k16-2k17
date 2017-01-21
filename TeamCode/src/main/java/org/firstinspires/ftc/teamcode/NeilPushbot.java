@@ -104,8 +104,8 @@ public class NeilPushbot
         ball_feeder.setPosition(MID_SERVO);
         left_motor.setPower(0);
         right_motor.setPower(0);
-        left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
-        right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // values is a reference to the hsvValues array.
 
