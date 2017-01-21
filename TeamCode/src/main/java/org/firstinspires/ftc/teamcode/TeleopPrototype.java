@@ -70,7 +70,7 @@ public class TeleopPrototype extends OpMode{
     double notPushingButton = 30.0/180.0;
     double pushingButton = 120.0/180.0;
     int n = 0;
-    double j = 0;
+    double j = .5;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -186,14 +186,14 @@ public class TeleopPrototype extends OpMode{
         if (gamepad2.right_stick_x > 0)
         {
             if (j != 1) {
-                j = j + .1;
+                j = j + .05;
             }
             robot.button_pusher.setPosition(j);
         }
         if (gamepad2.right_stick_x < 0)
         {
             if (j != 0) {
-                j = j - .1;
+                j = j - .05;
             }
             robot.button_pusher.setPosition(j);
         }
