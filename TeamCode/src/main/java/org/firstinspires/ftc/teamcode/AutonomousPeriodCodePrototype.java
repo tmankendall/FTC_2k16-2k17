@@ -206,6 +206,8 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
             }
             temporaryDifference = robot.right_color_sensor.red() - robot.left_color_sensor.red();
             sensorDifference = Math.abs(temporaryDifference);
+            odsReadingRaw = robot.frontUSensor.getRawLightDetected();
+            odsReadingLinear = Math.pow(odsReadingRaw, -0.5);
         }
 
     }
