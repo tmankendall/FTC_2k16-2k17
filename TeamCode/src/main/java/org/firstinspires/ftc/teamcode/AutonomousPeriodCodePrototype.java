@@ -61,6 +61,9 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
     NeilPushbot robot = new NeilPushbot();
     double pushingRight = 1;
     double pushingLeft =  .3;
+    boolean right = true;
+    boolean angled = true;
+    boolean blue = true;
 
     // DcMotor rightMotor = null;
 
@@ -98,13 +101,39 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-        driveUntilB(15);
+        //driveUntilB(15);
         fire();
         fire();
-        turnRUntil(90);
-        driveUntilF(5);
-        MakingThingRed();
-        MakingThingBlue();
+        if (angled)
+        {
+            if (right)
+            {
+                turnDegrees(3);
+                driveUntilF((8));
+                turnDegrees(-3);
+            }
+            else
+            {
+                turnDegrees(-3);
+                driveUntilF(8);
+                turnDegrees(3);
+            }
+        }
+        else
+        {
+            driveUntilF(8);
+        }
+//        turnRUntil(90);
+//        driveUntilF(5);
+        if (blue)
+        {
+
+            MakingThingBlue();
+        }
+        else
+        {
+            MakingThingRed();
+        }
 
 
         // run until the end of the match (driver presses STOP)
@@ -145,6 +174,8 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         double odsReadingRaw;
         double odsReadingLinear;
         double distanceFromWall = distanceNeeded;
+        float sensorDifference = 0;
+        float temporaryDifference = 0;
         int maxSpeed = 15;
         double average = 0;
         int counter = 0;
@@ -152,7 +183,7 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
         double[] pastReadings = new double[5];
         odsReadingRaw = robot.frontUSensor.getRawLightDetected();
         odsReadingLinear = Math.pow(odsReadingRaw, -0.5);
-        while(average > distanceFromWall+.1) {
+        while((average > distanceFromWall+ 1) && sensorDifference < 100) {
             if (counter < 5) {
                 counter++;
             }
@@ -173,21 +204,41 @@ public class AutonomousPeriodCodePrototype extends LinearOpMode {
                 robot.right_motor.setPower(average - distanceFromWall);
                 robot.left_motor.setPower(average - distanceFromWall);
             }
+            temporaryDifference = robot.right_color_sensor.red() - robot.left_color_sensor.red();
+            sensorDifference = Math.abs(temporaryDifference);
         }
 
     }
-    private void driveUntilB(int distanceNeeded)
+    private void turnDegrees(int degrees)
     {
-        robot.left_motor.setPower(1);
-        robot.right_motor.setPower(1);
-        while(takeRead(0) < distanceNeeded)
+        float initialDegree = robot.gyro.getHeading();
+        if (degrees > 0) {
+            while (robot.gyro.getHeading() - initialDegree < degrees) {
+                robot.right_motor.setPower(.05);
+            }
+        }
+        else
         {
-            sleep(30);
-            idle();
+            while (initialDegree - robot.gyro.getHeading() < Math.abs(degrees))
+            {
+                robot.left_motor.setPower(.05);
+            }
+            robot.right_motor.setPower(0);
         }
         robot.left_motor.setPower(0);
-        robot.right_motor.setPower(0);
     }
+//    private void driveUntilB(int distanceNeeded)
+//    {
+//        robot.left_motor.setPower(1);
+//        robot.right_motor.setPower(1);
+//        while(takeRead(0) < distanceNeeded)
+//        {
+//            sleep(30);
+//            idle();
+//        }
+//        robot.left_motor.setPower(0);
+//        robot.right_motor.setPower(0);
+//    }
     // This code checks what side
     private void MakingThingRed()
     {
