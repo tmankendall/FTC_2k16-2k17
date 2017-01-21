@@ -185,7 +185,7 @@ public class TeleopPrototype extends OpMode{
         }
         if (gamepad2.right_stick_x != 0)
         {
-            j = j
+            j = j;
             robot.button_pusher.setPosition();
         }
 
