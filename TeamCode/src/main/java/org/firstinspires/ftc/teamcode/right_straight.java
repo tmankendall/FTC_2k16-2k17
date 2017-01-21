@@ -121,7 +121,7 @@ public class right_straight extends LinearOpMode {
         }
         else
         {
-            driveUntilF(8);
+            driveUntilF(5);
         }
 //        turnRUntil(90);
 //        driveUntilF(5);
@@ -229,18 +229,18 @@ public class right_straight extends LinearOpMode {
         }
         robot.left_motor.setPower(0);
     }
-    //    private void driveUntilB(int distanceNeeded)
-//    {
-//        robot.left_motor.setPower(1);
-//        robot.right_motor.setPower(1);
-//        while(takeRead(0) < distanceNeeded)
-//        {
-//            sleep(30);
-//            idle();
-//        }
-//        robot.left_motor.setPower(0);
-//        robot.right_motor.setPower(0);
-//    }
+        private void driveUntilB(int distanceNeeded)
+    {
+        robot.left_motor.setPower(1);
+        robot.right_motor.setPower(1);
+        while(takeRead(0) < distanceNeeded)
+        {
+            sleep(30);
+            idle();
+        }
+        robot.left_motor.setPower(0);
+        robot.right_motor.setPower(0);
+    }
     // This code checks what side
     private void MakingThingRed()
     {
