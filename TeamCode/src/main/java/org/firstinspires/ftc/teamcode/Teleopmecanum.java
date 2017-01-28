@@ -57,11 +57,11 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 @TeleOp(name="CoolNameHere: Teleop Tankstyle", group="Andrew")
 //@Disabled
-public class TeleopPrototype extends OpMode{
+public class Teleopmecanum extends OpMode{
 
     /* Declare OpMode members. */
     NeilPushbot robot       = new NeilPushbot(); // use the class created to define a Pushbot's hardware
-                                                         // could also use HardwarePushbotMatrix class.
+    // could also use HardwarePushbotMatrix class.
     int currentSpeed;
     double B = .1;
     double Y = .5;
@@ -110,6 +110,7 @@ public class TeleopPrototype extends OpMode{
     public void loop() {
         double left;
         double right;
+        double threshold = .1;
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
 //        left = -.5*gamepad1.left_stick_y;
@@ -117,6 +118,21 @@ public class TeleopPrototype extends OpMode{
 //        robot.left_motor.setPower(left);
 //        robot.right_motor.setPower(right);
 
+        // positional based driving
+        if(java.lang.Math.abs(gamepad1.left_stick_y) > threshold || java.lang.Math.abs(gamepad1.left_stick_x) > threshold)
+        {
+            robot.front_right_motor.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x)/2);
+            robot.front_left_motor.setPower((-gamepad1.left_stick_y - gamepad1.left_stick_x)/2);
+            robot.back_right_motor.setPower((-gamepad1.left_stick_y - gamepad1.left_stick_x)/2);
+            robot.back_left_motor.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x)/2);
+        }
+        if (java.lang.Math.abs(gamepad1.right_stick_x) > threshold)
+        {
+            robot.front_right_motor.setPower(robot.front_right_motor.getPower() - (gamepad1.left_stick_y - gamepad1.left_stick_x)/2);
+            robot.front_left_motor.setPower(robot.front_left_motor.getPower() - (gamepad1.left_stick_y - gamepad1.left_stick_x)/2);
+            robot.back_right_motor.setPower(robot.back_right_motor.getPower() + (gamepad1.left_stick_y - gamepad1.left_stick_x)/2);
+            robot.back_left_motor.setPower(robot.back_left_motor.getPower() + (gamepad1.left_stick_y - gamepad1.left_stick_x)/2);
+        }
         // Use gamepad left & right Bumpers to open and close the claw
         if (gamepad1.b) {
             robot.right_balllauncher.setPower(B);

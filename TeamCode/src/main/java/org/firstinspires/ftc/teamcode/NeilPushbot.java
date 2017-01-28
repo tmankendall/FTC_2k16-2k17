@@ -49,8 +49,10 @@ public class NeilPushbot
     public Servo      ball_feeder       = null;
     public ColorSensor right_color_sensor   = null;
     public ColorSensor  left_color_sensor   = null;
-    public DcMotor    left_motor        = null;
-    public DcMotor    right_motor       = null;
+    public DcMotor    back_left_motor        = null;
+    public DcMotor    back_right_motor       = null;
+    public DcMotor    front_left_motor       = null;
+    public DcMotor    front_right_motor      = null;
     public OpticalDistanceSensor frontUSensor = null;
     public IrSeekerSensor backUSensor   = null;
     public ModernRoboticsI2cGyro gyro   = null;
@@ -81,8 +83,12 @@ public class NeilPushbot
         button_pusher       = hwMap.servo.get("button_pusher");
         ball_feeder         = hwMap.servo.get("ball_feeder");
         forkliftGrabber     = hwMap.crservo.get("forklift_grabber");
-        left_motor          = hwMap.dcMotor.get("left_motor");
-        right_motor         = hwMap.dcMotor.get("right_motor");
+//        left_motor          = hwMap.dcMotor.get("left_motor");
+//        right_motor         = hwMap.dcMotor.get("right_motor");
+        front_right_motor   = hwMap.dcMotor.get("front_right_motor");
+        front_left_motor    = hwMap.dcMotor.get("front_left_motor");
+        back_right_motor    = hwMap.dcMotor.get("back_right_motor");
+        back_left_motor     = hwMap.dcMotor.get("back_left_motor");
         gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
         frontUSensor        = hwMap.opticalDistanceSensor.get("frontUSensor");
         backUSensor         = hwMap.irSeekerSensor.get("backUSensor");
@@ -102,10 +108,18 @@ public class NeilPushbot
         // Define and initialize ALL installed servos.
         button_pusher.setPosition(MID_SERVO);
         ball_feeder.setPosition(MID_SERVO);
-        left_motor.setPower(0);
-        right_motor.setPower(0);
-        left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+//        left_motor.setPower(0);
+//        right_motor.setPower(0);
+        front_right_motor.setPower(0);
+        front_left_motor.setPower(0);
+        back_right_motor.setPower(0);
+        back_left_motor.setPower(0);
+//        left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+//        right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        front_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        front_left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        back_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        back_left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // values is a reference to the hsvValues array.
 
