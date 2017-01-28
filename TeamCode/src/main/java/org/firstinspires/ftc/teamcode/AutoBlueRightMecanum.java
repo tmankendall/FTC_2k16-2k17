@@ -96,7 +96,7 @@ public class AutoBlueRightMecanum extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-        turnRUntil();
+        turnUntilDegrees(45);
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
