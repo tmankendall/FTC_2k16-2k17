@@ -55,7 +55,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="CoolNameHere: Teleop directional", group="Andrew")
+@TeleOp(name="teleop mecanum", group="Andrew")
 //@Disabled
 public class Teleopmecanum extends OpMode{
 
@@ -83,7 +83,7 @@ public class Teleopmecanum extends OpMode{
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");
-        telemetry.addData("Say", "Remember the driving contorls\nTank style driving\nRight Trigger is the pulley\n X, B, and Y are speeds for the launcher\n");
+        telemetry.addData("Say", "Remember the driving contorls\nDirectional left joystick, turn angle with right\nRight Trigger is the pulley\n X, B, and Y are speeds for the launcher\n");
         telemetry.update();
     }
 
@@ -111,12 +111,6 @@ public class Teleopmecanum extends OpMode{
         double left;
         double right;
         double threshold = .1;
-
-        // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-//        left = -.5*gamepad1.left_stick_y;
-//        right = -.5*gamepad1.right_stick_y;
-//        robot.left_motor.setPower(left);
-//        robot.right_motor.setPower(right);
 
         // positional based driving
         if(java.lang.Math.abs(gamepad1.left_stick_y) > threshold || java.lang.Math.abs(gamepad1.left_stick_x) > threshold)

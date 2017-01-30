@@ -57,6 +57,7 @@ public class NeilPushbot
     public IrSeekerSensor backUSensor   = null;
     public ModernRoboticsI2cGyro gyro   = null;
     public CRServo forkliftGrabber      = null;
+    public OpticalDistanceSensor ODS    = null;
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;

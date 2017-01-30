@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -97,6 +98,8 @@ public class AutoBlueRightMecanum extends LinearOpMode {
         waitForStart();
         runtime.reset();
         turnUntilDegrees(45);
+        driveUntilLine();
+        followLine();
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -108,12 +111,40 @@ public class AutoBlueRightMecanum extends LinearOpMode {
             idle();
         }
     }
+    private void followLine()
+    {
+    }
+    private void driveUntilLine()
+    {
+        robot.front_right_motor.setPower(.5);
+        robot.front_left_motor.setPower(.5);
+        robot.back_right_motor.setPower(.5);
+        robot.back_left_motor.setPower(.5);
+        while (robot.ODS.getLightDetected() < 300)
+        {
+            sleep(2);
+        }
+    }
     private void turnUntilDegrees(int degrees)
     {
         int angle = robot.gyro.getHeading();
-        if (angle < 90 && degrees > 270 || degrees < 90 && angle > 270)
+        if (angle < 90 && degrees > 270 )
         {
-            
+            while (angle > degrees || angle < 265) {
+                robot.front_right_motor.setPower(.5);
+                robot.back_right_motor.setPower(.5);
+                robot.front_left_motor.setPower(0);
+                robot.back_left_motor.setPower(0);
+            }
+        }
+        else if (degrees < 90 && angle > 270)
+        {
+            while (angle < degrees || angle > 265) {
+                robot.front_left_motor.setPower(.5);
+                robot.back_left_motor.setPower(.5);
+                robot.front_right_motor.setPower(0);
+                robot.back_right_motor.setPower(0);
+            }
         }
         else {
             if (0 < degrees - angle && degrees - angle < 180) {
@@ -134,88 +165,88 @@ public class AutoBlueRightMecanum extends LinearOpMode {
             }
         }
     }
-    private void turnRUntil(int headingChange)
-    {
-//        robot.right_motor.setPower(0);
-//        robot.left_motor.setPower(.5);
-        robot.gyro.resetZAxisIntegrator();
-        // get the x, y, and z values (rate of change of angle).
-
-
-        // get the heading info.
-        // the Modern Robotics' gyro sensor keeps
-        // track of the current heading for the Z axis only.
-        double heading = robot.gyro.getHeading();
-        double angleZ  = robot.gyro.getIntegratedZValue();
-        while(robot.gyro.getHeading() - heading < headingChange)
-        {
-            sleep(10);
-            idle();
-        }
+//    private void turnRUntil(int headingChange)
+//    {
+////        robot.right_motor.setPower(0);
+////        robot.left_motor.setPower(.5);
+//        robot.gyro.resetZAxisIntegrator();
+//        // get the x, y, and z values (rate of change of angle).
+//
+//
+//        // get the heading info.
+//        // the Modern Robotics' gyro sensor keeps
+//        // track of the current heading for the Z axis only.
+//        double heading = robot.gyro.getHeading();
+//        double angleZ  = robot.gyro.getIntegratedZValue();
+//        while(robot.gyro.getHeading() - heading < headingChange)
+//        {
+//            sleep(10);
+//            idle();
+//        }
 //        robot.left_motor.setPower(0);
 //        robot.right_motor.setPower(0);
 
-    }
-    private void driveUntilF(int distanceNeeded)
-    {
-        double odsReadingRaw;
-        double odsReadingLinear;
-        double distanceFromWall = distanceNeeded;
-        float sensorDifference = 0;
-        float temporaryDifference = 0;
-        int maxSpeed = 15;
-        double average = 0;
-        int counter = 0;
-        double totalReads = 0;
-        double[] pastReadings = new double[5];
-        odsReadingRaw = robot.frontUSensor.getRawLightDetected();
-        odsReadingLinear = Math.pow(odsReadingRaw, -0.5);
-        while((average > distanceFromWall+ 1) && sensorDifference < 100) {
-            if (counter < 5) {
-                counter++;
-            }
-            if (counter > 1) {
-                for (int i = 1; i < counter; i++) {
-                    pastReadings[i] = pastReadings[i - 1];
-                }
-            }
-            pastReadings[0] = odsReadingLinear;
-            for (int i = 0; i < counter; i++) {
-                totalReads += pastReadings[i];
-            }
-            average = (totalReads / counter);
-            if (average > distanceFromWall + 1) {
-//                robot.right_motor.setPower(maxSpeed);
-//                robot.left_motor.setPower(maxSpeed);
-            } else {
-//                robot.right_motor.setPower(average - distanceFromWall);
-//                robot.left_motor.setPower(average - distanceFromWall);
-            }
-            temporaryDifference = robot.right_color_sensor.red() - robot.left_color_sensor.red();
-            sensorDifference = Math.abs(temporaryDifference);
-            odsReadingRaw = robot.frontUSensor.getRawLightDetected();
-            odsReadingLinear = Math.pow(odsReadingRaw, -0.5);
-        }
-
-    }
-    private void turnDegrees(int degrees)
-    {
-        float initialDegree = robot.gyro.getHeading();
-        if (degrees > 0) {
-            while (robot.gyro.getHeading() - initialDegree < degrees) {
-                robot.right_motor.setPower(.05);
-            }
-        }
-        else
-        {
-            while (initialDegree - robot.gyro.getHeading() < Math.abs(degrees))
-            {
-                robot.left_motor.setPower(.05);
-            }
-            robot.right_motor.setPower(0);
-        }
-        robot.left_motor.setPower(0);
-    }
+    // }
+//    private void driveUntilF(int distanceNeeded)
+//    {
+//        double odsReadingRaw;
+//        double odsReadingLinear;
+//        double distanceFromWall = distanceNeeded;
+//        float sensorDifference = 0;
+//        float temporaryDifference = 0;
+//        int maxSpeed = 15;
+//        double average = 0;
+//        int counter = 0;
+//        double totalReads = 0;
+//        double[] pastReadings = new double[5];
+//        odsReadingRaw = robot.frontUSensor.getRawLightDetected();
+//        odsReadingLinear = Math.pow(odsReadingRaw, -0.5);
+//        while((average > distanceFromWall+ 1) && sensorDifference < 100) {
+//            if (counter < 5) {
+//                counter++;
+//            }
+//            if (counter > 1) {
+//                for (int i = 1; i < counter; i++) {
+//                    pastReadings[i] = pastReadings[i - 1];
+//                }
+//            }
+//            pastReadings[0] = odsReadingLinear;
+//            for (int i = 0; i < counter; i++) {
+//                totalReads += pastReadings[i];
+//            }
+//            average = (totalReads / counter);
+//            if (average > distanceFromWall + 1) {
+////                robot.right_motor.setPower(maxSpeed);
+////                robot.left_motor.setPower(maxSpeed);
+//            } else {
+////                robot.right_motor.setPower(average - distanceFromWall);
+////                robot.left_motor.setPower(average - distanceFromWall);
+//            }
+//            temporaryDifference = robot.right_color_sensor.red() - robot.left_color_sensor.red();
+//            sensorDifference = Math.abs(temporaryDifference);
+//            odsReadingRaw = robot.frontUSensor.getRawLightDetected();
+//            odsReadingLinear = Math.pow(odsReadingRaw, -0.5);
+//        }
+//
+//    }
+//    private void turnDegrees(int degrees)
+//    {
+//        float initialDegree = robot.gyro.getHeading();
+//        if (degrees > 0) {
+//            while (robot.gyro.getHeading() - initialDegree < degrees) {
+//                robot.right_motor.setPower(.05);
+//            }
+//        }
+//        else
+//        {
+//            while (initialDegree - robot.gyro.getHeading() < Math.abs(degrees))
+//            {
+//                robot.left_motor.setPower(.05);
+//            }
+//            robot.right_motor.setPower(0);
+//        }
+//        robot.left_motor.setPower(0);
+//    }
     //    private void driveUntilB(int distanceNeeded)
 //    {
 //        robot.left_motor.setPower(1);
