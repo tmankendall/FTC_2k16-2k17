@@ -113,15 +113,31 @@ public class AutoBlueRightMecanum extends LinearOpMode {
     }
     private void followLine()
     {
+
     }
     private void driveUntilLine()
     {
-        robot.front_right_motor.setPower(.5);
-        robot.front_left_motor.setPower(.5);
-        robot.back_right_motor.setPower(.5);
-        robot.back_left_motor.setPower(.5);
+        int desiredAngle = robot.gyro.getHeading();
+        int currentAngle;
+        double rightPower = .5;
+        double leftPower = .5;
+        robot.front_right_motor.setPower(rightPower);
+        robot.front_left_motor.setPower(leftPower);
+        robot.back_right_motor.setPower(rightPower);
+        robot.back_left_motor.setPower(leftPower);
         while (robot.ODS.getLightDetected() < 300)
         {
+            currentAngle = robot.gyro.getHeading();
+            if (currentAngle > desiredAngle)
+            {
+                leftPower -= .01;
+                rightPower = .5;
+            }
+            else if (currentAngle < desiredAngle)
+            {
+                rightPower -= .01;
+                leftPower = .5;
+            }
             sleep(2);
         }
     }
@@ -260,67 +276,67 @@ public class AutoBlueRightMecanum extends LinearOpMode {
 //        robot.right_motor.setPower(0);
 //    }
     // This code checks what side
-    private void MakingThingRed()
-    {
-        int surelyRed = 1400;
-        if (robot.right_color_sensor.red() > robot.left_color_sensor.red())
-        {
-            robot.button_pusher.setPosition(pushingRight);
-            while (robot.left_color_sensor.red() < surelyRed) {
-                robot.right_motor.setPower(.5);
-                robot.left_motor.setPower(.5);
-                sleep(10);
-            }
-            robot.right_motor.setPower(-.2);
-            robot.left_motor.setPower(-.2);
-            sleep(300);
-            robot.left_motor.setPower(0);
-            robot.right_motor.setPower(0);
-        }
-        else
-        {
-            robot.button_pusher.setPosition(pushingLeft);
-            while (robot.right_color_sensor.red() < surelyRed) {
-                robot.right_motor.setPower(.5);
-                robot.left_motor.setPower(.5);
-                sleep(10);
-            }
-            robot.right_motor.setPower(-.2);
-            robot.left_motor.setPower(-.2);
-            sleep(300);
-            robot.left_motor.setPower(0);
-            robot.right_motor.setPower(0);
-        }
-    }
+//    private void MakingThingRed()
+//    {
+//        int surelyRed = 1400;
+//        if (robot.right_color_sensor.red() > robot.left_color_sensor.red())
+//        {
+//            robot.button_pusher.setPosition(pushingRight);
+//            while (robot.left_color_sensor.red() < surelyRed) {
+//                robot.right_motor.setPower(.5);
+//                robot.left_motor.setPower(.5);
+//                sleep(10);
+//            }
+//            robot.right_motor.setPower(-.2);
+//            robot.left_motor.setPower(-.2);
+//            sleep(300);
+//            robot.left_motor.setPower(0);
+//            robot.right_motor.setPower(0);
+//        }
+//        else
+//        {
+//            robot.button_pusher.setPosition(pushingLeft);
+//            while (robot.right_color_sensor.red() < surelyRed) {
+//                robot.right_motor.setPower(.5);
+//                robot.left_motor.setPower(.5);
+//                sleep(10);
+//            }
+//            robot.right_motor.setPower(-.2);
+//            robot.left_motor.setPower(-.2);
+//            sleep(300);
+//            robot.left_motor.setPower(0);
+//            robot.right_motor.setPower(0);
+//        }
+//    }
     // This code checks what side
-    private void MakingThingBlue() {
-        int surelyBlue = 400;
-        if (robot.right_color_sensor.red() > robot.left_color_sensor.red()) {
-            robot.button_pusher.setPosition(pushingLeft);
-            while (robot.right_color_sensor.red() > surelyBlue) {
-                robot.right_motor.setPower(.5);
-                robot.left_motor.setPower(.5);
-                sleep(10);
-            }
-            robot.right_motor.setPower(-.2);
-            robot.left_motor.setPower(-.2);
-            sleep(300);
-            robot.left_motor.setPower(0);
-            robot.right_motor.setPower(0);
-        } else {
-            robot.button_pusher.setPosition(pushingRight);
-            while (robot.left_color_sensor.red() > surelyBlue) {
-                robot.right_motor.setPower(.5);
-                robot.left_motor.setPower(.5);
-                sleep(10);
-            }
-            robot.right_motor.setPower(-.2);
-            robot.left_motor.setPower(-.2);
-            sleep(300);
-            robot.left_motor.setPower(0);
-            robot.right_motor.setPower(0);
-        }
-    }
+//    private void MakingThingBlue() {
+//        int surelyBlue = 400;
+//        if (robot.right_color_sensor.red() > robot.left_color_sensor.red()) {
+//            robot.button_pusher.setPosition(pushingLeft);
+//            while (robot.right_color_sensor.red() > surelyBlue) {
+//                robot.right_motor.setPower(.5);
+//                robot.left_motor.setPower(.5);
+//                sleep(10);
+//            }
+//            robot.right_motor.setPower(-.2);
+//            robot.left_motor.setPower(-.2);
+//            sleep(300);
+//            robot.left_motor.setPower(0);
+//            robot.right_motor.setPower(0);
+//        } else {
+//            robot.button_pusher.setPosition(pushingRight);
+//            while (robot.left_color_sensor.red() > surelyBlue) {
+//                robot.right_motor.setPower(.5);
+//                robot.left_motor.setPower(.5);
+//                sleep(10);
+//            }
+//            robot.right_motor.setPower(-.2);
+//            robot.left_motor.setPower(-.2);
+//            sleep(300);
+//            robot.left_motor.setPower(0);
+//            robot.right_motor.setPower(0);
+//        }
+//    }
     private void fire()
     {
         for(int i =0; i < 1; i+=.01)
@@ -334,31 +350,31 @@ public class AutoBlueRightMecanum extends LinearOpMode {
         robot.ball_feeder.setPosition(90);
         robot.right_balllauncher.setPower(0);
     }
-    private double takeRead(int ForB)
-    {
-        if(ForB == 1) {
-            if (robot.backUSensor.signalDetected()) {
-                // Display angle and strength
-                telemetry.addData("Angle", robot.backUSensor.getAngle());
-                telemetry.addData("Strength", robot.backUSensor.getStrength());
-            } else {
-                // Display loss of signal
-                telemetry.addData("Seeker", "Signal Lost");
-                return(robot.backUSensor.getSignalDetectedThreshold());
-            }
-
-            telemetry.update();
-            return (robot.backUSensor.getStrength());
-        }
-        if (ForB == 0){
-            telemetry.addData("Raw",    robot.frontUSensor.getRawLightDetected());
-            telemetry.addData("Normal", robot.frontUSensor.getLightDetected());
-
-            telemetry.update();
-            return (robot.frontUSensor.getLightDetected());
-        }
-        else{
-            throw (new IllegalArgumentException());
-        }
-    }
+//    private double takeRead(int ForB)
+//    {
+//        if(ForB == 1) {
+//            if (robot.backUSensor.signalDetected()) {
+//                // Display angle and strength
+//                telemetry.addData("Angle", robot.backUSensor.getAngle());
+//                telemetry.addData("Strength", robot.backUSensor.getStrength());
+//            } else {
+//                // Display loss of signal
+//                telemetry.addData("Seeker", "Signal Lost");
+//                return(robot.backUSensor.getSignalDetectedThreshold());
+//            }
+//
+//            telemetry.update();
+//            return (robot.backUSensor.getStrength());
+//        }
+//        if (ForB == 0){
+//            telemetry.addData("Raw",    robot.frontUSensor.getRawLightDetected());
+//            telemetry.addData("Normal", robot.frontUSensor.getLightDetected());
+//
+//            telemetry.update();
+//            return (robot.frontUSensor.getLightDetected());
+//        }
+//        else{
+//            throw (new IllegalArgumentException());
+//        }
+//    }
 }

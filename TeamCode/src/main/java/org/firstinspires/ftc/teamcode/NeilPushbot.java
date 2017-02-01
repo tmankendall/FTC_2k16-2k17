@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 import android.app.Activity;
+import android.hardware.Sensor;
 import android.view.View;
 
 import com.qualcomm.hardware.adafruit.AdafruitBNO055IMU;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsDigitalTouchSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cIrSeekerSensorV3;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
@@ -19,6 +21,7 @@ import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.IrSeekerSensor;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -47,14 +50,17 @@ public class NeilPushbot
     public DcMotor  right_balllauncher  = null;
     public Servo    button_pusher       = null;
     public Servo      ball_feeder       = null;
+    public OpticalDistanceSensor frontUSensor    = null;
+    public IrSeekerSensor    backUSensor     = null;
     public ColorSensor right_color_sensor   = null;
     public ColorSensor  left_color_sensor   = null;
     public DcMotor    back_left_motor        = null;
     public DcMotor    back_right_motor       = null;
     public DcMotor    front_left_motor       = null;
     public DcMotor    front_right_motor      = null;
-    public OpticalDistanceSensor frontUSensor = null;
-    public IrSeekerSensor backUSensor   = null;
+    public DcMotor      right_motor         = null;
+    public DcMotor      left_motor          = null;
+    public OpticalDistanceSensor lineSensor = null;
     public ModernRoboticsI2cGyro gyro   = null;
     public CRServo forkliftGrabber      = null;
     public OpticalDistanceSensor ODS    = null;
@@ -91,8 +97,7 @@ public class NeilPushbot
         back_right_motor    = hwMap.dcMotor.get("back_right_motor");
         back_left_motor     = hwMap.dcMotor.get("back_left_motor");
         gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
-        frontUSensor        = hwMap.opticalDistanceSensor.get("frontUSensor");
-        backUSensor         = hwMap.irSeekerSensor.get("backUSensor");
+        lineSensor        = hwMap.opticalDistanceSensor.get("frontUSensor");
         //leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         //rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
