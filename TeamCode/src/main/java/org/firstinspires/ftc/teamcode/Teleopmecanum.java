@@ -144,6 +144,7 @@ public class Teleopmecanum extends OpMode{
         else if (gamepad1.x) {
             robot.right_balllauncher.setPower(X);
         }
+        robot.right_balllauncher.setPower(gamepad2.right_trigger);
         if(gamepad2.dpad_left)
         {
             robot.forklift.setPower(1);
