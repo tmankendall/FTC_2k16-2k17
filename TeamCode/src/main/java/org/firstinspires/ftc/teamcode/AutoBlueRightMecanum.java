@@ -60,6 +60,8 @@ public class AutoBlueRightMecanum extends LinearOpMode {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     NeilPushbot robot = new NeilPushbot();
+    double standardLightValue;
+    double whiteLightValue = 100;
 
     // DcMotor rightMotor = null;
 
@@ -78,6 +80,7 @@ public class AutoBlueRightMecanum extends LinearOpMode {
             sleep(50);
             idle();
         }
+        standardLightValue = robot.lineSensor.getLightDetected();
 
         telemetry.addData(">", "Gyro Calibrated.  Press Start.");
         telemetry.update();
@@ -113,7 +116,34 @@ public class AutoBlueRightMecanum extends LinearOpMode {
     }
     private void followLine()
     {
-
+        double currentLightDetected = robot.lineSensor.getLightDetected();
+        while(Math.abs(currentLightDetected - standardLightValue) < .1*standardLightValue)
+        {
+            idle();
+        }
+        robot.back_right_motor.setPower(0);
+        robot.back_left_motor.setPower(0);
+        robot.front_left_motor.setPower(0);
+        robot.front_right_motor.setPower(0);
+        idle();
+        telemetry.addData("I found the Line", "");
+        telemetry.update();
+        robot.front_left_motor.setPower(.1);
+        robot.back_left_motor.setPower(.1);
+        while(robot.wallDetector.isPressed() == false)
+        {
+            currentLightDetected = robot.lineSensor.getLightDetected();
+            if(currentLightDetected > (whiteLightValue+standardLightValue)/2)
+            {
+                robot.front_left_motor.setPower(robot.front_left_motor.getPower()-.01);
+                robot.back_left_motor.setPower(robot.back_left_motor.getPower() - .01);
+            }
+            else
+            {
+                robot.front_left_motor.setPower(robot.front_left_motor.getPower()+.01);
+                robot.back_left_motor.setPower(robot.back_left_motor.getPower() + .01);
+            }
+        }
     }
     private void driveUntilLine()
     {

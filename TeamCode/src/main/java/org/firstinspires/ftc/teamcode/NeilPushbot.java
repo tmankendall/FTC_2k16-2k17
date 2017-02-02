@@ -64,6 +64,7 @@ public class NeilPushbot
     public ModernRoboticsI2cGyro gyro   = null;
     public CRServo forkliftGrabber      = null;
     public OpticalDistanceSensor ODS    = null;
+    public ModernRoboticsDigitalTouchSensor wallDetector = null;
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
@@ -98,6 +99,7 @@ public class NeilPushbot
         back_left_motor     = hwMap.dcMotor.get("back_left_motor");
         gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
         lineSensor        = hwMap.opticalDistanceSensor.get("frontUSensor");
+        wallDetector        = (ModernRoboticsDigitalTouchSensor)hwMap.touchSensor.get("Wall_Detector");
         //leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         //rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
