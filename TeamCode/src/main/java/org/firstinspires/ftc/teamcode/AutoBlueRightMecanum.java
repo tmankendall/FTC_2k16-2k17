@@ -100,6 +100,8 @@ public class AutoBlueRightMecanum extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
+        fire();
+        fire();
         turnUntilDegrees(45);
         driveUntilLine();
         followLine();
@@ -369,11 +371,11 @@ public class AutoBlueRightMecanum extends LinearOpMode {
 //    }
     private void fire()
     {
-        for(int i =0; i < 1; i+=.01)
+        for(int i =0; i < 1; i+=.1)
         {
 
-            robot.right_balllauncher.setPower(i);
-            sleep(15);
+            robot.right_balllauncher.setPower(-i);
+            sleep(10);
         }
         robot.ball_feeder.setPosition(120);
         sleep(500);

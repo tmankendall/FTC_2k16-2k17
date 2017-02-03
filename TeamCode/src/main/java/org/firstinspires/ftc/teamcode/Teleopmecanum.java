@@ -115,17 +115,17 @@ public class Teleopmecanum extends OpMode{
         // positional based driving
         if(java.lang.Math.abs(gamepad1.left_stick_y) > threshold || java.lang.Math.abs(gamepad1.left_stick_x) > threshold)
         {
-            robot.front_right_motor.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x));
-            robot.front_left_motor.setPower((-gamepad1.left_stick_y - gamepad1.left_stick_x));
-            robot.back_right_motor.setPower(((-gamepad1.left_stick_y - gamepad1.left_stick_x))*(100.0/152.0));
-            robot.back_left_motor.setPower(((gamepad1.left_stick_y - gamepad1.left_stick_x))*(100.0/152.0));
+            robot.front_right_motor.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x)*2*(105.0/152.0));
+            robot.front_left_motor.setPower((-gamepad1.left_stick_y - gamepad1.left_stick_x)*2*(105.0/152.0));
+            robot.back_right_motor.setPower((-gamepad1.left_stick_y - gamepad1.left_stick_x)*2);
+            robot.back_left_motor.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x)*2);
         }
         if (java.lang.Math.abs(gamepad1.right_stick_x) > threshold)
         {
-            robot.front_right_motor.setPower(robot.front_right_motor.getPower() - (gamepad1.left_stick_y - gamepad1.left_stick_x));
-            robot.front_left_motor.setPower(robot.front_left_motor.getPower() - (gamepad1.left_stick_y - gamepad1.left_stick_x));
-            robot.back_right_motor.setPower((robot.back_right_motor.getPower() + (gamepad1.left_stick_y - gamepad1.left_stick_x))*(100.0/152.0));
-            robot.back_left_motor.setPower((robot.back_left_motor.getPower() + (gamepad1.left_stick_y - gamepad1.left_stick_x))*(100.0/152.0));
+            robot.front_right_motor.setPower((robot.front_right_motor.getPower() + gamepad1.right_stick_x)*(100.0/152.0));
+            robot.front_left_motor.setPower((robot.front_left_motor.getPower() - gamepad1.right_stick_x)*(100.0/152.0));
+            robot.back_right_motor.setPower((robot.back_right_motor.getPower() + gamepad1.right_stick_x));
+            robot.back_left_motor.setPower((robot.back_left_motor.getPower() - gamepad1.right_stick_x));
         }
         else
         {
@@ -144,7 +144,7 @@ public class Teleopmecanum extends OpMode{
 //        else if (gamepad1.x) {
 //            robot.right_balllauncher.setPower(X);
 //        }
-        robot.right_balllauncher.setPower(gamepad2.right_trigger);
+        robot.right_balllauncher.setPower(-gamepad2.right_trigger);
         if(gamepad2.dpad_left)
         {
             robot.forklift.setPower(1);
@@ -161,10 +161,10 @@ public class Teleopmecanum extends OpMode{
         {
             robot.ball_feeder.setPosition(90.0/180.0 + n/180.0 );
         }
-        if(gamepad1.a)
-        {
-            fire();
-        }
+        //if(gamepad1.a)
+        //{
+        //    fire();
+        //}
         if (gamepad1.dpad_up){
             robot.button_pusher.setPosition(pushingButton);
         }
@@ -182,12 +182,17 @@ public class Teleopmecanum extends OpMode{
         }
 
         if (gamepad2.dpad_up) {
+            telemetry.clear();
             n = n + 1;
+            telemetry.addData("Upper Angle ", n + 90);
+            telemetry.update();
 
         }
-
         if (gamepad2.dpad_down){
+            telemetry.clear();
             n = n - 1;
+            telemetry.addData("Upper Angle" , n + 90);
+            telemetry.update();
         }
 
         if (gamepad2.left_stick_y != 0)
