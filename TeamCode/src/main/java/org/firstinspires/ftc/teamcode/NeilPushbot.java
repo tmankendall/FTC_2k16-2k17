@@ -102,10 +102,10 @@ public class NeilPushbot
         wallDetector        = (ModernRoboticsDigitalTouchSensor)hwMap.touchSensor.get("Wall_Detector");
         //leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         //rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-        front_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        back_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        front_left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        back_left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        front_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        back_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        front_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        back_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Set all motors to zero power
         forklift.setPower(0);

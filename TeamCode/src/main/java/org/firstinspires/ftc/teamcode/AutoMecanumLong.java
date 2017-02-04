@@ -33,11 +33,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -53,9 +50,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="AutoBlueRightMecanum", group="Andrew")  // @Autonomous(...) is the other common choice
+@Autonomous(name="AutoMecanumLong", group="Andrew")  // @Autonomous(...) is the other common choice
 //@Disabled
-public class AutoBlueRightMecanum extends LinearOpMode {
+public class AutoMecanumLong extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -70,6 +67,10 @@ public class AutoBlueRightMecanum extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         robot.init(hardwareMap);
+        robot.front_left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.back_left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.front_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.back_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         telemetry.addData(">", "Gyro Calibrating. Do Not move!");
         telemetry.update();
@@ -100,11 +101,20 @@ public class AutoBlueRightMecanum extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
+        //in milliseconds
+        driveForTime(500);
         fire();
         fire();
-        turnUntilDegrees(45);
-        driveUntilLine();
-        followLine();
+        while (runtime.seconds() < 10)
+        {
+            sleep(10);
+        }
+        driveForTime(5000);
+        turnUntilDegrees(120);
+        driveForTime(5500);
+//        turnUntilDegrees(45);
+//        driveUntilLine();
+//        followLine();
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -115,6 +125,39 @@ public class AutoBlueRightMecanum extends LinearOpMode {
             // rightMotor.setPower(-gamepad1.right_stick_y);
             idle();
         }
+    }
+    private void driveForTime(double time)
+    {
+        double desiredTime = time;
+        double initialTime = runtime.milliseconds();
+        double currentTime = runtime.milliseconds();
+        int desiredAngle = robot.gyro.getHeading();
+        int currentAngle;
+        double rightPower = 1;
+        double leftPower = 1;
+        robot.front_right_motor.setPower(rightPower);
+        robot.front_left_motor.setPower(leftPower);
+        robot.back_right_motor.setPower(rightPower);
+        robot.back_left_motor.setPower(leftPower);
+        while (desiredTime > (currentTime - initialTime))
+        {
+            currentAngle = robot.gyro.getHeading();
+            if (currentAngle > desiredAngle)
+            {
+                leftPower -= .01;
+                rightPower = .5;
+            }
+            else if (currentAngle < desiredAngle)
+            {
+                rightPower -= .01;
+                leftPower = .5;
+            }
+            sleep(1);
+        }
+        robot.front_left_motor.setPower(0);
+        robot.front_right_motor.setPower(0);
+        robot.back_left_motor.setPower(0);
+        robot.back_right_motor.setPower(0);
     }
     private void followLine()
     {
