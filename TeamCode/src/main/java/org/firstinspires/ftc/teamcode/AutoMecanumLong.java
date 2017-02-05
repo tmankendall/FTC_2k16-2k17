@@ -67,24 +67,23 @@ public class AutoMecanumLong extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         robot.init(hardwareMap);
-        robot.front_left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.back_left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.front_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.back_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         telemetry.addData(">", "Gyro Calibrating. Do Not move!");
         telemetry.update();
         robot.gyro.calibrate();
 
         // make sure the gyro is calibrated.
-        while (!isStopRequested() && robot.gyro.isCalibrating())  {
-            sleep(50);
-            idle();
-        }
-        standardLightValue = robot.lineSensor.getLightDetected();
-
+//        while (!isStopRequested() && robot.gyro.isCalibrating())  {
+//            sleep(50);
+//            idle();
+//        }
         telemetry.addData(">", "Gyro Calibrated.  Press Start.");
         telemetry.update();
+
+        robot.front_left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.back_left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.front_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.back_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         /* eg: Initialize the hardware variables. Note that the strings used here as parameters
          * to 'get' must correspond to the names assigned during the robot configuration
@@ -102,9 +101,6 @@ public class AutoMecanumLong extends LinearOpMode {
         waitForStart();
         runtime.reset();
         //in milliseconds
-        driveForTime(500);
-        fire();
-        fire();
         while (runtime.seconds() < 10)
         {
             sleep(10);

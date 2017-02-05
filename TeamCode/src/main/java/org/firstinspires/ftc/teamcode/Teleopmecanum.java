@@ -110,7 +110,7 @@ public class Teleopmecanum extends OpMode{
     public void loop() {
         double left;
         double right;
-        double threshold = .1;
+        double threshold = .02;
 
         // positional based driving
         telemetry.addData("The joystick", gamepad2.left_stick_y);
@@ -118,34 +118,49 @@ public class Teleopmecanum extends OpMode{
         telemetry.update();
 
         //up = -1, right = +1, others opposite
-//        if(java.lang.Math.abs(gamepad1.left_stick_y) > threshold || java.lang.Math.abs(gamepad1.left_stick_x) > threshold)
-//        {
-//            robot.front_right_motor.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x)*30*(105.0/152.0));
-//            robot.front_left_motor.setPower((-gamepad1.left_stick_y - gamepad1.left_stick_x)*30*(105.0/152.0));
-//            robot.back_right_motor.setPower((-gamepad1.left_stick_y - gamepad1.left_stick_x)*30);
-//            robot.back_left_motor.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x)*30);
-//        }
-        if (java.lang.Math.abs(gamepad1.left_stick_y) > threshold)
+        if(java.lang.Math.abs(gamepad1.left_stick_y) > threshold || java.lang.Math.abs(gamepad1.left_stick_x) > threshold)
         {
-            robot.front_right_motor.setPower(gamepad1.left_stick_y);
-            robot.front_left_motor.setPower(-gamepad1.left_stick_y);
-            robot.back_right_motor.setPower(-gamepad1.left_stick_y);
-            robot.back_left_motor.setPower(gamepad1.left_stick_y);
+            robot.front_right_motor.setPower(((gamepad1.left_stick_y + gamepad1.left_stick_x)*(65.0/152.0))*.75);
+            robot.front_left_motor.setPower(((-gamepad1.left_stick_y + gamepad1.left_stick_x)*(65.0/152.0))*.75);
+            robot.back_right_motor.setPower((-gamepad1.left_stick_y + gamepad1.left_stick_x)*.65);
+            robot.back_left_motor.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x)*.65);
         }
-        if (java.lang.Math.abs(gamepad1.right_stick_x) > threshold)
-        {
-            robot.front_right_motor.setPower((robot.front_right_motor.getPower() + gamepad1.right_stick_x)*(100.0/152.0));
-            robot.front_left_motor.setPower((robot.front_left_motor.getPower() + gamepad1.right_stick_x)*(100.0/152.0));
-            robot.back_right_motor.setPower((robot.back_right_motor.getPower() - gamepad1.right_stick_x));
-            robot.back_left_motor.setPower((robot.back_left_motor.getPower() - gamepad1.right_stick_x));
-        }
-        else
+        else if (java.lang.Math.abs(gamepad1.right_stick_x) < threshold)
         {
             robot.front_right_motor.setPower(0);
             robot.front_left_motor.setPower(0);
             robot.back_left_motor.setPower(0);
             robot.back_right_motor.setPower(0);
         }
+//        if (java.lang.Math.abs(gamepad1.left_stick_y) > threshold)
+//        {
+//            robot.front_right_motor.setPower(gamepad1.left_stick_y/.5);
+//            robot.front_left_motor.setPower(-gamepad1.left_stick_y/.5);
+//            robot.back_right_motor.setPower(-gamepad1.left_stick_y/.5);
+//            robot.back_left_motor.setPower(gamepad1.left_stick_y/.5);
+//        }
+//        if (java.lang.Math.abs(gamepad1.left_stick_y) > threshold)
+//        {
+//            robot.front_right_motor.setPower(1);
+//            robot.front_left_motor.setPower(-1);
+//            robot.back_right_motor.setPower(-1);
+//            robot.back_left_motor.setPower(1);
+//        }
+//        if (gamepad1.left_stick_y < threshold)
+//        {
+//            robot.front_right_motor.setPower(-1);
+//            robot.front_left_motor.setPower(1);
+//            robot.back_right_motor.setPower(1);
+//            robot.back_left_motor.setPower(-1);
+//        }
+        if (java.lang.Math.abs(gamepad1.right_stick_x) > threshold)
+        {
+            robot.front_right_motor.setPower((robot.front_right_motor.getPower() + gamepad1.right_stick_x)*2);
+            robot.front_left_motor.setPower((robot.front_left_motor.getPower() + gamepad1.right_stick_x)*2);
+            robot.back_right_motor.setPower((robot.back_right_motor.getPower() - gamepad1.right_stick_x)*2);
+            robot.back_left_motor.setPower((robot.back_left_motor.getPower() - gamepad1.right_stick_x)*2);
+        }
+
 //        // Use gamepad left & right Bumpers to open and close the claw
 //        if (gamepad1.b) {
 //            robot.right_balllauncher.setPower(B);

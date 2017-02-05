@@ -67,25 +67,18 @@ public class AutoMecanum1 extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         robot.init(hardwareMap);
-        robot.front_left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.back_left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.front_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.back_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         telemetry.addData(">", "Gyro Calibrating. Do Not move!");
         telemetry.update();
         robot.gyro.calibrate();
 
         // make sure the gyro is calibrated.
-        while (!isStopRequested() && robot.gyro.isCalibrating())  {
-            sleep(50);
-            idle();
-        }
-        standardLightValue = robot.lineSensor.getLightDetected();
-
+//        while (!isStopRequested() && robot.gyro.isCalibrating())  {
+//            sleep(50);
+//            idle();
+//        }
         telemetry.addData(">", "Gyro Calibrated.  Press Start.");
         telemetry.update();
-
         /* eg: Initialize the hardware variables. Note that the strings used here as parameters
          * to 'get' must correspond to the names assigned during the robot configuration
          * step (using the FTC Robot Controller app on the phone).
@@ -101,15 +94,19 @@ public class AutoMecanum1 extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-        fire();
-        fire();
-        while (runtime.seconds() < 10)
+        while (runtime.seconds() < 15)
         {
             sleep(10);
         }
-        driveForTime(4000);
-        turnUntilDegrees(90);
-        driveForTime(5000);
+        robot.front_right_motor.setPower(-.9);
+        robot.front_left_motor.setPower(1);
+        robot.back_right_motor.setPower(1);
+        robot.back_left_motor.setPower(-.9);
+        sleep(8000);
+        robot.front_right_motor.setPower(0);
+        robot.front_left_motor.setPower(0);
+        robot.back_right_motor.setPower(0);
+        robot.back_left_motor.setPower(0);
 //        turnUntilDegrees(45);
 //        driveUntilLine();
 //        followLine();
