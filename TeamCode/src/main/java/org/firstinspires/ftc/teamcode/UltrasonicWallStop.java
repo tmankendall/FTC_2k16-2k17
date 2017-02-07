@@ -19,13 +19,9 @@ public class UltrasonicWallStop extends LinearOpMode{
 
     OpticalDistanceSensor ODS;
 
-    DcMotor leftMotor;
-    DcMotor rightMotor;
-
     static double odsReadingRaw;
     static double odsReadingLinear;
     static double distanceFromWall = 1;
-    static int maxSpeed = 15;
     static double average = 0;
     static int counter = 0;
     static double totalReads = 0;
@@ -34,12 +30,9 @@ public class UltrasonicWallStop extends LinearOpMode{
     @Override
     public void runOpMode()
     {
-        ODS = hardwareMap.opticalDistanceSensor.get("ods");
-        leftMotor = hardwareMap.dcMotor.get("leftMotor");
-        rightMotor = hardwareMap.dcMotor.get("rightMotor");
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+        robot.init(hardwareMap);
 
         waitForStart();
 // All that is left for now is to configure the triggers for the start and end of this opmode.
@@ -65,9 +58,11 @@ public class UltrasonicWallStop extends LinearOpMode{
                 totalReads += pastReadings[i];
             }
             average = (totalReads/counter);
-            if (average > maxSpeed) {
-                rightMotor.setPower(maxSpeed);
-                leftMotor.setPower(maxSpeed);
+            if (average > distanceFromWall) {
+                robot.front_right_motor.setPower(-1);
+//            robot.front_left_motor.setPower(1);
+//            robot.back_right_motor.setPower(1);
+//            robot.back_left_motor.setPower(-1);
             }
             else {
                 rightMotor.setPower(average - distanceFromWall);
