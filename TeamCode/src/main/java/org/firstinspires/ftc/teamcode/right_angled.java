@@ -102,8 +102,8 @@ public class right_angled extends LinearOpMode {
         waitForStart();
         runtime.reset();
         //driveUntilB(15);
-        fire();
-        fire();
+        //fire();
+        //fire();
         if (angled)
         {
             if (right)
@@ -128,11 +128,11 @@ public class right_angled extends LinearOpMode {
         if (blue)
         {
 
-            MakingThingBlue();
+           // MakingThingBlue();
         }
         else
         {
-            MakingThingRed();
+          //  MakingThingRed();
         }
 
 
@@ -149,9 +149,9 @@ public class right_angled extends LinearOpMode {
     }
     private void turnRUntil(int headingChange)
     {
-        robot.right_motor.setPower(0);
-        robot.left_motor.setPower(.5);
-        robot.gyro.resetZAxisIntegrator();
+       // robot.right_motor.setPower(0);
+        //robot.left_motor.setPower(.5);
+        //robot.gyro.resetZAxisIntegrator();
         // get the x, y, and z values (rate of change of angle).
 
 
@@ -165,8 +165,8 @@ public class right_angled extends LinearOpMode {
             sleep(10);
             idle();
         }
-        robot.left_motor.setPower(0);
-        robot.right_motor.setPower(0);
+       // robot.left_motor.setPower(0);
+        //robot.right_motor.setPower(0);
 
     }
     private void driveUntilF(int distanceNeeded)
@@ -198,11 +198,11 @@ public class right_angled extends LinearOpMode {
             }
             average = (totalReads / counter);
             if (average > distanceFromWall + 1) {
-                robot.right_motor.setPower(maxSpeed);
-                robot.left_motor.setPower(maxSpeed);
+              //  robot.right_motor.setPower(maxSpeed);
+               // robot.left_motor.setPower(maxSpeed);
             } else {
-                robot.right_motor.setPower(average - distanceFromWall);
-                robot.left_motor.setPower(average - distanceFromWall);
+               // robot.right_motor.setPower(average - distanceFromWall);
+               // robot.left_motor.setPower(average - distanceFromWall);
             }
             temporaryDifference = robot.right_color_sensor.red() - robot.left_color_sensor.red();
             sensorDifference = Math.abs(temporaryDifference);
@@ -216,18 +216,18 @@ public class right_angled extends LinearOpMode {
         float initialDegree = robot.gyro.getHeading();
         if (degrees > 0) {
             while (robot.gyro.getHeading() - initialDegree < degrees) {
-                robot.right_motor.setPower(.05);
+               // robot.right_motor.setPower(.05);
             }
         }
         else
         {
             while (initialDegree - robot.gyro.getHeading() < Math.abs(degrees))
             {
-                robot.left_motor.setPower(.05);
+               // robot.left_motor.setPower(.05);
             }
-            robot.right_motor.setPower(0);
+            //robot.right_motor.setPower(0);
         }
-        robot.left_motor.setPower(0);
+       // robot.left_motor.setPower(0);
     }
     //    private void driveUntilB(int distanceNeeded)
 //    {
@@ -242,7 +242,7 @@ public class right_angled extends LinearOpMode {
 //        robot.right_motor.setPower(0);
 //    }
     // This code checks what side
-    private void MakingThingRed()
+   /* private void MakingThingRed()
     {
         int surelyRed = 1400;
         if (robot.right_color_sensor.red() > robot.left_color_sensor.red())
@@ -342,5 +342,5 @@ public class right_angled extends LinearOpMode {
         else{
             throw (new IllegalArgumentException());
         }
-    }
+    }*/
 }

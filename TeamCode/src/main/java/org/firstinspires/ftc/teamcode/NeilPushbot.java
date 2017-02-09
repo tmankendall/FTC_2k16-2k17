@@ -1,5 +1,11 @@
-package org.firstinspires.ftc.teamcode;
+//@Disabled
 
+package org.firstinspires.ftc.teamcode;
+//CLEAN IT UP
+
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
+
+//<<<<<<< Updated upstream
 import android.app.Activity;
 import android.hardware.Sensor;
 import android.view.View;
@@ -9,7 +15,10 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsDigitalTouchSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cIrSeekerSensorV3;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
-import com.qualcomm.robotcore.hardware.CRServo;
+//=======
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+//>>>>>>> Stashed changes
+//import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -18,14 +27,20 @@ import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cDevice;
-import com.qualcomm.robotcore.hardware.IrSeekerSensor;
+//import com.qualcomm.robotcore.hardware.IrSeekerSensor;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Hardware;
 
+//<<<<<<< Updated upstream
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+//=======
+import org.firstinspires.ftc.robotcontroller.external.samples.*;
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorAdafruitRGB;
+//>>>>>>> Stashed changes
 
 /**
  * This is NOT an opmode.
@@ -48,58 +63,77 @@ public class NeilPushbot
     /* Public OpMode members. */
     public DcMotor  forklift            = null;
     public DcMotor  right_balllauncher  = null;
-    public Servo    button_pusher       = null;
+    //public Servo    button_pusher       = null;
     public Servo      ball_feeder       = null;
     public OpticalDistanceSensor frontUSensor    = null;
-    public IrSeekerSensor    backUSensor     = null;
+    //public IrSeekerSensor    backUSensor     = null;
     public ColorSensor right_color_sensor   = null;
     public ColorSensor  left_color_sensor   = null;
     public DcMotor    back_left_motor        = null;
     public DcMotor    back_right_motor       = null;
     public DcMotor    front_left_motor       = null;
     public DcMotor    front_right_motor      = null;
-    public DcMotor      right_motor         = null;
-    public DcMotor      left_motor          = null;
+    //ublic DcMotor      right_motor         = null;
+    //public DcMotor      left_motor          = null;
     public OpticalDistanceSensor lineSensor = null;
     public ModernRoboticsI2cGyro gyro   = null;
-    public CRServo forkliftGrabber      = null;
+    public Servo forkliftGrabber      = null;
     public OpticalDistanceSensor ODS    = null;
     public ModernRoboticsDigitalTouchSensor wallDetector = null;
-    public static final double MID_SERVO       =  0.5 ;
-    public static final double ARM_UP_POWER    =  0.45 ;
-    public static final double ARM_DOWN_POWER  = -0.45 ;
-
+    //public static final double MID_SERVO       =  0.5 ;
+    //public static final double ARM_UP_POWER    =  0.45 ;
+    //public static final double ARM_DOWN_POWER  = -0.45 ;
+    //public ModernRoboticsI2cGyro gyro = null;
+    // public UltrasonicSensor.Manufacturer
     /* local OpMode members. */
-    HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
-
     /* Constructor */
     public NeilPushbot(){
 
 
     }
-
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap) {
+    public void init(HardwareMap hwMap) {
 
         // Save reference to Hardware map
-        hwMap = ahwMap;
 
         // Define and Initialize Motors
         forklift            = hwMap.dcMotor.get("forklift");
+//<<<<<<< Updated upstream
         right_balllauncher  = hwMap.dcMotor.get("ball_launcher");
-        button_pusher       = hwMap.servo.get("button_pusher");
+        //button_pusher       = hwMap.servo.get("button_pusher");
         ball_feeder         = hwMap.servo.get("ball_feeder");
-        forkliftGrabber     = hwMap.crservo.get("forklift_grabber");
+        forkliftGrabber     = hwMap.servo.get("forklift_grabber");
 //        left_motor          = hwMap.dcMotor.get("left_motor");
 //        right_motor         = hwMap.dcMotor.get("right_motor");
         front_right_motor   = hwMap.dcMotor.get("front_right_motor");
         front_left_motor    = hwMap.dcMotor.get("front_left_motor");
         back_right_motor    = hwMap.dcMotor.get("back_right_motor");
         back_left_motor     = hwMap.dcMotor.get("back_left_motor");
+//=======
+        //ballrot_launcher   = hwMap.dcMotor.get("ballrot_launcher");
+        right_balllauncher  = hwMap.dcMotor.get("right_balllauncher");
+        //button_pusher       = hwMap.servo.get("button_pusher");
+        //ball_launcher       = hwMap.servo.get("ball_launcher");
+//<<<<<<< Updated upstream
+       // left_motor          = hwMap.dcMotor.get("left_motor");
+       // right_motor         = hwMap.dcMotor.get("right_motor");
+//>>>>>>> Stashed changes
         gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
+//<<<<<<< Updated upstream
         lineSensor        = hwMap.opticalDistanceSensor.get("frontUSensor");
         wallDetector        = (ModernRoboticsDigitalTouchSensor)hwMap.touchSensor.get("Wall_Detector");
+//=======
+        frontUSensor        = hwMap.opticalDistanceSensor.get("frontUSensor");
+        //backUSensor         = hwMap.irSeekerSensor.get("backUSensor");
+//=======
+        ///left_motor          = hwMap.crservo.get("left_motor");
+        //right_motor         = hwMap.crservo.get("right_motor");
+        gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
+//        SensorAdafruitRGB = hwMap.colorSensor.get("");
+
+//>>>>>>> Stashed changes
+//>>>>>>> Stashed changes
         //leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         //rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         front_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -118,8 +152,8 @@ public class NeilPushbot
         right_balllauncher.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.
-        button_pusher.setPosition(MID_SERVO);
-        ball_feeder.setPosition(MID_SERVO);
+        //button_pusher.setPosition(MID_SERVO);
+        //ball_feeder.setPosition(MID_SERVO);
 //        left_motor.setPower(0);
 //        right_motor.setPower(0);
         front_right_motor.setPower(0);
@@ -163,4 +197,3 @@ public class NeilPushbot
         period.reset();
     }
 }
-

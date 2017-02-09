@@ -99,11 +99,11 @@ public class DRIVEDRIVEDRIVEBLUE extends LinearOpMode {
         waitForStart();
         runtime.reset();
         sleep(10000);
-        robot.right_motor.setPower(1);
-        robot.left_motor.setPower(.9);
+        //robot.right_motor.setPower(1);
+        //robot.left_motor.setPower(.9);
         sleep(5000);
-        robot.right_motor.setPower(0);
-        robot.left_motor.setPower(0);
+        //robot.right_motor.setPower(0);
+        //robot.left_motor.setPower(0);
 //        driveUntilF(7);
 //        MakingThingBlue();
     }

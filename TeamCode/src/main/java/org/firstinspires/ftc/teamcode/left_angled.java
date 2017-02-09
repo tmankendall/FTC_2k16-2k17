@@ -60,7 +60,7 @@ public class left_angled extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     NeilPushbot robot = new NeilPushbot();
     double pushingRight = 1;
-    double pushingLeft =  .3;
+    double pushingLeft = .3;
     boolean right = false;
     boolean angled = true;
     boolean blue = false;
@@ -78,7 +78,7 @@ public class left_angled extends LinearOpMode {
         robot.gyro.calibrate();
 
         // make sure the gyro is calibrated.
-        while (!isStopRequested() && robot.gyro.isCalibrating())  {
+        while (!isStopRequested() && robot.gyro.isCalibrating()) {
             sleep(50);
             idle();
         }
@@ -104,34 +104,25 @@ public class left_angled extends LinearOpMode {
         //driveUntilB(15);
         fire();
         fire();
-        if (angled)
-        {
-            if (right)
-            {
+        if (angled) {
+            if (right) {
                 turnDegrees(3);
                 driveUntilF((8));
                 turnDegrees(-3);
-            }
-            else
-            {
+            } else {
                 turnDegrees(-3);
                 driveUntilF(8);
                 turnDegrees(3);
             }
-        }
-        else
-        {
+        } else {
             driveUntilF(8);
         }
 //        turnRUntil(90);
 //        driveUntilF(5);
-        if (blue)
-        {
+        if (blue) {
 
             MakingThingBlue();
-        }
-        else
-        {
+        } else {
             MakingThingRed();
         }
 
@@ -147,10 +138,10 @@ public class left_angled extends LinearOpMode {
             idle();
         }
     }
-    private void turnRUntil(int headingChange)
-    {
-        robot.right_motor.setPower(0);
-        robot.left_motor.setPower(.5);
+
+    private void turnRUntil(int headingChange) {
+        // robot.right_motor.setPower(0);
+        //robot.left_motor.setPower(.5);
         robot.gyro.resetZAxisIntegrator();
         // get the x, y, and z values (rate of change of angle).
 
@@ -159,18 +150,17 @@ public class left_angled extends LinearOpMode {
         // the Modern Robotics' gyro sensor keeps
         // track of the current heading for the Z axis only.
         double heading = robot.gyro.getHeading();
-        double angleZ  = robot.gyro.getIntegratedZValue();
-        while(robot.gyro.getHeading() - heading < headingChange)
-        {
+        double angleZ = robot.gyro.getIntegratedZValue();
+        while (robot.gyro.getHeading() - heading < headingChange) {
             sleep(10);
             idle();
         }
-        robot.left_motor.setPower(0);
-        robot.right_motor.setPower(0);
+        //robot.left_motor.setPower(0);
+        //robot.right_motor.setPower(0);
 
     }
-    private void driveUntilF(int distanceNeeded)
-    {
+
+    private void driveUntilF(int distanceNeeded) {
         double odsReadingRaw;
         double odsReadingLinear;
         double distanceFromWall = distanceNeeded;
@@ -183,7 +173,7 @@ public class left_angled extends LinearOpMode {
         double[] pastReadings = new double[5];
         odsReadingRaw = robot.frontUSensor.getRawLightDetected();
         odsReadingLinear = Math.pow(odsReadingRaw, -0.5);
-        while((average > distanceFromWall+ 1) && sensorDifference < 100) {
+        while ((average > distanceFromWall + 1) && sensorDifference < 100) {
             if (counter < 5) {
                 counter++;
             }
@@ -198,11 +188,11 @@ public class left_angled extends LinearOpMode {
             }
             average = (totalReads / counter);
             if (average > distanceFromWall + 1) {
-                robot.right_motor.setPower(maxSpeed);
-                robot.left_motor.setPower(maxSpeed);
+                // robot.right_motor.setPower(maxSpeed);
+                //robot.left_motor.setPower(maxSpeed);
             } else {
-                robot.right_motor.setPower(average - distanceFromWall);
-                robot.left_motor.setPower(average - distanceFromWall);
+                // robot.right_motor.setPower(average - distanceFromWall);
+                //robot.left_motor.setPower(average - distanceFromWall);
             }
             temporaryDifference = robot.right_color_sensor.red() - robot.left_color_sensor.red();
             sensorDifference = Math.abs(temporaryDifference);
@@ -211,24 +201,22 @@ public class left_angled extends LinearOpMode {
         }
 
     }
-    private void turnDegrees(int degrees)
-    {
+
+    private void turnDegrees(int degrees) {
         float initialDegree = robot.gyro.getHeading();
         if (degrees > 0) {
             while (robot.gyro.getHeading() - initialDegree < degrees) {
-                robot.right_motor.setPower(.05);
+                //robot.right_motor.setPower(.05);
             }
-        }
-        else
-        {
-            while (initialDegree - robot.gyro.getHeading() < Math.abs(degrees))
-            {
-                robot.left_motor.setPower(.05);
+        } else {
+            while (initialDegree - robot.gyro.getHeading() < Math.abs(degrees)) {
+                // robot.left_motor.setPower(.05);
             }
-            robot.right_motor.setPower(0);
+            // robot.right_motor.setPower(0);
         }
-        robot.left_motor.setPower(0);
+        // robot.left_motor.setPower(0);
     }
+
     //    private void driveUntilB(int distanceNeeded)
 //    {
 //        robot.left_motor.setPower(1);
@@ -242,71 +230,67 @@ public class left_angled extends LinearOpMode {
 //        robot.right_motor.setPower(0);
 //    }
     // This code checks what side
-    private void MakingThingRed()
-    {
+    private void MakingThingRed() {
         int surelyRed = 1400;
-        if (robot.right_color_sensor.red() > robot.left_color_sensor.red())
-        {
-            robot.button_pusher.setPosition(pushingRight);
+        if (robot.right_color_sensor.red() > robot.left_color_sensor.red()) {
+            // robot.button_pusher.setPosition(pushingRight);
             while (robot.left_color_sensor.red() < surelyRed) {
-                robot.right_motor.setPower(.5);
-                robot.left_motor.setPower(.5);
+                // robot.right_motor.setPower(.5);
+                // robot.left_motor.setPower(.5);
                 sleep(10);
             }
-            robot.right_motor.setPower(-.2);
-            robot.left_motor.setPower(-.2);
+            //robot.right_motor.setPower(-.2);
+            ///robot.left_motor.setPower(-.2);
             sleep(300);
-            robot.left_motor.setPower(0);
-            robot.right_motor.setPower(0);
-        }
-        else
-        {
-            robot.button_pusher.setPosition(pushingLeft);
+            // robot.left_motor.setPower(0);
+            //robot.right_motor.setPower(0);
+        } else {
+            //robot.button_pusher.setPosition(pushingLeft);
             while (robot.right_color_sensor.red() < surelyRed) {
-                robot.right_motor.setPower(.5);
-                robot.left_motor.setPower(.5);
+                // robot.right_motor.setPower(.5);
+                //robot.left_motor.setPower(.5);
                 sleep(10);
             }
-            robot.right_motor.setPower(-.2);
-            robot.left_motor.setPower(-.2);
+            //robot.right_motor.setPower(-.2);
+            //robot.left_motor.setPower(-.2);
             sleep(300);
-            robot.left_motor.setPower(0);
-            robot.right_motor.setPower(0);
+            //robot.left_motor.setPower(0);
+            //robot.right_motor.setPower(0);
         }
     }
+
     // This code checks what side
     private void MakingThingBlue() {
         int surelyBlue = 400;
         if (robot.right_color_sensor.red() > robot.left_color_sensor.red()) {
-            robot.button_pusher.setPosition(pushingLeft);
+            //robot.button_pusher.setPosition(pushingLeft);
             while (robot.right_color_sensor.red() > surelyBlue) {
-                robot.right_motor.setPower(.5);
-                robot.left_motor.setPower(.5);
+                // robot.right_motor.setPower(.5);
+                //robot.left_motor.setPower(.5);
                 sleep(10);
             }
-            robot.right_motor.setPower(-.2);
-            robot.left_motor.setPower(-.2);
+            //robot.right_motor.setPower(-.2);
+            //robot.left_motor.setPower(-.2);
             sleep(300);
-            robot.left_motor.setPower(0);
-            robot.right_motor.setPower(0);
+            //robot.left_motor.setPower(0);
+            //robot.right_motor.setPower(0);
         } else {
-            robot.button_pusher.setPosition(pushingRight);
+            //robot.button_pusher.setPosition(pushingRight);
             while (robot.left_color_sensor.red() > surelyBlue) {
-                robot.right_motor.setPower(.5);
-                robot.left_motor.setPower(.5);
+                // robot.right_motor.setPower(.5);
+                //robot.left_motor.setPower(.5);
                 sleep(10);
             }
-            robot.right_motor.setPower(-.2);
-            robot.left_motor.setPower(-.2);
+            //robot.right_motor.setPower(-.2);
+            //robot.left_motor.setPower(-.2);
             sleep(300);
-            robot.left_motor.setPower(0);
-            robot.right_motor.setPower(0);
+            //robot.left_motor.setPower(0);
+            //robot.right_motor.setPower(0);
         }
     }
-    private void fire()
-    {
-        for(int i =0; i < 1; i+=.01)
-        {
+
+    private void fire() {
+        for (int i = 0; i < 1; i += .01) {
 
             robot.right_balllauncher.setPower(i);
             sleep(15);
@@ -316,10 +300,10 @@ public class left_angled extends LinearOpMode {
         robot.ball_feeder.setPosition(90);
         robot.right_balllauncher.setPower(0);
     }
-    private double takeRead(int ForB)
-    {
-        if(ForB == 1) {
-            if (robot.backUSensor.signalDetected()) {
+}
+    //private double takeRead(int ForB) {
+        //if (ForB == 1) {
+            /*if (robot.backUSensor.signalDetected()) {
                 // Display angle and strength
                 telemetry.addData("Angle", robot.backUSensor.getAngle());
                 telemetry.addData("Strength", robot.backUSensor.getStrength());
@@ -341,6 +325,6 @@ public class left_angled extends LinearOpMode {
         }
         else{
             throw (new IllegalArgumentException());
-        }
-    }
-}
+        }*/
+        //}
+

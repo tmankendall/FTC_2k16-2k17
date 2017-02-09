@@ -113,7 +113,7 @@ public class BlueRightState extends LinearOpMode {
     // This code checks what side
     private void MakingThingRed() {
         int surelyRed = 1400;
-        if (robot.right_color_sensor.red() > robot.left_color_sensor.red()) {
+        /*if (robot.right_color_sensor.red() > robot.left_color_sensor.red()) {
             robot.button_pusher.setPosition(pushingRight);
             while (robot.left_color_sensor.red() < surelyRed) {
                 robot.right_motor.setPower(.5);
@@ -137,7 +137,7 @@ public class BlueRightState extends LinearOpMode {
             sleep(300);
             robot.left_motor.setPower(0);
             robot.right_motor.setPower(0);
-        }
+        }*/
     }
 
 
@@ -168,13 +168,13 @@ public class BlueRightState extends LinearOpMode {
                 totalReads += pastReadings[i];
             }
             average = (totalReads / counter);
-            if (average > distanceFromWall + 1) {
+            /*if (average > distanceFromWall + 1) {
                 robot.right_motor.setPower(maxSpeed);
                 robot.left_motor.setPower(maxSpeed);
             } else {
                 robot.right_motor.setPower(average - distanceFromWall);
                 robot.left_motor.setPower(average - distanceFromWall);
-            }
+            }*/
             temporaryDifference = robot.right_color_sensor.red() - robot.left_color_sensor.red();
             sensorDifference = Math.abs(temporaryDifference);
             odsReadingRaw = robot.frontUSensor.getRawLightDetected();

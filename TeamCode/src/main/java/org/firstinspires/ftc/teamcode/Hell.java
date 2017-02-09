@@ -111,29 +111,29 @@ public class Hell extends LinearOpMode {
     private void MakingThingRed() {
         int surelyRed = 1400;
         if (robot.right_color_sensor.red() > robot.left_color_sensor.red()) {
-            robot.button_pusher.setPosition(pushingRight);
+            //robot.button_pusher.setPosition(pushingRight);
             while (robot.left_color_sensor.red() < surelyRed) {
-                robot.right_motor.setPower(.5);
-                robot.left_motor.setPower(.5);
+               // robot.right_motor.setPower(.5);
+                //robot.left_motor.setPower(.5);
                 sleep(10);
             }
-            robot.right_motor.setPower(-.2);
-            robot.left_motor.setPower(-.2);
+            //robot.right_motor.setPower(-.2);
+            //robot.left_motor.setPower(-.2);
             sleep(300);
-            robot.left_motor.setPower(0);
-            robot.right_motor.setPower(0);
+            //robot.left_motor.setPower(0);
+            //robot.right_motor.setPower(0);
         } else {
-            robot.button_pusher.setPosition(pushingLeft);
+            //robot.button_pusher.setPosition(pushingLeft);
             while (robot.right_color_sensor.red() < surelyRed) {
-                robot.right_motor.setPower(.5);
-                robot.left_motor.setPower(.5);
+                //robot.right_motor.setPower(.5);
+                //robot.left_motor.setPower(.5);
                 sleep(10);
             }
-            robot.right_motor.setPower(-.2);
-            robot.left_motor.setPower(-.2);
+            //robot.right_motor.setPower(-.2);
+            //robot.left_motor.setPower(-.2);
             sleep(300);
-            robot.left_motor.setPower(0);
-            robot.right_motor.setPower(0);
+            //robot.left_motor.setPower(0);
+            //robot.right_motor.setPower(0);
         }
     }
 
@@ -166,11 +166,11 @@ public class Hell extends LinearOpMode {
             }
             average = (totalReads / counter);
             if (average > distanceFromWall + 1) {
-                robot.right_motor.setPower(maxSpeed);
-                robot.left_motor.setPower(maxSpeed);
+                //robot.right_motor.setPower(maxSpeed);
+                //robot.left_motor.setPower(maxSpeed);
             } else {
-                robot.right_motor.setPower(average - distanceFromWall);
-                robot.left_motor.setPower(average - distanceFromWall);
+                //robot.right_motor.setPower(average - distanceFromWall);
+                //robot.left_motor.setPower(average - distanceFromWall);
             }
             temporaryDifference = robot.right_color_sensor.red() - robot.left_color_sensor.red();
             sensorDifference = Math.abs(temporaryDifference);

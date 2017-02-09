@@ -101,11 +101,11 @@ public class BlueHell extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-        robot.right_motor.setPower(1);
+        /*robot.right_motor.setPower(1);
         robot.left_motor.setPower(1);
         sleep(10000);
         robot.right_motor.setPower(0);
-        robot.left_motor.setPower(0);
+        robot.left_motor.setPower(0);*/
 //        driveUntilF(7);
 //        MakingThingBlue();
     }

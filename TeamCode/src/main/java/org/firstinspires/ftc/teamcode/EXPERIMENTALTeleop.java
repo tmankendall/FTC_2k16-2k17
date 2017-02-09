@@ -165,11 +165,11 @@ public class EXPERIMENTALTeleop extends OpMode{
         }
 
         if (gamepad1.dpad_up){
-            robot.button_pusher.setPosition(pushingButton);
+            //robot.button_pusher.setPosition(pushingButton);
         }
 
         if(gamepad1.dpad_down){
-            robot.button_pusher.setPosition(notPushingButton);
+         //   robot.button_pusher.setPosition(notPushingButton);
         }
 
         if (gamepad2.y) {
@@ -196,25 +196,25 @@ public class EXPERIMENTALTeleop extends OpMode{
 
         if (Math.abs(gamepad2.left_stick_y) < threshold)
         {
-            robot.forkliftGrabber.setPower(gamepad2.left_stick_y);
+           // robot.forkliftGrabber.setPower(gamepad2.left_stick_y);
         }
         else
         {
-            robot.forkliftGrabber.setPower(0);
+           // robot.forkliftGrabber.setPower(0);
         }
         if (gamepad2.right_stick_x > 0)
         {
             if (j < .86) {
                 j = j + .01;
             }
-            robot.button_pusher.setPosition(j);
+            //robot.button_pusher.setPosition(j);
         }
         if (gamepad2.right_stick_x < 0)
         {
             if (j > .15) {
                 j = j - .01;
             }
-            robot.button_pusher.setPosition(j);
+         //   robot.button_pusher.setPosition(j);
         }
 
     }
