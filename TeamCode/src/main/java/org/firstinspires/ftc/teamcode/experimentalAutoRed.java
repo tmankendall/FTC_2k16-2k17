@@ -91,6 +91,8 @@ public class experimentalAutoRed extends LinearOpMode {
         {
             idle();
         }
+        robot.back_left_motor.setPower(0);
+        robot.front_left_motor.setPower(0);
         followLine();
 
     }
