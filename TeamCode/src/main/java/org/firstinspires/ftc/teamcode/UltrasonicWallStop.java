@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Created by taylo on 1/17/2017.
@@ -18,6 +19,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class UltrasonicWallStop extends LinearOpMode{
 
     OpticalDistanceSensor ODS;
+    private ElapsedTime runtime = new ElapsedTime();
+    NeilPushbot robot = new NeilPushbot();
 
     static double odsReadingRaw;
     static double odsReadingLinear;
@@ -65,8 +68,6 @@ public class UltrasonicWallStop extends LinearOpMode{
 //            robot.back_left_motor.setPower(-1);
             }
             else {
-                rightMotor.setPower(average - distanceFromWall);
-                leftMotor.setPower(average - distanceFromWall);
             }
         }
     }
