@@ -71,10 +71,10 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.gyro.calibrate();
 
         // make sure the gyro is calibrated.
-//        while (!isStopRequested() && robot.gyro.isCalibrating())  {
-//            sleep(50);
-//            idle();
-//        }
+        while (!isStopRequested() && robot.gyro.isCalibrating())  {
+            sleep(50);
+            idle();
+        }
         telemetry.addData(">", "Gyro Calibrated.  Press Start.");
         telemetry.update();
         robot.front_left_motor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -84,6 +84,13 @@ public class experimentalAutoRed extends LinearOpMode {
         waitForStart();
         runtime.reset();
         driveForTime(6000);
+        double initialHeading = robot.gyro.getHeading();
+        robot.front_left_motor.setPower(.5);
+        robot.back_left_motor.setPower(.5);
+        while(robot.gyro.getHeading() < 90 + initialHeading)
+        {
+            idle();
+        }
         followLine();
 
     }
