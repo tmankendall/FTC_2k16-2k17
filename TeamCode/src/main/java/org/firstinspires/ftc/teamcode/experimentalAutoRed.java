@@ -193,30 +193,24 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.front_right_motor.setPower(-1);
         robot.back_right_motor.setPower(1);
         robot.front_left_motor.setPower(1);
-<<<<<<< HEAD
-        if (robot.lineSensor.getLightDetected() < whiteLightValue-.1 && robot.lineSensor.getLightDetected()> whiteLightValue+.1){
+        if (robot.lineSensor.getLightDetected() < whiteLightValue-.1 && robot.lineSensor.getLightDetected()> whiteLightValue+.1) {
             halt();
             followLine();
-=======
-        //This technically works but if we have issues I can do a more advanced version which is better.
-        double initialHeading = robot.gyro.getHeading();
-        while(robot.lineSensor.getLightDetected() > whiteLightValue+50 || robot.lineSensor.getLightDetected()< whiteLightValue+50)
-        {
-            if(initialHeading - robot.gyro.getHeading() > 5)
-            {
-                robot.back_left_motor.setPower(robot.back_left_motor.getPower() + .01);
-                robot.back_right_motor.setPower(robot.back_right_motor.getPower() - .01);
-            }
-            else if (robot.gyro.getHeading() - initialHeading > 5)
-            {
-                robot.back_left_motor.setPower(robot.back_left_motor.getPower() - .01);
-                robot.back_right_motor.setPower(robot.back_right_motor.getPower() + .01);
-            }
->>>>>>> origin/master
         }
-        halt();
-        followLine();
-    }
+            //This technically works but if we have issues I can do a more advanced version which is better.
+            double initialHeading = robot.gyro.getHeading();
+            while (robot.lineSensor.getLightDetected() > whiteLightValue + .1 || robot.lineSensor.getLightDetected() < whiteLightValue + .1) {
+                if (initialHeading - robot.gyro.getHeading() > 5) {
+                    robot.back_left_motor.setPower(robot.back_left_motor.getPower() + .01);
+                    robot.back_right_motor.setPower(robot.back_right_motor.getPower() - .01);
+                } else if (robot.gyro.getHeading() - initialHeading > 5) {
+                    robot.back_left_motor.setPower(robot.back_left_motor.getPower() - .01);
+                    robot.back_right_motor.setPower(robot.back_right_motor.getPower() + .01);
+                }
+            }
+            halt();
+            followLine();
+        }
     private void goRight (int time)
         {
             robot.back_left_motor.setPower(-1);
