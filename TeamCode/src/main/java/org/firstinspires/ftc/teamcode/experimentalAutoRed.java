@@ -85,12 +85,43 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.back_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
         waitForStart();
         runtime.reset();
-        driveForTime(6000);
+        driveUntilLine();
         followLine();
         pressRed();
 
     }
-
+    private void driveUntilLine()
+    {
+        double initialTime = runtime.milliseconds();
+        double currentTime = runtime.milliseconds();
+        int desiredAngle = robot.gyro.getHeading();
+        int currentAngle;
+        double rightPower = 1;
+        double leftPower = 1;
+        robot.front_right_motor.setPower(rightPower);
+        robot.front_left_motor.setPower(leftPower);
+        robot.back_right_motor.setPower(rightPower);
+        robot.back_left_motor.setPower(leftPower);
+        while (robot.lineSensor.getLightDetected() > 500)
+        {
+            currentAngle = robot.gyro.getHeading();
+            if (currentAngle > desiredAngle)
+            {
+                leftPower -= .01;
+                rightPower = .5;
+            }
+            else if (currentAngle < desiredAngle)
+            {
+                rightPower -= .01;
+                leftPower = .5;
+            }
+            sleep(1);
+        }
+        robot.front_left_motor.setPower(0);
+        robot.front_right_motor.setPower(0);
+        robot.back_left_motor.setPower(0);
+        robot.back_right_motor.setPower(0);
+    }
     private void pressRed()
     {
         halt();
