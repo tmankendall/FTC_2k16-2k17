@@ -95,6 +95,7 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.front_left_motor.setPower(0);
         followLine();
 
+
     }
     private void driveForTime(double time)
     {
@@ -132,6 +133,10 @@ public class experimentalAutoRed extends LinearOpMode {
     private void followLine()
     {
         double currentLightDetected = robot.lineSensor.getLightDetected();
+        robot.back_left_motor.setPower(1);
+        robot.back_right_motor.setPower(1);
+        robot.front_left_motor.setPower(1);
+        robot.front_right_motor.setPower(1);
         while(Math.abs(currentLightDetected - standardLightValue) < .1*standardLightValue)
         {
             idle();
