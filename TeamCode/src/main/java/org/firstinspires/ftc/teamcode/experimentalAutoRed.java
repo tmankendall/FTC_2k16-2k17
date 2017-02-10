@@ -111,8 +111,13 @@ public class experimentalAutoRed extends LinearOpMode {
         if(redColor < allRed)
         {
             driveForTime(500);
-
+            halt();
+            reverse(.1);
+            sleep(200);
+            halt();
+            idle();
         }
+        halt();
 
     }
     private void reverse(double power)
