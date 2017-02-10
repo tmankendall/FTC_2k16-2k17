@@ -62,13 +62,13 @@ public class experimentalAutoRed extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     NeilPushbot robot = new NeilPushbot();
     double standardLightValue;
-    double whiteLightValue = 100;
+    double whiteLightValue = .2;
 //<<<<<<< Updated upstream
     int allRed = 1000;
     double power;
     double angle = 35;
 //=======
-    double blackLightValue = 0;
+    double blackLightValue = 0.023;
     double correction;
     double leftSpeed;
     double rightSpeed;
@@ -83,6 +83,11 @@ public class experimentalAutoRed extends LinearOpMode {
         telemetry.addData(">", "Gyro Calibrating. Do Not move!");
         telemetry.update();
         robot.gyro.calibrate();
+        while(robot.gyro.isCalibrating()) {
+
+        }
+        robot.gyro.resetZAxisIntegrator();
+
 
         // make sure the gyro is calibrated.
 //        while (!isStopRequested() && robot.gyro.isCalibrating())  {
@@ -112,9 +117,9 @@ public class experimentalAutoRed extends LinearOpMode {
         double rightPower = 1;
         double leftPower = 1;
 
-        GyroTurn(35);
-        driveGyroStraight(35);
-        GyroTurn(55);
+        GyroTurn(-35);
+        driveGyroStraight(-35);
+        GyroTurn(-55);
         followLine();
 
 
@@ -143,7 +148,12 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.back_right_motor.setPower(0);*/
     }
     private void ColorConfirm(){
-        if (robot.left_color_sensor.red() == allRed && robot.right_color_sensor.red() == allRed){
+
+        double redColorRight = robot.right_color_sensor.red();
+        double redColorLeft = robot.left_color_sensor.red();
+        double blueColorRight = robot.right_color_sensor.blue();
+        double blueColorLeft = robot.left_color_sensor.blue();
+        if (redColorRight > blueColorRight && redColorLeft > blueColorLeft){
             nextBeacon();
         }
         else {
@@ -157,20 +167,18 @@ public class experimentalAutoRed extends LinearOpMode {
         idle();
         sleep(200);
         halt();
-        double redColor = robot.left_color_sensor.red();
-        if(redColor < allRed)
-        {
-            goRight(500);
-            forward(.1);
-            idle();
-            sleep(300);
+        double redColorLeft = robot.left_color_sensor.red();
+        double blueColorLeft = robot.left_color_sensor.blue();
+        if (redColorLeft > blueColorLeft){
+            halt();
+            ColorConfirm();
         }
-        else
-        {
-            goLeft(500);
+        else if (blueColorLeft > redColorLeft){
             forward(.1);
-            idle();
-            sleep(300);
+            sleep(1000);
+            reverse(.1);
+            sleep(1000);
+            halt();
         }
         halt();
 
@@ -185,7 +193,7 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.front_right_motor.setPower(-1);
         robot.back_right_motor.setPower(1);
         robot.front_left_motor.setPower(1);
-        if (robot.lineSensor.getLightDetected() < whiteLightValue+50 && robot.lineSensor.getLightDetected()> whiteLightValue+50){
+        if (robot.lineSensor.getLightDetected() < whiteLightValue-.1 && robot.lineSensor.getLightDetected()> whiteLightValue+.1){
             halt();
             followLine();
         }
@@ -251,7 +259,7 @@ public class experimentalAutoRed extends LinearOpMode {
         leftSpeed = Range.clip(leftSpeed, -1, 1);
         rightSpeed = Range.clip(rightSpeed, -1, 1);
         drive();
-        if (robot.lineSensor.getLightDetected()>blackLightValue+50){
+        if (robot.lineSensor.getLightDetected()>blackLightValue+.1){
             //leftSpeed = 0;
             //rightSpeed = 0;
             drive(0,0);
@@ -305,7 +313,7 @@ public class experimentalAutoRed extends LinearOpMode {
         idle();
         while (robot.wallDetector.isPressed() == false) {
 
-            if (robot.lineSensor.getLightDetected() > blackLightValue + 50) {
+            if (robot.lineSensor.getLightDetected() > blackLightValue + .1) {
                 telemetry.addData("I found the Line", "");
                 telemetry.update();
                 if (correction <= 0) {
@@ -329,7 +337,7 @@ public class experimentalAutoRed extends LinearOpMode {
 
 
     }
-}
+
 
 private void drive(double left, double right){
     robot.front_left_motor.setPower(left);
