@@ -59,6 +59,7 @@ public class experimentalAutoRed extends LinearOpMode {
     NeilPushbot robot = new NeilPushbot();
     double standardLightValue;
     double whiteLightValue = 100;
+    double allRed;
 
     @Override
     public void runOpMode() {
@@ -94,8 +95,43 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.back_left_motor.setPower(0);
         robot.front_left_motor.setPower(0);
         followLine();
+        pressRed();
 
 
+    }
+
+    private void pressRed()
+    {
+        halt();
+        reverse(.1);
+        idle();
+        sleep(200);
+        halt();
+        double redColor = robot.left_color_sensor.red();
+        if(redColor < allRed)
+        {
+            driveForTime(500);
+
+        }
+
+    }
+    private void reverse(double power)
+    {
+        robot.front_left_motor.setPower(-power);
+        robot.front_right_motor.setPower(-power);
+        robot.back_left_motor.setPower(-power);
+        robot.back_right_motor.setPower(-power);
+        idle();
+        return;
+    }
+    private void halt()
+    {
+        robot.back_left_motor.setPower(0);
+        robot.back_right_motor.setPower(0);
+        robot.front_left_motor.setPower(0);
+        robot.front_right_motor.setPower(0);
+        idle();
+        return;
     }
     private void driveForTime(double time)
     {
