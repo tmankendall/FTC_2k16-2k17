@@ -32,6 +32,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -98,7 +100,8 @@ public class experimentalAutoRed extends LinearOpMode {
         driveUntilLine();
         followLine();
         pressRed();
-
+        ColorConfirm();
+        pressRed();
     }
     private void driveUntilLine()
     {
@@ -139,6 +142,14 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.back_left_motor.setPower(0);
         robot.back_right_motor.setPower(0);*/
     }
+    private void ColorConfirm(){
+        if (robot.left_color_sensor.red() == allRed && robot.right_color_sensor.red() == allRed){
+            nextBeacon();
+        }
+        else {
+            pressRed();
+        }
+    }
     private void pressRed()
     {
         halt();
@@ -163,6 +174,21 @@ public class experimentalAutoRed extends LinearOpMode {
         }
         halt();
 
+    }
+    private void nextBeacon(){
+        reverse(.1);
+        sleep(300);
+        Drive2ndBeacon();
+    }
+    private void Drive2ndBeacon(){ //ADD GYRO DRIVE IF POSSIBLE
+        robot.back_left_motor.setPower(-1);
+        robot.front_right_motor.setPower(-1);
+        robot.back_right_motor.setPower(1);
+        robot.front_left_motor.setPower(1);
+        if (robot.lineSensor.getLightDetected() < whiteLightValue+50 && robot.lineSensor.getLightDetected()> whiteLightValue+50){
+            halt();
+            followLine();
+        }
     }
     private void goRight (int time)
         {
@@ -226,9 +252,9 @@ public class experimentalAutoRed extends LinearOpMode {
         rightSpeed = Range.clip(rightSpeed, -1, 1);
         drive();
         if (robot.lineSensor.getLightDetected()>blackLightValue+50){
-            leftSpeed = 0;
-            rightSpeed = 0;
-            drive();
+            //leftSpeed = 0;
+            //rightSpeed = 0;
+            drive(0,0);
         }
     }
     private void driveForTime(double time)
@@ -285,19 +311,17 @@ public class experimentalAutoRed extends LinearOpMode {
                 if (correction <= 0) {
                     leftSpeed = .075d - correction;
                     rightSpeed = .075d;
-                    drive();
+                    drive(leftSpeed, rightSpeed);
                 } else {
                     leftSpeed = .075d;
                     rightSpeed = .075d + correction;
-                    drive();
+                    drive(leftSpeed, rightSpeed);
                 }
 
             }
         }
         if (robot.wallDetector.isPressed() == true){
-            leftSpeed=0;
-            rightSpeed=0;
-            drive();
+            halt();
         }
 
 
@@ -307,11 +331,11 @@ public class experimentalAutoRed extends LinearOpMode {
     }
 }
 
-private void drive(){
-    robot.front_left_motor.setPower(leftSpeed);
-    robot.front_right_motor.setPower(rightSpeed);
-    robot.back_left_motor.setPower(leftSpeed);
-    robot.back_right_motor.setPower(rightSpeed);
+private void drive(double left, double right){
+    robot.front_left_motor.setPower(left);
+    robot.front_right_motor.setPower(right);
+    robot.back_left_motor.setPower(left);
+    robot.back_right_motor.setPower(right);
 }
 
     public void GyroTurn(int target) {
@@ -320,15 +344,15 @@ private void drive(){
 
         while (Math.abs(zAccumulated - target) > 3 && opModeIsActive()) {  //Continue while the robot direction is further than three degrees from the target
             if (zAccumulated > target) {  //if gyro is positive, we will turn right
-                leftSpeed = turnSpeed;
-                rightSpeed = -turnSpeed;
-                drive();
+                //leftSpeed = turnSpeed;
+                //rightSpeed = -turnSpeed;
+                drive(turnSpeed, -turnSpeed);
             }
 
             if (zAccumulated < target) {  //if gyro is positive, we will turn left
-                leftSpeed = -turnSpeed;
-                rightSpeed = turnSpeed;
-                drive();
+                //leftSpeed = -turnSpeed;
+               // rightSpeed = turnSpeed;
+                drive(-turnSpeed, turnSpeed);
             }
 
             zAccumulated = robot.gyro.getIntegratedZValue();  //Set variables to gyro readings
@@ -336,8 +360,8 @@ private void drive(){
             telemetry.update();
         }
 
-        leftSpeed = 0;
-        rightSpeed = 0;
-        drive();
+
+        drive(0,0);
 
     }
+
