@@ -192,13 +192,6 @@ public class Teleopmecanum extends OpMode{
         //{
         //    fire();
         //}
-        if (gamepad1.dpad_up){
-            robot.button_pusher.setPosition(pushingButton);
-        }
-
-        if(gamepad1.dpad_down){
-            robot.button_pusher.setPosition(notPushingButton);
-        }
 
         if (gamepad2.y) {
             robot.forklift.setPower(1);
@@ -222,24 +215,10 @@ public class Teleopmecanum extends OpMode{
             telemetry.update();
         }
 
-        if (gamepad2.left_stick_y != 0)
-        {
-            robot.forkliftGrabber.setPower(gamepad2.left_stick_y);
-        }
-        if (gamepad2.right_stick_x > 0)
-        {
-            if (j < .86) {
-                j = j + .01;
-            }
-            robot.button_pusher.setPosition(j);
-        }
-        if (gamepad2.right_stick_x < 0)
-        {
-            if (j > .15) {
-                j = j - .01;
-            }
-            robot.button_pusher.setPosition(j);
-        }
+//        if (gamepad2.left_stick_y != 0)
+//        {
+//            robot.forkliftGrabber.setPosition(gamepad2.left_stick_y);
+//        }
 
     }
 
