@@ -84,16 +84,8 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.back_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
         waitForStart();
         runtime.reset();
-        driveForTime(6000);
         double initialHeading = robot.gyro.getHeading();
-        robot.front_left_motor.setPower(.5);
-        robot.back_left_motor.setPower(.5);
-        while(robot.gyro.getHeading() < 90 + initialHeading)
-        {
-            idle();
-        }
-        robot.back_left_motor.setPower(0);
-        robot.front_left_motor.setPower(0);
+        driveUntilLine();
         followLine();
         pressRed();
 
@@ -171,38 +163,55 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.back_left_motor.setPower(0);
         robot.back_right_motor.setPower(0);
     }
+    private void driveUntilLine()
+    {
+        int desiredAngle = robot.gyro.getHeading();
+        int currentAngle;
+        double rightPower = .5;
+        double leftPower = .5;
+        robot.front_right_motor.setPower(rightPower);
+        robot.front_left_motor.setPower(leftPower);
+        robot.back_right_motor.setPower(rightPower);
+        robot.back_left_motor.setPower(leftPower);
+        while (robot.ODS.getLightDetected() < 300)
+        {
+            currentAngle = robot.gyro.getHeading();
+            if (currentAngle > desiredAngle)
+            {
+                leftPower -= .01;
+                rightPower = .5;
+            }
+            else if (currentAngle < desiredAngle)
+            {
+                rightPower -= .01;
+                leftPower = .5;
+            }
+            robot.front_right_motor.setPower(rightPower);
+            robot.front_left_motor.setPower(leftPower);
+            robot.back_right_motor.setPower(rightPower);
+            robot.back_left_motor.setPower(leftPower);
+            sleep(2);
+        }
+    }
     private void followLine()
     {
         double currentLightDetected = robot.lineSensor.getLightDetected();
-        robot.back_left_motor.setPower(1);
-        robot.back_right_motor.setPower(1);
-        robot.front_left_motor.setPower(1);
-        robot.front_right_motor.setPower(1);
-        while(Math.abs(currentLightDetected - standardLightValue) < .1*standardLightValue)
-        {
-            idle();
-        }
-        robot.back_right_motor.setPower(0);
-        robot.back_left_motor.setPower(0);
-        robot.front_left_motor.setPower(0);
-        robot.front_right_motor.setPower(0);
-        idle();
-        telemetry.addData("I found the Line", "");
-        telemetry.update();
-        robot.front_left_motor.setPower(.1);
-        robot.back_left_motor.setPower(.1);
         while(robot.wallDetector.isPressed() == false)
         {
             currentLightDetected = robot.lineSensor.getLightDetected();
             if(currentLightDetected > (whiteLightValue+standardLightValue)/2)
             {
-                robot.front_left_motor.setPower(robot.front_left_motor.getPower()-.01);
-                robot.back_left_motor.setPower(robot.back_left_motor.getPower() - .01);
+                robot.front_left_motor.setPower(.5);
+                robot.back_left_motor.setPower(.5);
+                robot.back_right_motor.setPower(robot.back_left_motor.getPower() - .01);
+                robot.front_right_motor.setPower(robot.back_left_motor.getPower() - .01);
             }
             else
             {
-                robot.front_left_motor.setPower(robot.front_left_motor.getPower()+.01);
-                robot.back_left_motor.setPower(robot.back_left_motor.getPower() + .01);
+                robot.front_left_motor.setPower(robot.front_left_motor.getPower() - .01);
+                robot.back_left_motor.setPower(robot.back_left_motor.getPower() - .01);
+                robot.front_right_motor.setPower(.5);
+                robot.back_right_motor.setPower(.5);
             }
         }
     }
