@@ -120,8 +120,8 @@ public class Teleopmecanum extends OpMode{
         //up = -1, right = +1, others opposite
         if(java.lang.Math.abs(gamepad1.left_stick_y) > threshold || java.lang.Math.abs(gamepad1.left_stick_x) > threshold)
         {
-            robot.front_right_motor.setPower(((gamepad1.left_stick_y + gamepad1.left_stick_x)*.65);
-            robot.front_left_motor.setPower(((-gamepad1.left_stick_y + gamepad1.left_stick_x)*.65);
+            robot.front_right_motor.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x)*.65);
+            robot.front_left_motor.setPower((-gamepad1.left_stick_y + gamepad1.left_stick_x)*.65);
             robot.back_right_motor.setPower((-gamepad1.left_stick_y + gamepad1.left_stick_x)*.65);
             robot.back_left_motor.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x)*.65);
         }
@@ -225,15 +225,15 @@ public class Teleopmecanum extends OpMode{
             telemetry.update();
         }
 
-<<<<<<< Updated upstream
+//<<<<<<< Updated upstream
 //        if (gamepad2.left_stick_y != 0)
 //        {
 //            robot.forkliftGrabber.setPosition(gamepad2.left_stick_y);
 //        }
-=======
+//=======
         if (gamepad2.left_stick_y != 0)
         {
-            robot.forkliftGrabber.setPower(gamepad2.left_stick_y);
+            //robot.forkliftGrabber.setPower(gamepad2.left_stick_y);
         }
         if (gamepad2.right_stick_x > 0)
         {
