@@ -98,7 +98,7 @@ public class experimentalAutoRed extends LinearOpMode {
         telemetry.addData(">", "Gyro Calibrated.  Press Start.");
         telemetry.update();
         robot.front_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.back_left_motor.setDirection(DcMotorSimple.Direction.FORWARD;
+        robot.back_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.front_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.back_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         waitForStart();
@@ -240,7 +240,7 @@ public class experimentalAutoRed extends LinearOpMode {
     }
 
     private void driveGyroStraight(double angle) {
-        double target = robot.gyro.getIntegratedZValue();  //Starting direction
+        double target = angle;  //Starting direction
         zAccumulated = robot.gyro.getIntegratedZValue();  //Current direction
         //tk trying to maybe fix things
         drive(1,1);
@@ -249,6 +249,12 @@ public class experimentalAutoRed extends LinearOpMode {
             rightSpeed = power - (zAccumulated - target) / 100;  //See Gyro Straight video for detailed explanation
             leftSpeed = Range.clip(leftSpeed, -1, 1);
             rightSpeed = Range.clip(rightSpeed, -1, 1);
+            robot.back_right_motor.setPower(rightSpeed);
+            robot.front_right_motor.setPower(rightSpeed);
+            robot.back_left_motor.setPower(leftSpeed);
+            robot.front_left_motor.setPower(leftSpeed);
+            idle();
+
         }
         drive(0,0);
     }
@@ -294,7 +300,7 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.front_right_motor.setPower(0);
         idle();
         while (robot.wallDetector.isPressed() == false) {
-
+            correction = (whiteLightValue - robot.lineSensor.getLightDetected());
             if (robot.lineSensor.getLightDetected() > blackLightValue + .1) {
                 telemetry.addData("I found the Line", "");
                 telemetry.update();
@@ -309,6 +315,7 @@ public class experimentalAutoRed extends LinearOpMode {
                 }
 
             }
+            idle();
         }
         if (robot.wallDetector.isPressed() == true) {
             halt();
