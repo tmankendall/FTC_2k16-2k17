@@ -109,7 +109,7 @@ public class NeilPushbot
         back_left_motor     = hwMap.dcMotor.get("back_left_motor");
 //=======
         //ballrot_launcher   = hwMap.dcMotor.get("ballrot_launcher");
-        right_balllauncher  = hwMap.dcMotor.get("right_balllauncher");
+        //right_balllauncher  = hwMap.dcMotor.get("right_balllauncher");
         //button_pusher       = hwMap.servo.get("button_pusher");
         //ball_launcher       = hwMap.servo.get("ball_launcher");
 //<<<<<<< Updated upstream
