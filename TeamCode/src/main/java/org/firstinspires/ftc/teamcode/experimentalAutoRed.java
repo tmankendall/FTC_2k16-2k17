@@ -350,7 +350,7 @@ public class experimentalAutoRed extends LinearOpMode {
             }
 
             zAccumulated = robot.gyro.getIntegratedZValue();  //Set variables to gyro readings
-            telemetry.addData("accu", String.format("%03d", zAccumulated));
+//            telemetry.addData("accu", String.format("%03d", zAccumulated));
             telemetry.update();
         }
 

@@ -77,7 +77,7 @@ public class NeilPushbot
     //public DcMotor      left_motor          = null;
     public OpticalDistanceSensor lineSensor = null;
     public ModernRoboticsI2cGyro gyro   = null;
-    public OpticalDistanceSensor ODS    = null;
+//    public OpticalDistanceSensor ODS    = null;
     public ModernRoboticsDigitalTouchSensor wallDetector = null;
     //public static final double MID_SERVO       =  0.5 ;
     //public static final double ARM_UP_POWER    =  0.45 ;
@@ -99,7 +99,6 @@ public class NeilPushbot
         // Define and Initialize Motors
         forklift            = hwMap.dcMotor.get("forklift");
 //<<<<<<< Updated upstream
-        right_balllauncher  = hwMap.dcMotor.get("ball_launcher");
         //button_pusher       = hwMap.servo.get("button_pusher");
         ball_feeder         = hwMap.servo.get("ball_feeder");
 //        left_motor          = hwMap.dcMotor.get("left_motor");
@@ -122,7 +121,7 @@ public class NeilPushbot
         lineSensor        = hwMap.opticalDistanceSensor.get("frontUSensor");
         wallDetector        = (ModernRoboticsDigitalTouchSensor)hwMap.touchSensor.get("Wall_Detector");
 //=======
-        frontUSensor        = hwMap.opticalDistanceSensor.get("frontUSensor");
+//        frontUSensor        = hwMap.opticalDistanceSensor.get("frontUSensor");
         //backUSensor         = hwMap.irSeekerSensor.get("backUSensor");
 //=======
         ///left_motor          = hwMap.crservo.get("left_motor");

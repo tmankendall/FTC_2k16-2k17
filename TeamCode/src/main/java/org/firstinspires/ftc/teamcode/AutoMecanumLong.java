@@ -196,7 +196,7 @@ public class AutoMecanumLong extends LinearOpMode {
         robot.front_left_motor.setPower(leftPower);
         robot.back_right_motor.setPower(rightPower);
         robot.back_left_motor.setPower(leftPower);
-        while (robot.ODS.getLightDetected() < 300)
+        while (robot.lineSensor.getLightDetected() < 300)
         {
             currentAngle = robot.gyro.getHeading();
             if (currentAngle > desiredAngle)
