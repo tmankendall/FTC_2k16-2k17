@@ -65,7 +65,7 @@ public class experimentalAutoRed extends LinearOpMode {
     double whiteLightValue = .2;
     //<<<<<<< Updated upstream
     int allRed = 1000;
-    double power ;
+    double power;
     //double angle = 35;
     //=======
     double blackLightValue = 0.023;
@@ -105,21 +105,27 @@ public class experimentalAutoRed extends LinearOpMode {
         runtime.reset();
         GyroTurn(-35);
         driveGyroStraight(-35, .3);
+        GyroTurn(-55);
         followLine();
         pressRed();
-        ColorConfirm();
-        pressRed();
-        verifyRed();
+        //fire();
+        //sleep(7000);
+        //verifyRed();
+        //pressRed();
+        //verifyRed();
+        pressRedNoFire();
     }
 
-    private void verifyRed()
-    {
+    private void verifyRed() {
         double redColorRight = robot.right_color_sensor.red();
         double redColorLeft = robot.left_color_sensor.red();
         double blueColorRight = robot.right_color_sensor.blue();
         double blueColorLeft = robot.left_color_sensor.blue();
-        while (redColorRight < blueColorRight && redColorLeft > blueColorLeft) {
-            pressRed();
+        if (robot.right_color_sensor.red()>robot.right_color_sensor.blue() && robot.left_color_sensor.red() > robot.left_color_sensor.blue()){
+            Drive2ndBeacon();
+        }
+        else{
+            pressRedNoFire();
         }
     }
 
@@ -129,11 +135,10 @@ public class experimentalAutoRed extends LinearOpMode {
         double redColorLeft = robot.left_color_sensor.red();
         double blueColorRight = robot.right_color_sensor.blue();
         double blueColorLeft = robot.left_color_sensor.blue();
-        while (redColorRight < blueColorRight && redColorLeft < blueColorLeft)
-        {
+        while (redColorRight < blueColorRight && redColorLeft < blueColorLeft) {
             pressRed();
         }
-        nextBeacon();
+        Drive2ndBeacon();
     }
 
     private void pressRed() {
@@ -146,32 +151,75 @@ public class experimentalAutoRed extends LinearOpMode {
         double blueColorLeft = robot.left_color_sensor.blue();
         if (redColorLeft > blueColorLeft) {
             halt();
-            ColorConfirm();
+            fire();
+            Drive2ndBeacon();
         } else if (blueColorLeft > redColorLeft) {
             forward(.1);
             sleep(1000);
             reverse(.1);
             sleep(1000);
             halt();
+            fire();
+            sleep(2000); //change accordingly
+            forward(.1);
+            sleep(1500);
+            verifyRed();
+
         }
         halt();
 
     }
+    private void pressRedNoFire() {
+        halt();
+        reverse(.1);
+        idle();
+        sleep(200);
+        halt();
+        double redColorLeft = robot.left_color_sensor.red();
+        double blueColorLeft = robot.left_color_sensor.blue();
+        if (redColorLeft > blueColorLeft) {
+            halt();
+            fire();
+            Drive2ndBeacon();
 
-    private void nextBeacon() {
+        } else if (blueColorLeft > redColorLeft) {
+            forward(.1);
+            sleep(1000);
+            reverse(.1);
+            sleep(1000);
+            halt();
+            //fire();
+            sleep(6000); //change accordingly
+            forward(.1);
+            sleep(1500);
+            verifyRed();
+
+        }
+        halt();
+
+    }
+    /*private void nextBeacon() {
         reverse(.1);
         sleep(300);
         Drive2ndBeacon();
-    }
+    }*/
 
     private void Drive2ndBeacon() {
         robot.back_left_motor.setPower(-1);
         robot.front_right_motor.setPower(-1);
         robot.back_right_motor.setPower(1);
         robot.front_left_motor.setPower(1);
-        if (robot.lineSensor.getLightDetected() < whiteLightValue - .1 && robot.lineSensor.getLightDetected() > whiteLightValue + .1) {
+        reverse(.1);
+        sleep(300);
+        if (robot.lineSensor.getLightDetected() == whiteLightValue) {
             halt();
             followLine();
+        }
+        else{
+            robot.front_left_motor.setPower(1);
+            robot.back_left_motor.setPower(-1);
+            robot.front_right_motor.setPower(1);
+            robot.back_right_motor.setPower(-1);
         }
         //This technically works but if we have issues I can do a more advanced version which is better.
         double initialHeading = robot.gyro.getHeading();
@@ -244,7 +292,7 @@ public class experimentalAutoRed extends LinearOpMode {
         zAccumulated = robot.gyro.getIntegratedZValue();  //Current direction
         //tk trying to maybe fix things
         //drive(1,1);
-        while (robot.lineSensor.getLightDetected() < .2-.02) {
+        while (robot.lineSensor.getLightDetected() < .2 - .02) {
             leftSpeed = powerGyro + (zAccumulated - target) / 100;  //Calculate speed for each side
             rightSpeed = powerGyro - (zAccumulated - target) / 100;  //See Gyro Straight video for detailed explanation
             leftSpeed = Range.clip(leftSpeed, -1, 1);
@@ -285,6 +333,7 @@ public class experimentalAutoRed extends LinearOpMode {
     }
 
     private void followLine() {
+        double counter = 0;
         double currentLightDetected = robot.lineSensor.getLightDetected();
         correction = (whiteLightValue - robot.lineSensor.getLightDetected());
         robot.back_right_motor.setPower(0);
@@ -311,6 +360,7 @@ public class experimentalAutoRed extends LinearOpMode {
             idle();
         }
         if (robot.wallDetector.isPressed() == true) {
+
             halt();
         }
 
@@ -352,24 +402,30 @@ public class experimentalAutoRed extends LinearOpMode {
 
     }
 
-    private void fire()
-    {
+    private void fire() {
         ElapsedTime runtime = new ElapsedTime();
         runtime.reset();
         double n = 60;
-        for(int i = 0; i < 1; i += .1)
-        {
+        for (int i = 0; i < 1; i += .1) {
             robot.right_balllauncher.setPower(i);
         }
+        sleep(100);
+        robot.ball_feeder.setPosition(120.0 / 180.0 + n / 180.0);
         sleep(500);
-        robot.ball_feeder.setPosition(120.0/180.0 + n/180.0);
         robot.ball_feeder.setPosition(.5);
-        for (int j = 1; j>0; j-= .1){
+        sleep(1000);
+        robot.ball_feeder.setPosition(120.0 / 180.0 + n / 180.0);
+        sleep(500);
+        robot.ball_feeder.setPosition(.5);
+        for (int j = 1; j > 0; j -= .1) {
             robot.right_balllauncher.setPower(j);
         }
         return;
 
 
     }
-}
+
+
+
+    }
 
