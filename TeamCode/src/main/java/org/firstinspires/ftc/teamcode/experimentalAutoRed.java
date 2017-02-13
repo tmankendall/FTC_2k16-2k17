@@ -358,5 +358,25 @@ public class experimentalAutoRed extends LinearOpMode {
         drive(0, 0);
 
     }
+
+    private void fire()
+    {
+        ElapsedTime runtime = new ElapsedTime();
+        runtime.reset();
+        double n = 60;
+        for(int i = 0; i < 1; i += .1)
+        {
+            robot.right_balllauncher.setPower(i);
+        }
+        sleep(500);
+        robot.ball_feeder.setPosition(120.0/180.0 + n/180.0);
+        robot.ball_feeder.setPosition(.5);
+        for (int j = 1; j>0; j-= .1){
+            robot.right_balllauncher.setPower(j);
+        }
+        return;
+
+
+    }
 }
 
