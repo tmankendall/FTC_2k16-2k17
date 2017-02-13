@@ -126,7 +126,7 @@ public class NeilPushbot
 //=======
         ///left_motor          = hwMap.crservo.get("left_motor");
         //right_motor         = hwMap.crservo.get("right_motor");
-        gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
+      //  gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
 //        SensorAdafruitRGB = hwMap.colorSensor.get("");
 
 //>>>>>>> Stashed changes

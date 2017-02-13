@@ -54,9 +54,9 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="experimentalAutoRed", group="Andrew")  // @Autonomous(...) is the other common choice
+@Autonomous(name="Fire", group="Andrew")  // @Autonomous(...) is the other common choice
 //@Disabled
-public class experimentalAutoRed extends LinearOpMode {
+public class FIRE extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -65,8 +65,8 @@ public class experimentalAutoRed extends LinearOpMode {
     double whiteLightValue = .2;
     //<<<<<<< Updated upstream
     int allRed = 1000;
-    double power ;
-    //double angle = 35;
+    double power;
+    double angle = 35;
     //=======
     double blackLightValue = 0.023;
     double correction;
@@ -103,13 +103,7 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.back_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         waitForStart();
         runtime.reset();
-        GyroTurn(-35);
-        driveGyroStraight(-35, .3);
-        followLine();
-        pressRed();
-        ColorConfirm();
-        pressRed();
-        verifyRed();
+        fire();
     }
 
     private void verifyRed()
@@ -239,20 +233,24 @@ public class experimentalAutoRed extends LinearOpMode {
         return;
     }
 
-    private void driveGyroStraight(double angle, double powerGyro) {
+    private void driveGyroStraight(double angle) {
         double target = angle;  //Starting direction
         zAccumulated = robot.gyro.getIntegratedZValue();  //Current direction
         //tk trying to maybe fix things
-        //drive(1,1);
-        while (robot.lineSensor.getLightDetected() < .2-.02) {
-            leftSpeed = powerGyro + (zAccumulated - target) / 100;  //Calculate speed for each side
-            rightSpeed = powerGyro - (zAccumulated - target) / 100;  //See Gyro Straight video for detailed explanation
+        drive(1,1);
+        while (robot.lineSensor.getLightDetected() < blackLightValue + .1) {
+            leftSpeed = power + (zAccumulated - target) / 100;  //Calculate speed for each side
+            rightSpeed = power - (zAccumulated - target) / 100;  //See Gyro Straight video for detailed explanation
             leftSpeed = Range.clip(leftSpeed, -1, 1);
             rightSpeed = Range.clip(rightSpeed, -1, 1);
-            drive(leftSpeed, rightSpeed);
+            robot.back_right_motor.setPower(rightSpeed);
+            robot.front_right_motor.setPower(rightSpeed);
+            robot.back_left_motor.setPower(leftSpeed);
+            robot.front_left_motor.setPower(leftSpeed);
             idle();
+
         }
-        //drive(0,0);
+        drive(0,0);
     }
 
     private void driveForTime(double time) {
@@ -287,6 +285,9 @@ public class experimentalAutoRed extends LinearOpMode {
     private void followLine() {
         double currentLightDetected = robot.lineSensor.getLightDetected();
         correction = (whiteLightValue - robot.lineSensor.getLightDetected());
+        while (Math.abs(currentLightDetected - standardLightValue) < .1 * standardLightValue) {
+            idle();
+        }
         robot.back_right_motor.setPower(0);
         robot.back_left_motor.setPower(0);
         robot.front_left_motor.setPower(0);

@@ -133,6 +133,8 @@ public class lineFollow extends LinearOpMode {
                 }
 
             }
+            telemetry.addData(">", robot.lineSensor.getLightDetected());
+            telemetry.update();
         }
     }
 

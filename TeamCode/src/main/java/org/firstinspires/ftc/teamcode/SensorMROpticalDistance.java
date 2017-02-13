@@ -49,24 +49,24 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 //@Disabled
 public class SensorMROpticalDistance extends LinearOpMode {
 
-  OpticalDistanceSensor odsSensor;  // Hardware Device Object
+  //OpticalDistanceSensor odsSensor;  // Hardware Device Object
+  NeilPushbot robot       = new NeilPushbot(); // use the class created to define a Pushbot's hardware
 
   @Override
   public void runOpMode() {
 
     // get a reference to our Light Sensor object.
-    odsSensor = hardwareMap.opticalDistanceSensor.get("frontUSensor");
 
     // wait for the start button to be pressed.
     waitForStart();
 
     // while the op mode is active, loop and read the light levels.
     // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
-    while (opModeIsActive()) {
+    while (true) {
 
       // send the info back to driver station using telemetry function.
-      telemetry.addData("Raw",    odsSensor.getRawLightDetected());
-      telemetry.addData("Normal", odsSensor.getLightDetected());
+      telemetry.addData("Raw",    robot.lineSensor.getRawLightDetected());
+      telemetry.addData("Normal", robot.lineSensor.getLightDetected());
 
       telemetry.update();
     }

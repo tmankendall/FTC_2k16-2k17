@@ -54,9 +54,9 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="experimentalAutoRed", group="Andrew")  // @Autonomous(...) is the other common choice
+@Autonomous(name="DriveGyroStraight", group="Andrew")  // @Autonomous(...) is the other common choice
 //@Disabled
-public class experimentalAutoRed extends LinearOpMode {
+public class DriveGyroStraight extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -65,7 +65,7 @@ public class experimentalAutoRed extends LinearOpMode {
     double whiteLightValue = .2;
     //<<<<<<< Updated upstream
     int allRed = 1000;
-    double power ;
+    //double power;
     //double angle = 35;
     //=======
     double blackLightValue = 0.023;
@@ -103,13 +103,7 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.back_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         waitForStart();
         runtime.reset();
-        GyroTurn(-35);
         driveGyroStraight(-35, .3);
-        followLine();
-        pressRed();
-        ColorConfirm();
-        pressRed();
-        verifyRed();
     }
 
     private void verifyRed()
@@ -287,6 +281,9 @@ public class experimentalAutoRed extends LinearOpMode {
     private void followLine() {
         double currentLightDetected = robot.lineSensor.getLightDetected();
         correction = (whiteLightValue - robot.lineSensor.getLightDetected());
+        while (Math.abs(currentLightDetected - standardLightValue) < .1 * standardLightValue) {
+            idle();
+        }
         robot.back_right_motor.setPower(0);
         robot.back_left_motor.setPower(0);
         robot.front_left_motor.setPower(0);
