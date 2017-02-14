@@ -104,7 +104,25 @@ public class experimentalAutoRed extends LinearOpMode {
         waitForStart();
         runtime.reset();
         GyroTurn(-35);
+//<<<<<<< HEAD
+        if(isStopRequested())
+        {
+            halt();
+            stop();
+        }
         driveGyroStraight(-35, .3);
+        if (isStopRequested())
+        {
+            halt();
+            stop();
+        }
+//=======
+        telemetry.addData(">", "we made it through the turn");
+        telemetry.update();
+        driveGyroStraight(-35, .3);
+        telemetry.addData(">", "we made it to the line");
+        telemetry.update();
+//>>>>>>> origin/master
         GyroTurn(-55);
         followLine();
         pressRed();
@@ -292,12 +310,13 @@ public class experimentalAutoRed extends LinearOpMode {
         zAccumulated = robot.gyro.getIntegratedZValue();  //Current direction
         //tk trying to maybe fix things
         //drive(1,1);
-        while (robot.lineSensor.getLightDetected() < .2 - .02) {
-            leftSpeed = powerGyro + (zAccumulated - target) / 100;  //Calculate speed for each side
-            rightSpeed = powerGyro - (zAccumulated - target) / 100;  //See Gyro Straight video for detailed explanation
+        while ((robot.lineSensor.getLightDetected() < 1 - .02) && opModeIsActive()) {
+            leftSpeed = powerGyro - (zAccumulated - target) / 100;  //Calculate speed for each side
+            rightSpeed = powerGyro + (zAccumulated - target) / 100;  //See Gyro Straight video for detailed explanation
             leftSpeed = Range.clip(leftSpeed, -1, 1);
             rightSpeed = Range.clip(rightSpeed, -1, 1);
             drive(leftSpeed, rightSpeed);
+            zAccumulated = robot.gyro.getIntegratedZValue();
             idle();
         }
         //drive(0,0);
@@ -341,7 +360,7 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.front_left_motor.setPower(0);
         robot.front_right_motor.setPower(0);
         idle();
-        while (robot.wallDetector.isPressed() == false) {
+        while (robot.wallDetector.isPressed() == false && opModeIsActive()) {
             correction = (whiteLightValue - robot.lineSensor.getLightDetected());
             if (robot.lineSensor.getLightDetected() > blackLightValue + .1) {
                 telemetry.addData("I found the Line", "");
@@ -355,6 +374,7 @@ public class experimentalAutoRed extends LinearOpMode {
                     rightSpeed = .075d + correction;
                     drive(leftSpeed, rightSpeed);
                 }
+
 
             }
             idle();
@@ -376,26 +396,36 @@ public class experimentalAutoRed extends LinearOpMode {
     }
 
     public void GyroTurn(int target) {
+        robot.gyro.resetZAxisIntegrator();
         zAccumulated = robot.gyro.getIntegratedZValue();  //Set variables to gyro readings
         double turnSpeed = 0.15;
 
-        while (Math.abs(zAccumulated - target) > 3 && opModeIsActive()) {  //Continue while the robot direction is further than three degrees from the target
-            if (zAccumulated > target) {  //if gyro is positive, we will turn right
+        while (Math.abs(zAccumulated - target) > 5 && opModeIsActive()) {  //Continue while the robot direction is further than three degrees from the target
+            if (zAccumulated < target) {  //if gyro is positive, we will turn right
                 //leftSpeed = turnSpeed;
                 //rightSpeed = -turnSpeed;
                 drive(turnSpeed, -turnSpeed);
             }
 
-            if (zAccumulated < target) {  //if gyro is positive, we will turn left
+            if (zAccumulated > target) {  //if gyro is positive, we will turn left
                 //leftSpeed = -turnSpeed;
                 // rightSpeed = turnSpeed;
                 drive(-turnSpeed, turnSpeed);
+                telemetry.addData("Currently Greater than target abd turning", "left");
             }
+            idle();
 
-            zAccumulated = robot.gyro.getIntegratedZValue();  //Set variables to gyro readings
-//            telemetry.addData("accu", String.format("%03d", zAccumulated));
+            zAccumulated = robot.gyro.getIntegratedZValue();
+            //Set variables to gyro readings
+            telemetry.addData("accu ",  zAccumulated);
             telemetry.update();
+            if(isStopRequested())
+            {
+                halt();
+                stop();
+            }
         }
+        halt();
 
 
         drive(0, 0);

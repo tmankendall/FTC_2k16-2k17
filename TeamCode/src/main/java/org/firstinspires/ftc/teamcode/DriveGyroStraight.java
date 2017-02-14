@@ -89,7 +89,7 @@ public class DriveGyroStraight extends LinearOpMode {
         }
         robot.gyro.resetZAxisIntegrator();
 
-
+        //robot.back_right_motor.setPower();
         // make sure the gyro is calibrated.
 //        while (!isStopRequested() && robot.gyro.isCalibrating())  {
 //            sleep(50);
@@ -97,10 +97,10 @@ public class DriveGyroStraight extends LinearOpMode {
 //        }
         telemetry.addData(">", "Gyro Calibrated.  Press Start.");
         telemetry.update();
-        robot.front_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.back_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.front_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.back_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //robot.front_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        //robot.back_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        //robot.front_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //robot.back_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         waitForStart();
         runtime.reset();
         driveGyroStraight(-35, .3);

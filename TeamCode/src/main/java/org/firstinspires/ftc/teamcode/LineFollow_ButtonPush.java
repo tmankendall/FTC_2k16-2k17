@@ -97,10 +97,10 @@ public class LineFollow_ButtonPush extends LinearOpMode {
 //        }
         telemetry.addData(">", "Gyro Calibrated.  Press Start.");
         telemetry.update();
-        robot.front_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.back_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.front_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.back_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //robot.front_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        //robot.back_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        //robot.front_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //robot.back_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         waitForStart();
         runtime.reset();
         followLine();
