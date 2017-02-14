@@ -104,7 +104,6 @@ public class experimentalAutoRed extends LinearOpMode {
         waitForStart();
         runtime.reset();
         GyroTurn(-35);
-//<<<<<<< HEAD
         if(isStopRequested())
         {
             halt();
@@ -116,13 +115,6 @@ public class experimentalAutoRed extends LinearOpMode {
             halt();
             stop();
         }
-//=======
-        telemetry.addData(">", "we made it through the turn");
-        telemetry.update();
-        driveGyroStraight(-35, .3);
-        telemetry.addData(">", "we made it to the line");
-        telemetry.update();
-//>>>>>>> origin/master
         GyroTurn(-55);
         followLine();
         pressRed();
