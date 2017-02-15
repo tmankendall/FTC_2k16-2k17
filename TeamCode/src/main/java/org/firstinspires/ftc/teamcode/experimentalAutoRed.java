@@ -340,9 +340,12 @@ public class experimentalAutoRed extends LinearOpMode {
         zAccumulated = robot.gyro.getIntegratedZValue();  //Current direction
         //tk trying to maybe fix things
         //drive(1,1);
+//<<<<<<< HEAD
         while ((robot.lineSensor.getRawLightDetected() < .005) && opModeIsActive()) {
             leftSpeed = powerGyro - (zAccumulated - target) / 100;  //Calculate speed for each side
             rightSpeed = powerGyro + (zAccumulated - target) / 100;  }//See Gyro Straight video for detailed explanation
+//=======
+//>>>>>>> origin/master
         while ((robot.lineSensor.getRawLightDetected() < 1) && opModeIsActive()) {
             leftSpeed = powerGyro - (zAccumulated - target) / 100.0;  //Calculate speed for each side
             rightSpeed = powerGyro + (zAccumulated - target) / 100.0;  //See Gyro Straight video for detailed explanation
@@ -412,10 +415,13 @@ public class experimentalAutoRed extends LinearOpMode {
         }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (robot.wallDetector.isPressed() == true) {
 
             halt();
         }*/
+//=======
+//>>>>>>> origin/master
         halt();
 
 
