@@ -164,11 +164,11 @@ public class Teleopmecanum extends OpMode{
         }
         if(gamepad2.left_bumper)
         {
-            robot.ball_feeder.setPosition(.3);
+            robot.ball_feeder.setPosition(47/180);
         }
         if(gamepad2.right_bumper)
         {
-            robot.ball_feeder.setPosition(90.0/180.0 + n/180.0 );
+            robot.ball_feeder.setPosition(177/180);
         }
         //if(gamepad1.a)
         //{

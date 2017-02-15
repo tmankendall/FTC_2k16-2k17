@@ -61,9 +61,9 @@ public class experimentalAutoRed extends LinearOpMode {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     NeilPushbot robot = new NeilPushbot();
-    double standardLightValue = .0029;
-    double followingValue = .01;
-    double whiteLightValue = .02;
+    double standardLightValue = 0;
+    double followingValue = .023;
+    double whiteLightValue = .023;
     //<<<<<<< Updated upstream
     //int allRed = 1000;
     //double power;
@@ -119,7 +119,9 @@ public class experimentalAutoRed extends LinearOpMode {
         }*/
         GyroTurn(-90);
         //driveGyroStraight(35, .3);
-        driveForTime(-90, 3000);
+        followLine();
+        //driveForTime(-90, 1000);
+        //halt();
         ColorAlignRed();
         pressRed();
         //fire();
@@ -342,12 +344,10 @@ public class experimentalAutoRed extends LinearOpMode {
         //tk trying to maybe fix things
         //drive(1,1);
 //<<<<<<< HEAD
-        while ((robot.lineSensor.getRawLightDetected() < .005) && opModeIsActive()) {
-            leftSpeed = powerGyro - (zAccumulated - target) / 100;  //Calculate speed for each side
-            rightSpeed = powerGyro + (zAccumulated - target) / 100;  }//See Gyro Straight video for detailed explanation
+        //See Gyro Straight video for detailed explanation
 //=======
 //>>>>>>> origin/master
-        while ((robot.lineSensor.getRawLightDetected() < 1) && opModeIsActive()) {
+        while ((robot.lineSensor.getRawLightDetected() < .003) && opModeIsActive()) {
             leftSpeed = powerGyro - (zAccumulated - target) / 100.0;  //Calculate speed for each side
             rightSpeed = powerGyro + (zAccumulated - target) / 100.0;  //See Gyro Straight video for detailed explanation
             leftSpeed = Range.clip(leftSpeed, -1, 1);
@@ -395,12 +395,12 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.front_left_motor.setPower(0);
         robot.front_right_motor.setPower(0);
         idle();
-        if (Math.abs(robot.lineSensor.getRawLightDetected()) < followingValue + .02 ){
+        if (Math.abs(robot.lineSensor.getRawLightDetected()) < followingValue + .003 ){
             telemetry.addData("I found the Line", "");
             telemetry.update();
         }
 
-        /*while (robot.wallDetector.isPressed() == false && opModeIsActive()) {
+        while (robot.wallDetector.isPressed() == false && opModeIsActive()) {
             correction = (followingValue - robot.lineSensor.getRawLightDetected());
                 telemetry.update();
                 if (correction <= 0) {
@@ -414,13 +414,13 @@ public class experimentalAutoRed extends LinearOpMode {
                 }
             idle();
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (robot.wallDetector.isPressed() == true) {
+//<<<<<<< HEAD
+//<<<<<<< HEAD
+//<<<<<<< HEAD
+        while (robot.wallDetector.isPressed() == true) {
 
             halt();
-        }*/
+        }
 //=======
 //>>>>>>> origin/master
         halt();
@@ -464,7 +464,7 @@ public class experimentalAutoRed extends LinearOpMode {
         halt();
 
 
-        drive(0, 0);
+
 
     }
 
