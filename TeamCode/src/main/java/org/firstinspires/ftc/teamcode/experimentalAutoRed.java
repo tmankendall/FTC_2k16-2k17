@@ -372,10 +372,7 @@ public class experimentalAutoRed extends LinearOpMode {
                 }
             idle();
         }
-        if (robot.wallDetector.isPressed() == true) {
-
-            halt();
-        }
+        halt();
 
 
     }
@@ -389,22 +386,21 @@ public class experimentalAutoRed extends LinearOpMode {
     }
 
     public void GyroTurn(int target) {
-        robot.gyro.resetZAxisIntegrator();
         zAccumulated = robot.gyro.getIntegratedZValue();  //Set variables to gyro readings
         double turnSpeed = 0.15;
 
-        while (Math.abs(zAccumulated - target) > 5 && opModeIsActive()) {  //Continue while the robot direction is further than three degrees from the target
+        while (Math.abs(zAccumulated - target) > 3 && opModeIsActive()) {  //Continue while the robot direction is further than three degrees from the target
             if (zAccumulated < target) {  //if gyro is positive, we will turn right
                 //leftSpeed = turnSpeed;
                 //rightSpeed = -turnSpeed;
                 drive(turnSpeed, -turnSpeed);
+
             }
 
             if (zAccumulated > target) {  //if gyro is positive, we will turn left
                 //leftSpeed = -turnSpeed;
                 // rightSpeed = turnSpeed;
                 drive(-turnSpeed, turnSpeed);
-                telemetry.addData("Currently Greater than target abd turning", "left");
             }
             idle();
 
