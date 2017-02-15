@@ -104,6 +104,7 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.back_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         waitForStart();
         runtime.reset();
+        robot.ball_feeder.setPosition(47/180);
         GyroTurn(-35);
         /*if(isStopRequested())
         {
@@ -474,14 +475,13 @@ public class experimentalAutoRed extends LinearOpMode {
         for (int i = 0; i < 1; i += .1) {
             robot.right_balllauncher.setPower(i);
         }
-        sleep(100);
-        robot.ball_feeder.setPosition(120.0 / 180.0 + n / 180.0);
+        robot.ball_feeder.setPosition(47/180);
+        sleep(50);
+        robot.ball_feeder.setPosition(177/180);
+        sleep(400);
+        robot.ball_feeder.setPosition(47/180);
         sleep(500);
-        robot.ball_feeder.setPosition(.5);
-        sleep(1000);
-        robot.ball_feeder.setPosition(120.0 / 180.0 + n / 180.0);
-        sleep(500);
-        robot.ball_feeder.setPosition(.5);
+        robot.ball_feeder.setPosition(177/180);
         for (int j = 1; j > 0; j -= .1) {
             robot.right_balllauncher.setPower(j);
         }
