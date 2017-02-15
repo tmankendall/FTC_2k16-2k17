@@ -72,6 +72,7 @@ public class FIRE extends LinearOpMode {
     double correction;
     double leftSpeed;
     double rightSpeed;
+
     double zAccumulated;
 
     //>>>>>>> Stashed changes
@@ -105,7 +106,6 @@ public class FIRE extends LinearOpMode {
         runtime.reset();
         fire();
     }
-
 
     private void fire()
     {
