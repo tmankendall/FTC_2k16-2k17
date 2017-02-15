@@ -118,12 +118,14 @@ public class Teleopmecanum extends OpMode{
         telemetry.update();
 
         //up = -1, right = +1, others opposite
+        double frontPower = - gamepad1.left_stick_y;
+        double rightPower = gamepad1.left_stick_x;
         if(java.lang.Math.abs(gamepad1.left_stick_y) > threshold || java.lang.Math.abs(gamepad1.left_stick_x) > threshold)
         {
-            robot.front_right_motor.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x)*.65);
-            robot.front_left_motor.setPower((-gamepad1.left_stick_y + gamepad1.left_stick_x)*.65);
-            robot.back_right_motor.setPower((-gamepad1.left_stick_y + gamepad1.left_stick_x)*.65);
-            robot.back_left_motor.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x)*.65);
+            robot.front_right_motor.setPower((frontPower - rightPower)*.65);
+            robot.front_left_motor.setPower((frontPower + rightPower)*.65);
+            robot.back_right_motor.setPower((frontPower + rightPower)*.65);
+            robot.back_left_motor.setPower((frontPower - rightPower)*.65);
         }
         else if (java.lang.Math.abs(gamepad1.right_stick_x) < threshold)
         {
@@ -132,6 +134,7 @@ public class Teleopmecanum extends OpMode{
             robot.back_left_motor.setPower(0);
             robot.back_right_motor.setPower(0);
         }
+
         if (java.lang.Math.abs(gamepad1.right_stick_x) > threshold)
         {
             robot.front_right_motor.setPower((robot.front_right_motor.getPower() + gamepad1.right_stick_x)*2);
