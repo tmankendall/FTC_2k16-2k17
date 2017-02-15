@@ -305,13 +305,14 @@ public class experimentalAutoRed extends LinearOpMode {
         //tk trying to maybe fix things
         //drive(1,1);
         while ((robot.lineSensor.getRawLightDetected() < 1) && opModeIsActive()) {
-            leftSpeed = powerGyro - (zAccumulated - target) / 100;  //Calculate speed for each side
-            rightSpeed = powerGyro + (zAccumulated - target) / 100;  //See Gyro Straight video for detailed explanation
+            leftSpeed = powerGyro - (zAccumulated - target) / 100.0;  //Calculate speed for each side
+            rightSpeed = powerGyro + (zAccumulated - target) / 100.0;  //See Gyro Straight video for detailed explanation
             leftSpeed = Range.clip(leftSpeed, -1, 1);
             rightSpeed = Range.clip(rightSpeed, -1, 1);
             drive(leftSpeed, rightSpeed);
             zAccumulated = robot.gyro.getIntegratedZValue();
             telemetry.addData("Driving, ods value is", robot.lineSensor.getRawLightDetected());
+            telemetry.addData("Current Integrated Z value is:", zAccumulated);
             telemetry.update();
             idle();
         }
