@@ -403,11 +403,11 @@ public class experimentalAutoRed extends LinearOpMode {
         while (robot.wallDetector.isPressed() == false && opModeIsActive()) {
             correction = (followingValue - robot.lineSensor.getRawLightDetected());
                 telemetry.update();
-                if (correction <= 0) {
+                while (correction <= 0) {
                     leftSpeed = .075d - correction;
                     rightSpeed = .075d;
                     drive(leftSpeed, rightSpeed);
-                } else {
+                } while(correction>=0) {
                     leftSpeed = .075d;
                     rightSpeed = .075d + correction;
                     drive(leftSpeed, rightSpeed);
