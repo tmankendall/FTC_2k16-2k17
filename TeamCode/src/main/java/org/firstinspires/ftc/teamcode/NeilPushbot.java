@@ -63,28 +63,17 @@ public class NeilPushbot
     /* Public OpMode members. */
     public DcMotor  forklift            = null;
     public DcMotor  right_balllauncher  = null;
-    //public Servo    button_pusher       = null;
     public Servo      ball_feeder       = null;
     public OpticalDistanceSensor frontUSensor    = null;
-    //public IrSeekerSensor    backUSensor     = null;
     public ColorSensor right_color_sensor   = null;
     public ColorSensor  left_color_sensor   = null;
     public DcMotor    back_left_motor        = null;
     public DcMotor    back_right_motor       = null;
     public DcMotor    front_left_motor       = null;
     public DcMotor    front_right_motor      = null;
-    //ublic DcMotor      right_motor         = null;
-    //public DcMotor      left_motor          = null;
     public OpticalDistanceSensor lineSensor = null;
     public ModernRoboticsI2cGyro gyro   = null;
-//    public OpticalDistanceSensor ODS    = null;
     public ModernRoboticsDigitalTouchSensor wallDetector = null;
-    //public static final double MID_SERVO       =  0.5 ;
-    //public static final double ARM_UP_POWER    =  0.45 ;
-    //public static final double ARM_DOWN_POWER  = -0.45 ;
-    //public ModernRoboticsI2cGyro gyro = null;
-    // public UltrasonicSensor.Manufacturer
-    /* local OpMode members. */
     private ElapsedTime period  = new ElapsedTime();
     /* Constructor */
     public NeilPushbot(){
@@ -98,39 +87,17 @@ public class NeilPushbot
 
         // Define and Initialize Motors
         forklift            = hwMap.dcMotor.get("forklift");
-//<<<<<<< Updated upstream
-        //button_pusher       = hwMap.servo.get("button_pusher");
         ball_feeder         = hwMap.servo.get("ball_feeder");
-//        left_motor          = hwMap.dcMotor.get("left_motor");
-//        right_motor         = hwMap.dcMotor.get("right_motor");
         front_right_motor   = hwMap.dcMotor.get("front_right_motor");
         front_left_motor    = hwMap.dcMotor.get("front_left_motor");
         back_right_motor    = hwMap.dcMotor.get("back_right_motor");
         back_left_motor     = hwMap.dcMotor.get("back_left_motor");
-//=======
-        //ballrot_launcher   = hwMap.dcMotor.get("ballrot_launcher");
         right_balllauncher  = hwMap.dcMotor.get("right_balllauncher");
-        //button_pusher       = hwMap.servo.get("button_pusher");
-        //ball_launcher       = hwMap.servo.get("ball_launcher");
-//<<<<<<< Updated upstream
-       // left_motor          = hwMap.dcMotor.get("left_motor");
-       // right_motor         = hwMap.dcMotor.get("right_motor");
-//>>>>>>> Stashed changes
         gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
-//<<<<<<< Updated upstream
         lineSensor        = hwMap.opticalDistanceSensor.get("frontUSensor");
         wallDetector        = (ModernRoboticsDigitalTouchSensor)hwMap.touchSensor.get("Wall_Detector");
-//=======
-//        frontUSensor        = hwMap.opticalDistanceSensor.get("frontUSensor");
-        //backUSensor         = hwMap.irSeekerSensor.get("backUSensor");
-//=======
-        ///left_motor          = hwMap.crservo.get("left_motor");
-        //right_motor         = hwMap.crservo.get("right_motor");
-      //  gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
-//        SensorAdafruitRGB = hwMap.colorSensor.get("");
 
-//>>>>>>> Stashed changes
-//>>>>>>> Stashed changes
+
         //leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         //rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         front_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);

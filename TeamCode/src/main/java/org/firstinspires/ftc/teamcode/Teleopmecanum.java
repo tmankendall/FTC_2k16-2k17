@@ -132,27 +132,6 @@ public class Teleopmecanum extends OpMode{
             robot.back_left_motor.setPower(0);
             robot.back_right_motor.setPower(0);
         }
-//        if (java.lang.Math.abs(gamepad1.left_stick_y) > threshold)
-//        {
-//            robot.front_right_motor.setPower(gamepad1.left_stick_y/.5);
-//            robot.front_left_motor.setPower(-gamepad1.left_stick_y/.5);
-//            robot.back_right_motor.setPower(-gamepad1.left_stick_y/.5);
-//            robot.back_left_motor.setPower(gamepad1.left_stick_y/.5);
-//        }
-//        if (java.lang.Math.abs(gamepad1.left_stick_y) > threshold)
-//        {
-//            robot.front_right_motor.setPower(1);
-//            robot.front_left_motor.setPower(-1);
-//            robot.back_right_motor.setPower(-1);
-//            robot.back_left_motor.setPower(1);
-//        }
-//        if (gamepad1.left_stick_y < threshold)
-//        {
-//            robot.front_right_motor.setPower(-1);
-//            robot.front_left_motor.setPower(1);
-//            robot.back_right_motor.setPower(1);
-//            robot.back_left_motor.setPower(-1);
-//        }
         if (java.lang.Math.abs(gamepad1.right_stick_x) > threshold)
         {
             robot.front_right_motor.setPower((robot.front_right_motor.getPower() + gamepad1.right_stick_x)*2);
