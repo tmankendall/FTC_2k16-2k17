@@ -35,6 +35,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -111,7 +112,8 @@ public class Teleopmecanum extends OpMode{
         double left;
         double right;
         double threshold = .02;
-
+        //robot.ball_feeder.setPosition(1);
+        //robot.ForkliftGrabber.setPosition(0);
         // positional based driving
         telemetry.addData("The joystick", gamepad2.left_stick_y);
         telemetry.addData("The joystick x", gamepad2.left_stick_x);
@@ -154,22 +156,34 @@ public class Teleopmecanum extends OpMode{
 //            robot.right_balllauncher.setPower(X);
 //        }
         robot.right_balllauncher.setPower(-gamepad2.right_trigger);
-        if(gamepad2.dpad_left)
-        {
-            robot.forklift.setPower(1);
-        }
-        else if(gamepad2.dpad_right)
-        {
-            robot.forklift.setPower(0);
-        }
-        if(gamepad2.left_bumper)
+
+        if (gamepad1.left_bumper)
         {
             robot.ball_feeder.setPosition(47/180);
         }
-        if(gamepad2.right_bumper)
+        if (gamepad1.right_bumper )
         {
             robot.ball_feeder.setPosition(177/180);
         }
+        if (gamepad2.dpad_up){
+            double currentPosition = robot.ForkliftGrabber.getPosition();
+            for (double i = currentPosition; i<1; i+=.01){
+                robot.ForkliftGrabber.setPosition(i);
+            }
+        }
+        if (gamepad2.dpad_down){
+            double currentPosition = robot.ForkliftGrabber.getPosition();
+            for (double j = currentPosition; j>0; j-= .01){
+                robot.ForkliftGrabber.setPosition(j);
+            }
+        }
+       /* if (gamepad1.dpad_down){
+            robot.ForkliftGrabber.setPosition(120/180);
+
+        }
+        if (gamepad1.dpad_up){
+            robot.ForkliftGrabber.setPosition(30/180);
+        }*/
         //if(gamepad1.a)
         //{
         //    fire();
@@ -185,27 +199,15 @@ public class Teleopmecanum extends OpMode{
         }*/
 //>>>>>>> Stashed changes
 
-        if (gamepad2.y) {
+        while (gamepad2.y) {
             robot.forklift.setPower(1);
         }
 
-        if (gamepad2.b){
-            robot.forklift.setPower(0);
+        while (gamepad2.b){
+            robot.forklift.setPower(-1);
         }
 
-        if (gamepad2.dpad_up) {
-            telemetry.clear();
-            n = n + 1;
-            telemetry.addData("Upper Angle ", n + 90);
-            telemetry.update();
 
-        }
-        if (gamepad2.dpad_down){
-            telemetry.clear();
-            n = n - 1;
-            telemetry.addData("Upper Angle" , n + 90);
-            telemetry.update();
-        }
 
 //<<<<<<< Updated upstream
 //        if (gamepad2.left_stick_y != 0)
@@ -213,25 +215,6 @@ public class Teleopmecanum extends OpMode{
 //            robot.forkliftGrabber.setPosition(gamepad2.left_stick_y);
 //        }
 //=======
-        if (gamepad2.left_stick_y != 0)
-        {
-            //robot.forkliftGrabber.setPower(gamepad2.left_stick_y);
-        }
-        if (gamepad2.right_stick_x > 0)
-        {
-            if (j < .86) {
-                j = j + .01;
-            }
-           // robot.button_pusher.setPosition(j);
-        }
-        if (gamepad2.right_stick_x < 0)
-        {
-            if (j > .15) {
-                j = j - .01;
-            }
-            //robot.button_pusher.setPosition(j);
-        }
-//>>>>>>> Stashed changes
 
     }
 

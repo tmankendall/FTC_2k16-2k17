@@ -71,6 +71,7 @@ public class NeilPushbot
     public DcMotor    back_right_motor       = null;
     public DcMotor    front_left_motor       = null;
     public DcMotor    front_right_motor      = null;
+    public Servo       ForkliftGrabber      = null;
     public OpticalDistanceSensor lineSensor = null;
     public ModernRoboticsI2cGyro gyro   = null;
     public ModernRoboticsDigitalTouchSensor wallDetector = null;
@@ -84,7 +85,7 @@ public class NeilPushbot
     public void init(HardwareMap hwMap) {
 
         // Save reference to Hardware map
-
+        ForkliftGrabber = hwMap.servo.get("ForkliftGrabber");
         // Define and Initialize Motors
         forklift            = hwMap.dcMotor.get("forklift");
         ball_feeder         = hwMap.servo.get("ball_feeder");
@@ -108,7 +109,6 @@ public class NeilPushbot
         // Set all motors to zero power
         forklift.setPower(0);
         right_balllauncher.setPower(0);
-
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.

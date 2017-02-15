@@ -347,7 +347,7 @@ public class experimentalAutoRed extends LinearOpMode {
         //See Gyro Straight video for detailed explanation
 //=======
 //>>>>>>> origin/master
-        while ((robot.lineSensor.getRawLightDetected() < .003) && opModeIsActive()) {
+        while ((robot.lineSensor.getRawLightDetected() < .007) && opModeIsActive()) {
             leftSpeed = powerGyro - (zAccumulated - target) / 100.0;  //Calculate speed for each side
             rightSpeed = powerGyro + (zAccumulated - target) / 100.0;  //See Gyro Straight video for detailed explanation
             leftSpeed = Range.clip(leftSpeed, -1, 1);
@@ -395,7 +395,7 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.front_left_motor.setPower(0);
         robot.front_right_motor.setPower(0);
         idle();
-        if (Math.abs(robot.lineSensor.getRawLightDetected()) < followingValue + .003 ){
+        if (Math.abs(robot.lineSensor.getRawLightDetected()) < followingValue + .01 ){
             telemetry.addData("I found the Line", "");
             telemetry.update();
         }
