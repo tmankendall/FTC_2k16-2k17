@@ -73,6 +73,7 @@ public class Teleopmecanum extends OpMode{
     double pushingButton = 120.0/180.0;
     int n = 0;
     double j = .5;
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -156,16 +157,23 @@ public class Teleopmecanum extends OpMode{
         {
             robot.ball_feeder.setPosition(177.0/180.0);
         }
-
-        if (gamepad2.dpad_up){
-            double currentPosition = robot.ForkliftGrabber.getPosition();
-            robot.ForkliftGrabber.setPosition(currentPosition + .01);
-        }
-        if (gamepad2.dpad_down){
-            double currentPosition = robot.ForkliftGrabber.getPosition();
-            robot.ForkliftGrabber.setPosition(currentPosition - .01);
+        if (gamepad2.right_bumper){
+            robot.ForkliftGrabber.setPosition(0/180);
         }
 
+        if  (gamepad2.left_bumper){
+            robot.ForkliftGrabber.setPosition(160/180);
+        }
+        /*while (gamepad2.dpad_down){
+            double currentPosition = robot.ForkliftGrabber.getPosition();
+            if (currentPosition>0) {
+
+                robot.ForkliftGrabber.setPosition(currentPosition - .01);
+                Range.clip(currentPosition, 0, 1);
+            }
+
+        }
+*/
         if(gamepad2.y) {
             robot.forklift.setPower(1);
         }

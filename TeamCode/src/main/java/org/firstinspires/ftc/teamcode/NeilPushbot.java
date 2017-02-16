@@ -140,7 +140,7 @@ public class NeilPushbot
 
 
         right_color_sensor  = hwMap.colorSensor.get("colorSensor");
-        right_color_sensor.setI2cAddress(I2cAddr.create8bit(0x56));
+        //right_color_sensor.setI2cAddress(I2cAddr.create8bit(0x56));
         left_color_sensor   = hwMap.colorSensor.get("color_sensor2");
 
     }

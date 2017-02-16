@@ -54,9 +54,9 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="experimentalAutoRed", group="Andrew")  // @Autonomous(...) is the other common choice
+@Autonomous(name="ColorValues", group="Andrew")  // @Autonomous(...) is the other common choice
 //@Disabled
-public class experimentalAutoRed extends LinearOpMode {
+public class ColorValues extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -82,17 +82,10 @@ public class experimentalAutoRed extends LinearOpMode {
     //>>>>>>> Stashed changes
     @Override
     public void runOpMode() {
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
+
         robot.init(hardwareMap);
 
-        telemetry.addData(">", "Gyro Calibrating. Do Not move!");
-        telemetry.update();
-        robot.gyro.calibrate();
-        while (robot.gyro.isCalibrating()) {
 
-        }
-        robot.gyro.resetZAxisIntegrator();
 
 
         // make sure the gyro is calibrated.
@@ -109,41 +102,20 @@ public class experimentalAutoRed extends LinearOpMode {
         waitForStart();
         runtime.reset();
         robot.ball_feeder.setPosition(47/180);
-        driveForTime(0,500);
-        GyroTurn(-35);
-        /*if(isStopRequested())
-        {
-            halt();
-            stop();
-        }*/
-        driveGyroStraight(-35, .3);
-        /*if (isStopRequested())
-        {
-            halt();
-            stop();
-        }*/
-        GyroTurn(-90);
-        //driveGyroStraight(35, .3);
-        followLine();
-        //driveForTime(-90, 1000);
-        //halt();
-        //ColorAlignRed();
-        //pressRed();
-        //fire();
-        //sleep(7000);
-        verifyRed();
-        pressRedNoFire();
-        //ColorAlignRed();
-        //pressRed();
-        halt();
+        while (opModeIsActive()) {
+            getColors();
+            idle();
+        }
 
     }
     private void getColors(){
         getRightValueRed();
+        getRightValueBlue();
+        sleep(1000);
         getLeftValueBlue();
         getLeftValueRed();
-        getRightValueBlue();
-    }
+        sleep(1000);
+   }
     private void getRightValueRed(){
         robot.joshThisIsForYou.setDigitalChannelState(3, true);
         robot.joshThisIsForYou.setDigitalChannelState(4, false);
@@ -155,7 +127,7 @@ public class experimentalAutoRed extends LinearOpMode {
     private void getLeftValueRed(){
         robot.joshThisIsForYou.setDigitalChannelState(4, true);
         robot.joshThisIsForYou.setDigitalChannelState(3, false);
-        redColorLeft = robot.right_color_sensor.red();
+        redColorLeft = robot.left_color_sensor.red();
         telemetry.addData("left red value is ", redColorLeft);
         telemetry.update();
 
@@ -170,7 +142,7 @@ public class experimentalAutoRed extends LinearOpMode {
     private void getLeftValueBlue(){
         robot.joshThisIsForYou.setDigitalChannelState(4, true);
         robot.joshThisIsForYou.setDigitalChannelState(3, false);
-        blueColorLeft = robot.right_color_sensor.blue();
+        blueColorLeft = robot.left_color_sensor.blue();
         telemetry.addData("left blue value is ", blueColorLeft);
         telemetry.update();
     }
@@ -227,8 +199,8 @@ public class experimentalAutoRed extends LinearOpMode {
         fire();
         sleep(5000);
         while (robot.wallDetector.isPressed() == false) {
-                forward(.5);
-            }
+            forward(.5);
+        }
         forward(.9);
         idle();
         sleep(200);
@@ -292,11 +264,11 @@ public class experimentalAutoRed extends LinearOpMode {
         reverse(.5);
         sleep(200);
 
-        while(Math.abs(robot.lineSensor.getRawLightDetected() - followingValue) < .007) {
+        while(Math.abs(robot.lineSensor.getRawLightDetected() - followingValue) < .004) {
             halt();
             driveForTime(-90, 3000);
         }
-        while(Math.abs(robot.lineSensor.getRawLightDetected() - followingValue) > .007){
+        while(Math.abs(robot.lineSensor.getRawLightDetected() - followingValue) > .004){
             robot.front_left_motor.setPower(1);
             robot.back_left_motor.setPower(-1);
             robot.front_right_motor.setPower(1);
@@ -371,7 +343,7 @@ public class experimentalAutoRed extends LinearOpMode {
         double target = angle;  //Starting direction
         zAccumulated = robot.gyro.getIntegratedZValue();  //Current direction
 
-        while ((robot.lineSensor.getRawLightDetected() < .01) && opModeIsActive()) {
+        while ((robot.lineSensor.getRawLightDetected() < .007) && opModeIsActive()) {
             leftSpeed = powerGyro - (zAccumulated - target) / 100.0;  //Calculate speed for each side
             rightSpeed = powerGyro + (zAccumulated - target) / 100.0;  //See Gyro Straight video for detailed explanation
             leftSpeed = Range.clip(leftSpeed, -1, 1);
@@ -532,5 +504,5 @@ public class experimentalAutoRed extends LinearOpMode {
 
 
 
-    }
+}
 
