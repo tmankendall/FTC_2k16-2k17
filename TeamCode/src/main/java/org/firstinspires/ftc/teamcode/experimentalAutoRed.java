@@ -109,6 +109,7 @@ public class experimentalAutoRed extends LinearOpMode {
         waitForStart();
         runtime.reset();
         robot.ball_feeder.setPosition(47/180);
+        driveForTime(0,500);
         GyroTurn(-35);
         /*if(isStopRequested())
         {
