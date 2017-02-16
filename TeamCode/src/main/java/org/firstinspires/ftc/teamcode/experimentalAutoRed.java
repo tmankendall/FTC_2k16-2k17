@@ -503,15 +503,26 @@ public class experimentalAutoRed extends LinearOpMode {
         }
 
         robot.ball_feeder.setPosition(20/180);
+        ElapsedTime runtime = new ElapsedTime();
+        runtime.reset();
+        double n = 60;
+        for (int i = 0; (i < 1 && opModeIsActive()); i += .1) {
+            robot.right_balllauncher.setPower(i);
+            sleep(10);
+            idle();
+        }
+        robot.ball_feeder.setPosition(47.0/180.0);
         sleep(50);
-        robot.ball_feeder.setPosition(177/180);
+        robot.ball_feeder.setPosition(177.0/180.0);
         sleep(400);
         robot.ball_feeder.setPosition(20/180);
+        robot.ball_feeder.setPosition(47.0/180.0);
         sleep(500);
-        robot.ball_feeder.setPosition(177/180);
-        for (int j = 1; j > 0; j -= .1) {
+        robot.ball_feeder.setPosition(177.0/180.0);
+        for (int j = 1; (j > 0 && opModeIsActive()); j -= .1) {
             robot.right_balllauncher.setPower(j);
             sleep(10);
+            idle();
         }
         return;
 
