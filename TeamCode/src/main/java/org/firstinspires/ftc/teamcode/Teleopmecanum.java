@@ -118,7 +118,7 @@ public class Teleopmecanum extends OpMode{
         telemetry.addData("The joystick", gamepad2.left_stick_y);
         telemetry.addData("The joystick x", gamepad2.left_stick_x);
         telemetry.update();
-
+        //robot.left_color_sensor.setI2cAddress();
         //up = -1, right = +1, others opposite
         double frontPower = - gamepad1.left_stick_y;
         double rightPower = gamepad1.left_stick_x;
@@ -189,7 +189,6 @@ public class Teleopmecanum extends OpMode{
         robot.ball_feeder.setPosition(.5);
         robot.right_balllauncher.setPower(0);
         return;
-
 
     }
 
