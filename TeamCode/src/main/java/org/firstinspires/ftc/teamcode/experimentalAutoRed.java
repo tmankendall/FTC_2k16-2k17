@@ -122,9 +122,9 @@ public class experimentalAutoRed extends LinearOpMode {
             halt();
             stop();
         }*/
-        GyroTurn(-90);
+        //GyroTurn(-90);
         //driveGyroStraight(35, .3);
-        followLine();
+        //followLine();
         //driveForTime(-90, 1000);
         //halt();
         //ColorAlignRed();
@@ -178,7 +178,7 @@ public class experimentalAutoRed extends LinearOpMode {
     private void ColorAlignRed(){
         getColors();
         if (redColorRight > blueColorRight){
-            while(blueColorLeft>redColorLeft){
+            while(blueColorLeft>redColorLeft && opModeIsActive()){
                 robot.back_left_motor.setPower(-1);
                 robot.front_right_motor.setPower(-1);
                 robot.back_right_motor.setPower(1);
@@ -187,7 +187,7 @@ public class experimentalAutoRed extends LinearOpMode {
 
         }
         if (redColorLeft > blueColorLeft){
-            while(blueColorRight> redColorRight){
+            while(blueColorRight> redColorRight && opModeIsActive()){
                 robot.back_left_motor.setPower(1);
                 robot.front_right_motor.setPower(1);
                 robot.back_right_motor.setPower(-1);
@@ -200,7 +200,7 @@ public class experimentalAutoRed extends LinearOpMode {
     private void ColorConfirm() {
 
         getColors();
-        while (redColorRight < blueColorRight && redColorLeft < blueColorLeft) {
+        while (redColorRight < blueColorRight && redColorLeft < blueColorLeft && opModeIsActive()) {
             pressRed();
         }
         Drive2ndBeacon();
@@ -226,7 +226,7 @@ public class experimentalAutoRed extends LinearOpMode {
         getColors();
         fire();
         sleep(5000);
-        while (robot.wallDetector.isPressed() == false) {
+        while (robot.wallDetector.isPressed() == false && opModeIsActive()) {
                 forward(.5);
             }
         forward(.9);
@@ -292,11 +292,11 @@ public class experimentalAutoRed extends LinearOpMode {
         reverse(.5);
         sleep(200);
 
-        while(Math.abs(robot.lineSensor.getRawLightDetected() - followingValue) < .007) {
+        while(Math.abs(robot.lineSensor.getRawLightDetected() - followingValue) < .007 && opModeIsActive()) {
             halt();
             driveForTime(-90, 3000);
         }
-        while(Math.abs(robot.lineSensor.getRawLightDetected() - followingValue) > .007){
+        while(Math.abs(robot.lineSensor.getRawLightDetected() - followingValue) > .007 && opModeIsActive()){
             robot.front_left_motor.setPower(1);
             robot.back_left_motor.setPower(-1);
             robot.front_right_motor.setPower(1);
@@ -371,7 +371,7 @@ public class experimentalAutoRed extends LinearOpMode {
         double target = angle;  //Starting direction
         zAccumulated = robot.gyro.getIntegratedZValue();  //Current direction
 
-        while ((robot.lineSensor.getRawLightDetected() < .01) && opModeIsActive()) {
+        while ((robot.lineSensor.getRawLightDetected() < 30) && opModeIsActive()) {
             leftSpeed = powerGyro - (zAccumulated - target) / 100.0;  //Calculate speed for each side
             rightSpeed = powerGyro + (zAccumulated - target) / 100.0;  //See Gyro Straight video for detailed explanation
             leftSpeed = Range.clip(leftSpeed, -1, 1);
@@ -494,7 +494,7 @@ public class experimentalAutoRed extends LinearOpMode {
     }
 
     private void fire() {
-        while((robot.lineSensor.getRawLightDetected() > .007)){
+        while((robot.lineSensor.getRawLightDetected() > .007) && opModeIsActive()){
             reverse(.5);
         }
 

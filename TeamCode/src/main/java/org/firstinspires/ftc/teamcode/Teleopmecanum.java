@@ -126,10 +126,10 @@ public class Teleopmecanum extends OpMode{
         double rightPower = gamepad1.left_stick_x;
         if(java.lang.Math.abs(gamepad1.left_stick_y) > threshold || java.lang.Math.abs(gamepad1.left_stick_x) > threshold)
         {
-            robot.front_right_motor.setPower((frontPower - rightPower)*.65);
-            robot.front_left_motor.setPower((frontPower + rightPower)*.65);
-            robot.back_right_motor.setPower((frontPower + rightPower)*.65);
-            robot.back_left_motor.setPower((frontPower - rightPower)*.65);
+            robot.front_right_motor.setPower((frontPower - .7*rightPower)*.65);
+            robot.front_left_motor.setPower((frontPower + .7*rightPower)*.65);
+            robot.back_right_motor.setPower((frontPower + .7*rightPower)*.65);
+            robot.back_left_motor.setPower((frontPower - .7*rightPower)*.65);
         }
         else if (java.lang.Math.abs(gamepad1.right_stick_x) < threshold)
         {
@@ -142,8 +142,8 @@ public class Teleopmecanum extends OpMode{
         if (java.lang.Math.abs(gamepad1.right_stick_x) > threshold)
         {
             robot.front_right_motor.setPower((robot.front_right_motor.getPower() + gamepad1.right_stick_x)*2.0);
-            robot.front_left_motor.setPower((robot.front_left_motor.getPower() + gamepad1.right_stick_x)*2.0);
-            robot.back_right_motor.setPower((robot.back_right_motor.getPower() - gamepad1.right_stick_x)*2.0);
+            robot.front_left_motor.setPower((robot.front_left_motor.getPower() - gamepad1.right_stick_x)*2.0);
+            robot.back_right_motor.setPower((robot.back_right_motor.getPower() + gamepad1.right_stick_x)*2.0);
             robot.back_left_motor.setPower((robot.back_left_motor.getPower() - gamepad1.right_stick_x)*2.0);
         }
 
@@ -157,23 +157,31 @@ public class Teleopmecanum extends OpMode{
         {
             robot.ball_feeder.setPosition(177.0/180.0);
         }
-        if (gamepad2.right_bumper){
-            robot.ForkliftGrabber.setPosition(0/180);
-        }
-
-        if  (gamepad2.left_bumper){
-            robot.ForkliftGrabber.setPosition(160/180);
-        }
-        /*while (gamepad2.dpad_down){
+//        if (gamepad2.right_bumper){
+//            robot.ForkliftGrabber.setPosition(0.0/180.0);
+//        }
+//
+//        if  (gamepad2.left_bumper){
+//            robot.ForkliftGrabber.setPosition(160.0/180.0);
+//        }
+        if (gamepad2.dpad_down){
             double currentPosition = robot.ForkliftGrabber.getPosition();
             if (currentPosition>0) {
-
-                robot.ForkliftGrabber.setPosition(currentPosition - .01);
-                Range.clip(currentPosition, 0, 1);
+                currentPosition = Range.clip(currentPosition - .01, 0,1);
+                robot.ForkliftGrabber.setPosition(currentPosition);
             }
 
         }
-*/
+        if (gamepad2.dpad_up){
+            double currentPosition = robot.ForkliftGrabber.getPosition();
+            telemetry.addData("the current position is ",currentPosition);
+            if (currentPosition <= 0) {
+                currentPosition = Range.clip(currentPosition+.01,0,1);
+                robot.ForkliftGrabber.setPosition(currentPosition);
+            }
+            telemetry.addData("forklift position is ", robot.ForkliftGrabber.getPosition());
+            telemetry.update();
+        }
         if(gamepad2.y) {
             robot.forklift.setPower(1);
         }
