@@ -101,6 +101,8 @@ public class NeilPushbot
         wallDetector        = (ModernRoboticsDigitalTouchSensor)hwMap.touchSensor.get("Wall_Detector");
         joshThisIsForYou    = hwMap.deviceInterfaceModule.get("Device Interface Module 2");
 
+        right_balllauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
 
         //leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         //rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
