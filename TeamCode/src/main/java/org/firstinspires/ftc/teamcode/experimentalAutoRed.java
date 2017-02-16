@@ -341,12 +341,7 @@ public class experimentalAutoRed extends LinearOpMode {
     private void driveGyroStraight(double angle, double powerGyro) {
         double target = angle;  //Starting direction
         zAccumulated = robot.gyro.getIntegratedZValue();  //Current direction
-        //tk trying to maybe fix things
-        //drive(1,1);
-//<<<<<<< HEAD
-        //See Gyro Straight video for detailed explanation
-//=======
-//>>>>>>> origin/master
+
         while ((robot.lineSensor.getRawLightDetected() < .007) && opModeIsActive()) {
             leftSpeed = powerGyro - (zAccumulated - target) / 100.0;  //Calculate speed for each side
             rightSpeed = powerGyro + (zAccumulated - target) / 100.0;  //See Gyro Straight video for detailed explanation
@@ -363,12 +358,13 @@ public class experimentalAutoRed extends LinearOpMode {
     }
 
     private void driveForTime(double angle, double time) {
-        double desiredTime = time;
+
         //double initialTime = runtime.milliseconds();
         double initialTime = runtime.milliseconds();
         double target = angle;  //Starting direction
         zAccumulated = robot.gyro.getIntegratedZValue();
         double currentTime = runtime.milliseconds();//Current direction
+        double desiredTime = time + currentTime;
         //tk trying to maybe fix things
         //drive(1,1);
         while ((desiredTime-currentTime) > 0 && opModeIsActive()) {
@@ -388,8 +384,8 @@ public class experimentalAutoRed extends LinearOpMode {
 
     private void followLine() {
         double counter = 0;
-        double currentLightDetected = robot.lineSensor.getLightDetected();
-        correction = (whiteLightValue - robot.lineSensor.getLightDetected());
+        double currentLightDetected = robot.lineSensor.getRawLightDetected();
+        correction = (whiteLightValue - robot.lineSensor.getRawLightDetected());
         robot.back_right_motor.setPower(0);
         robot.back_left_motor.setPower(0);
         robot.front_left_motor.setPower(0);
@@ -401,28 +397,21 @@ public class experimentalAutoRed extends LinearOpMode {
         }
 
         while (robot.wallDetector.isPressed() == false && opModeIsActive()) {
-            correction = (followingValue - robot.lineSensor.getRawLightDetected());
-                telemetry.update();
-                while (correction <= 0) {
-                    leftSpeed = .075d - correction;
-                    rightSpeed = .075d;
-                    drive(leftSpeed, rightSpeed);
-                } while(correction>=0) {
-                    leftSpeed = .075d;
-                    rightSpeed = .075d + correction;
-                    drive(leftSpeed, rightSpeed);
-                }
+            correction = (followingValue - currentLightDetected);
+            telemetry.update();
+            if(correction <= 0) {
+                leftSpeed = .5 - correction;
+                rightSpeed = .5;
+                drive(leftSpeed, rightSpeed);
+            }
+            if(correction > 0) {
+                leftSpeed = .5 + correction;
+                rightSpeed = .5;
+                drive(leftSpeed, rightSpeed);
+            }
+            currentLightDetected = robot.lineSensor.getRawLightDetected();
             idle();
         }
-//<<<<<<< HEAD
-//<<<<<<< HEAD
-//<<<<<<< HEAD
-        while (robot.wallDetector.isPressed() == true) {
-
-            halt();
-        }
-//=======
-//>>>>>>> origin/master
         halt();
 
 

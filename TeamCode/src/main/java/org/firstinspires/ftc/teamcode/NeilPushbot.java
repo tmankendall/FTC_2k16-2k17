@@ -3,6 +3,7 @@
 package org.firstinspires.ftc.teamcode;
 //CLEAN IT UP
 
+import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
 //<<<<<<< Updated upstream
@@ -132,6 +133,7 @@ public class NeilPushbot
 
 
         right_color_sensor  = hwMap.colorSensor.get("colorSensor");
+        right_color_sensor.setI2cAddress(I2cAddr.create8bit(0x56));
         left_color_sensor   = hwMap.colorSensor.get("color_sensor2");
 
     }

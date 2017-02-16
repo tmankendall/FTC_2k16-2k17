@@ -67,7 +67,7 @@ public class Teleopmecanum extends OpMode{
     double B = .1;
     double Y = .5;
     int X = 1;
-    int maxSweeperSpeed = 100;
+    int maxSweeperSpeed = 100.0;
     double notPushingButton = 30.0/180.0;
     double pushingButton = 120.0/180.0;
     int n = 0;
@@ -139,82 +139,44 @@ public class Teleopmecanum extends OpMode{
 
         if (java.lang.Math.abs(gamepad1.right_stick_x) > threshold)
         {
-            robot.front_right_motor.setPower((robot.front_right_motor.getPower() + gamepad1.right_stick_x)*2);
-            robot.front_left_motor.setPower((robot.front_left_motor.getPower() + gamepad1.right_stick_x)*2);
-            robot.back_right_motor.setPower((robot.back_right_motor.getPower() - gamepad1.right_stick_x)*2);
-            robot.back_left_motor.setPower((robot.back_left_motor.getPower() - gamepad1.right_stick_x)*2);
+            robot.front_right_motor.setPower((robot.front_right_motor.getPower() + gamepad1.right_stick_x)*2.0);
+            robot.front_left_motor.setPower((robot.front_left_motor.getPower() + gamepad1.right_stick_x)*2.0);
+            robot.back_right_motor.setPower((robot.back_right_motor.getPower() - gamepad1.right_stick_x)*2.0);
+            robot.back_left_motor.setPower((robot.back_left_motor.getPower() - gamepad1.right_stick_x)*2.0);
         }
 
-//        // Use gamepad left & right Bumpers to open and close the claw
-//        if (gamepad1.b) {
-//            robot.right_balllauncher.setPower(B);
-//        }
-//        else if (gamepad1.y) {
-//            robot.right_balllauncher.setPower(Y);
-//        }
-//        else if (gamepad1.x) {
-//            robot.right_balllauncher.setPower(X);
-//        }
         robot.right_balllauncher.setPower(-gamepad2.right_trigger);
 
         if (gamepad1.left_bumper)
         {
-            robot.ball_feeder.setPosition(47/180);
+            robot.ball_feeder.setPosition(47.0/180.0);
         }
         if (gamepad1.right_bumper )
         {
-            robot.ball_feeder.setPosition(177/180);
+            robot.ball_feeder.setPosition(177.0/180.0);
         }
+
         if (gamepad2.dpad_up){
             double currentPosition = robot.ForkliftGrabber.getPosition();
-            for (double i = currentPosition; i<1; i+=.01){
-                robot.ForkliftGrabber.setPosition(i);
-            }
+            robot.ForkliftGrabber.setPosition(currentPosition + .01);
         }
         if (gamepad2.dpad_down){
             double currentPosition = robot.ForkliftGrabber.getPosition();
-            for (double j = currentPosition; j>0; j-= .01){
-                robot.ForkliftGrabber.setPosition(j);
-            }
-        }
-       /* if (gamepad1.dpad_down){
-            robot.ForkliftGrabber.setPosition(120/180);
-
-        }
-        if (gamepad1.dpad_up){
-            robot.ForkliftGrabber.setPosition(30/180);
-        }*/
-        //if(gamepad1.a)
-        //{
-        //    fire();
-        //}
-//<<<<<<< Updated upstream
-//=======
-       /* if (gamepad1.dpad_up){
-            robot.button_pusher.setPosition(pushingButton);
+            robot.ForkliftGrabber.setPosition(currentPosition - .01);
         }
 
-        if(gamepad1.dpad_down){
-            robot.button_pusher.setPosition(notPushingButton);
-        }*/
-//>>>>>>> Stashed changes
-
-        while (gamepad2.y) {
+        if(gamepad2.y) {
             robot.forklift.setPower(1);
         }
-
-        while (gamepad2.b){
+        else if(gamepad2.b){
             robot.forklift.setPower(-1);
+        }
+        else if(gamepad2.x)
+        {
+            robot.forklift.setPower(0);
         }
 
 
-
-//<<<<<<< Updated upstream
-//        if (gamepad2.left_stick_y != 0)
-//        {
-//            robot.forkliftGrabber.setPosition(gamepad2.left_stick_y);
-//        }
-//=======
 
     }
 
@@ -222,11 +184,7 @@ public class Teleopmecanum extends OpMode{
     {
         ElapsedTime runtime = new ElapsedTime();
         runtime.reset();
-
-        for(int i = 0; i < 1; i += .01)
-        {
-            robot.right_balllauncher.setPower(i);
-        }
+        robot.right_balllauncher.setPower(1);
         robot.ball_feeder.setPosition(120.0/180.0 + n/180.0);
         robot.ball_feeder.setPosition(.5);
         robot.right_balllauncher.setPower(0);
@@ -234,9 +192,7 @@ public class Teleopmecanum extends OpMode{
 
 
     }
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
+
     @Override
     public void stop() {
     }
