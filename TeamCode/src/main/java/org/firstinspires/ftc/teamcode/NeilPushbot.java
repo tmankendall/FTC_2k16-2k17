@@ -77,6 +77,7 @@ public class NeilPushbot
     public ModernRoboticsI2cGyro gyro   = null;
     public ModernRoboticsDigitalTouchSensor wallDetector = null;
     private ElapsedTime period  = new ElapsedTime();
+    public DeviceInterfaceModule joshThisIsForYou = null;
     /* Constructor */
     public NeilPushbot(){
 
@@ -98,6 +99,7 @@ public class NeilPushbot
         gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
         lineSensor        = hwMap.opticalDistanceSensor.get("frontUSensor");
         wallDetector        = (ModernRoboticsDigitalTouchSensor)hwMap.touchSensor.get("Wall_Detector");
+        joshThisIsForYou    = hwMap.deviceInterfaceModule.get("Device Interface Module 2");
 
 
         //leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
