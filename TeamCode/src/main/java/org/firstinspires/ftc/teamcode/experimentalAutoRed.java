@@ -135,6 +135,7 @@ public class experimentalAutoRed extends LinearOpMode {
     }
 
     private void verifyRed() {
+
         double redColorRight = robot.right_color_sensor.red();
         double redColorLeft = robot.left_color_sensor.red();
         double blueColorRight = robot.right_color_sensor.blue();

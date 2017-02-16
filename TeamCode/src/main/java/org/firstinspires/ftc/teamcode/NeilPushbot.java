@@ -77,6 +77,7 @@ public class NeilPushbot
     public ModernRoboticsI2cGyro gyro   = null;
     public ModernRoboticsDigitalTouchSensor wallDetector = null;
     private ElapsedTime period  = new ElapsedTime();
+    public led led = null;
     /* Constructor */
     public NeilPushbot(){
 
@@ -88,6 +89,7 @@ public class NeilPushbot
         // Save reference to Hardware map
         ForkliftGrabber = hwMap.servo.get("ForkliftGrabber");
         // Define and Initialize Motors
+        led =               hwMap.led.get("led")
         forklift            = hwMap.dcMotor.get("forklift");
         ball_feeder         = hwMap.servo.get("ball_feeder");
         front_right_motor   = hwMap.dcMotor.get("front_right_motor");
