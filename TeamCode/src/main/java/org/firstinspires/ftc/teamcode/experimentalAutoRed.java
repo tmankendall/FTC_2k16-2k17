@@ -64,6 +64,10 @@ public class experimentalAutoRed extends LinearOpMode {
     double standardLightValue = 0;
     double followingValue = .023;
     double whiteLightValue = .023;
+    float redColorRight;
+    float blueColorRight;
+    float redColorLeft;
+    float blueColorLeft;
     //<<<<<<< Updated upstream
     //int allRed = 1000;
     //double power;
@@ -122,36 +126,56 @@ public class experimentalAutoRed extends LinearOpMode {
         followLine();
         //driveForTime(-90, 1000);
         //halt();
-        ColorAlignRed();
-        pressRed();
+        //ColorAlignRed();
+        //pressRed();
         //fire();
         //sleep(7000);
         verifyRed();
         pressRedNoFire();
-        ColorAlignRed();
-        pressRed();
+        //ColorAlignRed();
+        //pressRed();
         halt();
 
     }
-
-    private void verifyRed() {
-
-        double redColorRight = robot.right_color_sensor.red();
-        double redColorLeft = robot.left_color_sensor.red();
-        double blueColorRight = robot.right_color_sensor.blue();
-        double blueColorLeft = robot.left_color_sensor.blue();
-        if (robot.right_color_sensor.red()>robot.right_color_sensor.blue() && robot.left_color_sensor.red() > robot.left_color_sensor.blue()){
-            Drive2ndBeacon();
-        }
-        else{
-            pressRedNoFire();
-        }
+    private void getColors(){
+        getRightValueRed();
+        getLeftValueBlue();
+        getLeftValueRed();
+        getRightValueBlue();
     }
+    private void getRightValueRed(){
+        robot.joshThisIsForYou.setDigitalChannelState(3, true);
+        robot.joshThisIsForYou.setDigitalChannelState(4, false);
+        redColorRight = robot.right_color_sensor.red();
+        telemetry.addData("right red value is ", redColorRight);
+        telemetry.update();
+
+    }
+    private void getLeftValueRed(){
+        robot.joshThisIsForYou.setDigitalChannelState(4, true);
+        robot.joshThisIsForYou.setDigitalChannelState(3, false);
+        redColorLeft = robot.right_color_sensor.red();
+        telemetry.addData("left red value is ", redColorLeft);
+        telemetry.update();
+
+    }
+    private void getRightValueBlue(){
+        robot.joshThisIsForYou.setDigitalChannelState(3, true);
+        robot.joshThisIsForYou.setDigitalChannelState(4, false);
+        blueColorRight = robot.right_color_sensor.blue();
+        telemetry.addData("right blue value is ", blueColorRight);
+        telemetry.update();
+    }
+    private void getLeftValueBlue(){
+        robot.joshThisIsForYou.setDigitalChannelState(4, true);
+        robot.joshThisIsForYou.setDigitalChannelState(3, false);
+        blueColorLeft = robot.right_color_sensor.blue();
+        telemetry.addData("left blue value is ", blueColorLeft);
+        telemetry.update();
+    }
+
     private void ColorAlignRed(){
-        double redColorRight = robot.right_color_sensor.red();
-        double redColorLeft = robot.left_color_sensor.red();
-        double blueColorRight = robot.right_color_sensor.blue();
-        double blueColorLeft = robot.left_color_sensor.blue();
+        getColors();
         if (redColorRight > blueColorRight){
             while(blueColorLeft>redColorLeft){
                 robot.back_left_motor.setPower(-1);
@@ -174,14 +198,22 @@ public class experimentalAutoRed extends LinearOpMode {
     }
     private void ColorConfirm() {
 
-        double redColorRight = robot.right_color_sensor.red();
-        double redColorLeft = robot.left_color_sensor.red();
-        double blueColorRight = robot.right_color_sensor.blue();
-        double blueColorLeft = robot.left_color_sensor.blue();
+        getColors();
         while (redColorRight < blueColorRight && redColorLeft < blueColorLeft) {
             pressRed();
         }
         Drive2ndBeacon();
+    }
+    private void verifyRed(){
+        getColors();
+        if (redColorLeft>blueColorLeft && redColorRight >blueColorRight){
+            fire();
+            halt();
+        }
+        else{
+            pressRed();
+        }
+
     }
 
     private void pressRed() {
@@ -190,25 +222,20 @@ public class experimentalAutoRed extends LinearOpMode {
         idle();
         sleep(200);
         halt();
-        double redColorLeft = robot.left_color_sensor.red();
-        double blueColorLeft = robot.left_color_sensor.blue();
-        if (redColorLeft > blueColorLeft) {
-            halt();
-            fire();
-            Drive2ndBeacon();
-        } else if (blueColorLeft > redColorLeft) {
-            while (robot.wallDetector.isPressed() == false) {
-                driveGyroStraight(-90, .3);
-
+        getColors();
+        fire();
+        sleep(5000);
+        while (robot.wallDetector.isPressed() == false) {
+                forward(.5);
             }
-        }
-
-        else{
-
-            }
-        forward(.3);
+        forward(.9);
         idle();
-        sleep(300);
+        sleep(200);
+        reverse(.9);
+        idle();
+        sleep(200);
+        halt();
+        verifyRed();
 
             /*forward(.1);
             sleep(1000);
@@ -392,7 +419,7 @@ public class experimentalAutoRed extends LinearOpMode {
         robot.front_left_motor.setPower(0);
         robot.front_right_motor.setPower(0);
         idle();
-        if (Math.abs(robot.lineSensor.getRawLightDetected()) < followingValue + .01 ){
+        if (Math.abs(robot.lineSensor.getRawLightDetected()) < followingValue + .003 ){
             telemetry.addData("I found the Line", "");
             telemetry.update();
         }
@@ -401,19 +428,26 @@ public class experimentalAutoRed extends LinearOpMode {
             correction = (followingValue - currentLightDetected);
             telemetry.update();
             if(correction <= 0) {
-                leftSpeed = .5 - correction;
+                leftSpeed = .5 - correction*4;
                 rightSpeed = .5;
                 drive(leftSpeed, rightSpeed);
             }
             if(correction > 0) {
-                leftSpeed = .5 + correction;
+                leftSpeed = .5 + correction*4;
                 rightSpeed = .5;
                 drive(leftSpeed, rightSpeed);
             }
             currentLightDetected = robot.lineSensor.getRawLightDetected();
             idle();
         }
-        halt();
+        while(robot.wallDetector.isPressed() == true && opModeIsActive()){
+            driveGyroStraight(-90, .3);
+            sleep(100);
+            halt();
+            reverse(.2);
+            sleep(300);
+            halt();
+        }
 
 
     }
@@ -459,21 +493,25 @@ public class experimentalAutoRed extends LinearOpMode {
     }
 
     private void fire() {
-        ElapsedTime runtime = new ElapsedTime();
-        runtime.reset();
-        double n = 60;
+        while((robot.lineSensor.getRawLightDetected() > .007)){
+            reverse(.5);
+        }
+
         for (int i = 0; i < 1; i += .1) {
             robot.right_balllauncher.setPower(i);
+            sleep(10);
         }
-        robot.ball_feeder.setPosition(47/180);
+
+        robot.ball_feeder.setPosition(20/180);
         sleep(50);
         robot.ball_feeder.setPosition(177/180);
         sleep(400);
-        robot.ball_feeder.setPosition(47/180);
+        robot.ball_feeder.setPosition(20/180);
         sleep(500);
         robot.ball_feeder.setPosition(177/180);
         for (int j = 1; j > 0; j -= .1) {
             robot.right_balllauncher.setPower(j);
+            sleep(10);
         }
         return;
 

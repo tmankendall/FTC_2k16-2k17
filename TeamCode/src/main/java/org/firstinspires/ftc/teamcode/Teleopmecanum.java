@@ -67,7 +67,7 @@ public class Teleopmecanum extends OpMode{
     double B = .1;
     double Y = .5;
     int X = 1;
-    int maxSweeperSpeed = 100.0;
+    //int maxSweeperSpeed = 100.0;
     double notPushingButton = 30.0/180.0;
     double pushingButton = 120.0/180.0;
     int n = 0;

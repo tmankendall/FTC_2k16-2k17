@@ -79,6 +79,7 @@ public class NeilPushbot
     private ElapsedTime period  = new ElapsedTime();
 
     public DeviceInterfaceModule joshThisIsForYou = null;
+
     /* Constructor */
     public NeilPushbot(){
 
@@ -90,7 +91,6 @@ public class NeilPushbot
         // Save reference to Hardware map
         ForkliftGrabber = hwMap.servo.get("ForkliftGrabber");
         // Define and Initialize Motors
-        led =               hwMap.led.get("led")
         forklift            = hwMap.dcMotor.get("forklift");
         ball_feeder         = hwMap.servo.get("ball_feeder");
         front_right_motor   = hwMap.dcMotor.get("front_right_motor");
@@ -110,6 +110,8 @@ public class NeilPushbot
         back_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         front_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
         back_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        joshThisIsForYou.setDigitalChannelMode(3, DigitalChannelController.Mode.OUTPUT);
+        joshThisIsForYou.setDigitalChannelMode(4, DigitalChannelController.Mode.OUTPUT);
 
         // Set all motors to zero power
         forklift.setPower(0);
