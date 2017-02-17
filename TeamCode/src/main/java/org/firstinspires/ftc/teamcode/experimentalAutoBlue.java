@@ -474,7 +474,7 @@ public class experimentalAutoBlue extends LinearOpMode {
             backSpeed = .3 + (zAccumulated - target) / 100.0;  //See Gyro Straight video for detailed explanation
             backSpeed = Range.clip(backSpeed, -1, 1);
             frontSpeed = Range.clip(frontSpeed, -1, 1);
-            driveLeft(frontSpeed, backSpeed);
+            driveRight(frontSpeed, backSpeed);
             zAccumulated = robot.gyro.getIntegratedZValue();
             idle();
         }
@@ -528,11 +528,11 @@ public class experimentalAutoBlue extends LinearOpMode {
         robot.back_right_motor.setPower(right);
     }
 
-    private void driveLeft(double front, double back) {
+    private void driveRight(double front, double back) {
         robot.front_left_motor.setPower(front);
-        robot.front_right_motor.setPower(front);
+        robot.front_right_motor.setPower(-front);
         robot.back_left_motor.setPower(-back);
-        robot.back_right_motor.setPower(-back);
+        robot.back_right_motor.setPower(back);
         telemetry.addData("Front Speed", front);
         telemetry.addData("Back Speed", back);
         telemetry.addData("Front to back Ratio", front/back);

@@ -526,9 +526,9 @@ public class experimentalAutoRed extends LinearOpMode {
     }
 
     private void driveLeft(double front, double back) {
-        robot.front_left_motor.setPower(front);
+        robot.front_left_motor.setPower(-front);
         robot.front_right_motor.setPower(front);
-        robot.back_left_motor.setPower(-back);
+        robot.back_left_motor.setPower(back);
         robot.back_right_motor.setPower(-back);
         telemetry.addData("Front Speed", front);
         telemetry.addData("Back Speed", back);
