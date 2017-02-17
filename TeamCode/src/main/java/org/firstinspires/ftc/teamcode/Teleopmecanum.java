@@ -175,7 +175,8 @@ public class Teleopmecanum extends OpMode{
             }
 */
         }
-        telemetry.addData("ods", robot.lineSensor.getRawLightDetected());
+        telemetry.addData("ods raw", robot.lineSensor.getRawLightDetected());
+        telemetry.addData("ods linear", robot.lineSensor.getLightDetected());
         telemetry.update();
         if (gamepad2.dpad_up){
             currentPosition = 150.0/180.0;

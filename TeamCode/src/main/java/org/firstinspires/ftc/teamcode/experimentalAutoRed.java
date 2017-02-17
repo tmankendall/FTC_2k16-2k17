@@ -62,7 +62,7 @@ public class experimentalAutoRed extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     NeilPushbot robot = new NeilPushbot();
     double standardLightValue = 0;
-    double followingValue = .1;
+    double followingValue = .04;
     double whiteLightValue = .02;
     float redColorRight;
     float blueColorRight;
@@ -154,7 +154,7 @@ public class experimentalAutoRed extends LinearOpMode {
         }
     }
     private void driveLine(int angle, double power){
-        GyroTurn(-90);
+        GyroTurn(angle);
         if (robot.wallDetector.isPressed() == false){
             driveGyroStraight(angle, power);
 
@@ -241,8 +241,8 @@ public class experimentalAutoRed extends LinearOpMode {
     private void verifyRed(){
         getBlue();
         getRed();
-        if (redColor>380){
-            fire();
+        if (redColor>1600){
+            //fire();
             halt();
             telemetry.addData("I found the red color!", "yay!");
             telemetry.update();

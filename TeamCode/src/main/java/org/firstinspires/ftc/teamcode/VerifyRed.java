@@ -112,9 +112,9 @@ public class VerifyRed extends LinearOpMode {
         runtime.reset();
         robot.ball_feeder.setPosition(47/180);
         verifyRed();
-        pressRedNoFire();
+        //pressRedNoFire();
         //ColorAlignRed();
-        //pressRed();
+        pressRed();
         halt();
 
     }
@@ -214,7 +214,7 @@ public class VerifyRed extends LinearOpMode {
     private void verifyRed(){
         getBlue();
         getRed();
-        if (redColor>400){
+        if (redColor>1600){
             fire();
             halt();
             telemetry.addData("I found the red color!", "yay!");
@@ -232,7 +232,7 @@ public class VerifyRed extends LinearOpMode {
     private void pressRed() {
         halt();
         reverse(.3);
-        idle();
+        //idle();
         sleep(200);
         halt();
         //getColors();
