@@ -313,7 +313,7 @@ public class experimentalAutoBlue extends LinearOpMode {
         halt();
         double redColorLeft = robot.left_color_sensor.red();
         double blueColorLeft = robot.left_color_sensor.blue();
-        if (blueColorLeft > redColorLeft) {
+        if (blueColorLeft < redColorLeft) {
             halt();
             //fire();
             Drive2ndBeacon();
@@ -583,16 +583,16 @@ public class experimentalAutoBlue extends LinearOpMode {
             idle();
         }
         robot.right_balllauncher.setPower(1);
-        sleep(1500);
+        sleep(800);
 
         robot.ball_feeder.setPosition(177.0/180.0);
-        sleep(1500);
+        sleep(200);
 
         // robot.ball_feeder.setPosition(20/180);
         robot.ball_feeder.setPosition(47.0/180.0);
-        sleep(1000);
+        sleep(200);
         robot.ball_feeder.setPosition(177.0/180.0);
-        sleep(1500);
+        sleep(200);
         for (float j = 1; (j > 0 && opModeIsActive()); j -= .01) {
             robot.right_balllauncher.setPower(j);
             sleep(20);
