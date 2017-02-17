@@ -74,6 +74,7 @@ public class Teleopmecanum extends OpMode{
     double pushingButton = 120.0/180.0;
     int n = 0;
     double j = .5;
+    double apple = .5;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -150,11 +151,11 @@ public class Teleopmecanum extends OpMode{
 
         robot.right_balllauncher.setPower(-gamepad2.right_trigger);
 
-        if (gamepad1.left_bumper)
+        if (gamepad2.left_bumper)
         {
             robot.ball_feeder.setPosition(47.0/180.0);
         }
-        if (gamepad1.right_bumper )
+        if (gamepad2.right_bumper )
         {
             robot.ball_feeder.setPosition(177.0/180.0);
         }
@@ -165,31 +166,20 @@ public class Teleopmecanum extends OpMode{
 //        if  (gamepad2.left_bumper){
 //            robot.ForkliftGrabber.setPosition(160.0/180.0);
 //        }
-        robot.ForkliftGrabber.setPosition(currentPosition);
 
-        if (gamepad2.dpad_down){
-        currentPosition = 0.0;            /*double currentPosition = robot.ForkliftGrabber.getPosition();
-            if (currentPosition>0) {
-                currentPosition = Range.clip(currentPosition - .01, 0,1);
-                robot.ForkliftGrabber.setPosition(currentPosition);
-            }
-*/
+
+        if(gamepad2.dpad_down)
+        {
+            apple -= .01;
+            robot.ForkliftGrabber.setPosition(apple);
         }
-        telemetry.addData("ods raw", robot.lineSensor.getRawLightDetected());
-        telemetry.addData("ods linear", robot.lineSensor.getLightDetected());
-        telemetry.update();
-        if (gamepad2.dpad_up){
-            currentPosition = 150.0/180.0;
-            /*
-            double currentPosition = robot.ForkliftGrabber.getPosition();
-            telemetry.addData("the current position is ",currentPosition);
-            if (currentPosition <= 0) {
-                currentPosition = Range.clip(currentPosition+.01,0,1);
-                robot.ForkliftGrabber.setPosition(currentPosition);
-            }
-            telemetry.addData("forklift position is ", robot.ForkliftGrabber.getPosition());
-            telemetry.update();*/
+        if(gamepad2.dpad_up)
+        {
+            apple += .01;
+            robot.ForkliftGrabber.setPosition(apple);
         }
+        apple = Range.clip(apple, 0, 1);
+
         if(gamepad2.y) {
             robot.forklift.setPower(1);
         }

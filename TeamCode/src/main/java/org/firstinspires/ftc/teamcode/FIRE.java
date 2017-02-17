@@ -114,7 +114,7 @@ public class FIRE extends LinearOpMode {
 
         for (float i = 0; i < 1; i += .01) {
             robot.right_balllauncher.setPower(i);
-            sleep(20);
+            sleep(15);
             idle();
         }
         robot.right_balllauncher.setPower(1);

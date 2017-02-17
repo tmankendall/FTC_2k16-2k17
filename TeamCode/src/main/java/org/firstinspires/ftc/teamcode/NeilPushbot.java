@@ -103,6 +103,10 @@ public class NeilPushbot
         joshThisIsForYou    = hwMap.deviceInterfaceModule.get("Device Interface Module 2");
 
         right_balllauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        front_left_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        front_right_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        back_left_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        back_right_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
 
         //leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
