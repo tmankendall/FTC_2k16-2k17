@@ -271,9 +271,9 @@ public class experimentalAutoBlue extends LinearOpMode {
 
     private void pressBlue() {
         halt();
-        reverse(.3);
+        reverse(.1);
         idle();
-        sleep(200);
+        sleep(300);
         halt();
         //getColors();
         //fire();
@@ -281,13 +281,9 @@ public class experimentalAutoBlue extends LinearOpMode {
         /*while (robot.wallDetector.isPressed() == false && opModeIsActive()) {
                 forward(.5);
             }*/
-        forward(.4);
+        forward(.2);
         //idle();
-        sleep(200);
-        reverse(.4);
-        idle();
-        sleep(100);
-        halt();
+        sleep(400);
         verifyBlue();
 
             /*forward(.1);
