@@ -54,9 +54,9 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="experimentalAutoRed", group="Andrew")  // @Autonomous(...) is the other common choice
+@Autonomous(name="VerifyRed", group="Andrew")  // @Autonomous(...) is the other common choice
 //@Disabled
-public class experimentalAutoRed extends LinearOpMode {
+public class VerifyRed extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -111,33 +111,6 @@ public class experimentalAutoRed extends LinearOpMode {
         waitForStart();
         runtime.reset();
         robot.ball_feeder.setPosition(47/180);
-        driveForTime(0,500);
-        GyroTurn(-35);
-        telemetry.addLine("driving no value");
-        telemetry.update();
-        /*if(isStopRequested())
-        {
-            halt();
-            stop();
-        }*/
-        driveNoLine(-35, .5);
-        halt();
-        driveLine(-90, .5);
-        /*if (isStopRequested())
-        {
-            halt();
-            stop();
-        }*/
-        //GyroTurn(-90);
-        //driveGyroStraight(35, .3);
-        //followLine();
-        //driveForTime(-90, 1000);
-        //halt();
-        //ColorAlignRed();
-        //pressRed();
-        //fire();
-        //sleep(7000);
-        //followLine();
         verifyRed();
         pressRedNoFire();
         //ColorAlignRed();
@@ -146,7 +119,7 @@ public class experimentalAutoRed extends LinearOpMode {
 
     }
     private void driveNoLine(int angle, double power){
-        if (currentValue<followingValue) {
+        while (currentValue<followingValue) {
             driveGyroStraight(angle, power);
             currentValue = robot.lineSensor.getRawLightDetected();
             telemetry.addData("driving", "driving gyro");
@@ -155,11 +128,11 @@ public class experimentalAutoRed extends LinearOpMode {
     }
     private void driveLine(int angle, double power){
         GyroTurn(-90);
-        if (robot.wallDetector.isPressed() == false){
+        while(robot.wallDetector.isPressed() == false){
             driveGyroStraight(angle, power);
 
         }
-        if (robot.wallDetector.isPressed()==true){
+        while(robot.wallDetector.isPressed()==true){
             halt();
         }
     }
@@ -241,7 +214,7 @@ public class experimentalAutoRed extends LinearOpMode {
     private void verifyRed(){
         getBlue();
         getRed();
-        if (redColor>380){
+        if (redColor>400){
             fire();
             halt();
             telemetry.addData("I found the red color!", "yay!");
@@ -266,12 +239,12 @@ public class experimentalAutoRed extends LinearOpMode {
         //fire();
         sleep(5000);
         while (robot.wallDetector.isPressed() == false && opModeIsActive()) {
-                forward(.5);
-            }
-        forward(.9);
+            forward(.5);
+        }
+        forward(.4);
         idle();
         sleep(200);
-        reverse(.9);
+        reverse(.4);
         idle();
         sleep(200);
         halt();
@@ -571,5 +544,5 @@ public class experimentalAutoRed extends LinearOpMode {
 
 
 
-    }
+}
 

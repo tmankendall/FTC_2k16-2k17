@@ -64,6 +64,7 @@ public class Teleopmecanum extends OpMode{
     NeilPushbot robot       = new NeilPushbot(); // use the class created to define a Pushbot's hardware
     // could also use HardwarePushbotMatrix class.
     int currentSpeed;
+    double currentPosition = 0.0;
     double B = .1;
     double Y = .5;
     int X = 1;
@@ -117,8 +118,8 @@ public class Teleopmecanum extends OpMode{
         //robot.ball_feeder.setPosition(1);
         //robot.ForkliftGrabber.setPosition(0);
         // positional based driving
-        telemetry.addData("The joystick", gamepad2.left_stick_y);
-        telemetry.addData("The joystick x", gamepad2.left_stick_x);
+        //telemetry.addData("The joystick", gamepad2.left_stick_y);
+        //telemetry.addData("The joystick x", gamepad2.left_stick_x);
         telemetry.update();
         //robot.left_color_sensor.setI2cAddress();
         //up = -1, right = +1, others opposite
@@ -164,15 +165,21 @@ public class Teleopmecanum extends OpMode{
 //        if  (gamepad2.left_bumper){
 //            robot.ForkliftGrabber.setPosition(160.0/180.0);
 //        }
+        robot.ForkliftGrabber.setPosition(currentPosition);
+
         if (gamepad2.dpad_down){
-            double currentPosition = robot.ForkliftGrabber.getPosition();
+        currentPosition = 0.0;            /*double currentPosition = robot.ForkliftGrabber.getPosition();
             if (currentPosition>0) {
                 currentPosition = Range.clip(currentPosition - .01, 0,1);
                 robot.ForkliftGrabber.setPosition(currentPosition);
             }
-
+*/
         }
+        telemetry.addData("ods", robot.lineSensor.getRawLightDetected());
+        telemetry.update();
         if (gamepad2.dpad_up){
+            currentPosition = 150.0/180.0;
+            /*
             double currentPosition = robot.ForkliftGrabber.getPosition();
             telemetry.addData("the current position is ",currentPosition);
             if (currentPosition <= 0) {
@@ -180,7 +187,7 @@ public class Teleopmecanum extends OpMode{
                 robot.ForkliftGrabber.setPosition(currentPosition);
             }
             telemetry.addData("forklift position is ", robot.ForkliftGrabber.getPosition());
-            telemetry.update();
+            telemetry.update();*/
         }
         if(gamepad2.y) {
             robot.forklift.setPower(1);

@@ -68,7 +68,7 @@ public class lineFollow extends LinearOpMode {
     double power;
     double angle = 35;
     //=======
-    double blackLightValue = 0.023;
+    double followingValue = 0.023;
     double correction;
     double leftSpeed;
     double rightSpeed;
@@ -103,39 +103,146 @@ public class lineFollow extends LinearOpMode {
         robot.back_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
         waitForStart();
         runtime.reset();
+        driveGyroStraight(0,.3);
         followLine();
     }
 
-    private void followLine() {
-        double currentLightDetected = robot.lineSensor.getLightDetected();
-        correction = (whiteLightValue - robot.lineSensor.getLightDetected());
-        while (Math.abs(currentLightDetected - standardLightValue) < .1 * standardLightValue) {
+
+
+    private void driveForTime(double angle, double time) {
+
+        //double initialTime = runtime.milliseconds();
+        double initialTime = runtime.milliseconds();
+        double target = angle;  //Starting direction
+        zAccumulated = robot.gyro.getIntegratedZValue();
+        double currentTime = runtime.milliseconds();//Current direction
+        double desiredTime = time + currentTime;
+        //tk trying to maybe fix things
+        //drive(1,1);
+        while ((desiredTime-currentTime) > 0 && opModeIsActive()) {
+            currentTime = runtime.milliseconds();
+            leftSpeed = .3 - (zAccumulated - target) / 100;  //Calculate speed for each side
+            rightSpeed = .3 + (zAccumulated - target) / 100;  //See Gyro Straight video for detailed explanation
+            leftSpeed = Range.clip(leftSpeed, -1, 1);
+            rightSpeed = Range.clip(rightSpeed, -1, 1);
+            drive(leftSpeed, rightSpeed);
+            zAccumulated = robot.gyro.getIntegratedZValue();
+            telemetry.addData("Driving, ods value is", robot.lineSensor.getRawLightDetected());
+            telemetry.update();
             idle();
         }
+
+    }
+
+    private void followLine() {
+        double counter = 0;
+        double currentLightDetected = robot.lineSensor.getRawLightDetected();
+        correction = (whiteLightValue - robot.lineSensor.getRawLightDetected());
         robot.back_right_motor.setPower(0);
         robot.back_left_motor.setPower(0);
         robot.front_left_motor.setPower(0);
         robot.front_right_motor.setPower(0);
         idle();
-        while (robot.wallDetector.isPressed() == false) {
-
-            if (robot.lineSensor.getLightDetected() > blackLightValue + .1) {
-                telemetry.addData("I found the Line", "");
-                telemetry.update();
-                if (correction <= 0) {
-                    leftSpeed = .075d - correction;
-                    rightSpeed = .075d;
-                    drive(leftSpeed, rightSpeed);
-                } else {
-                    leftSpeed = .075d;
-                    rightSpeed = .075d + correction;
-                    drive(leftSpeed, rightSpeed);
-                }
-
-            }
-            telemetry.addData(">", robot.lineSensor.getLightDetected());
+        if (Math.abs(robot.lineSensor.getRawLightDetected()) < followingValue + .003 ){
+            telemetry.addData("I found the Line", "");
             telemetry.update();
         }
+
+        while (robot.wallDetector.isPressed() == false && opModeIsActive()) {
+            correction = (followingValue - currentLightDetected);
+            telemetry.update();
+            if(correction <= 0) {
+                leftSpeed = .5 - correction*4;
+                rightSpeed = .5;
+                drive(leftSpeed, rightSpeed);
+            }
+            if(correction > 0) {
+                leftSpeed = .5 + correction*4;
+                rightSpeed = .5;
+                drive(leftSpeed, rightSpeed);
+            }
+            currentLightDetected = robot.lineSensor.getRawLightDetected();
+            idle();
+        }
+        while(robot.wallDetector.isPressed() == true && opModeIsActive()){
+            driveGyroStraight(-90, .3);
+            sleep(100);
+            halt();
+            reverse(.2);
+            sleep(300);
+            halt();
+        }
+
+
+    }
+    private void goRight(int time) {
+        robot.back_left_motor.setPower(-1);
+        robot.front_right_motor.setPower(-1);
+        robot.back_right_motor.setPower(1);
+        robot.front_left_motor.setPower(1);
+        sleep(time);
+        robot.back_left_motor.setPower(0);
+        robot.front_right_motor.setPower(0);
+        robot.back_right_motor.setPower(0);
+        robot.front_left_motor.setPower(0);
+    }
+
+    private void goLeft(int time) {
+        robot.back_left_motor.setPower(1);
+        robot.front_right_motor.setPower(1);
+        robot.back_right_motor.setPower(-1);
+        robot.front_left_motor.setPower(-1);
+        sleep(time);
+        robot.back_left_motor.setPower(0);
+        robot.front_right_motor.setPower(0);
+        robot.back_right_motor.setPower(0);
+        robot.front_left_motor.setPower(0);
+    }
+
+    private void reverse(double power) {
+        robot.front_left_motor.setPower(-power);
+        robot.front_right_motor.setPower(-power);
+        robot.back_left_motor.setPower(-power);
+        robot.back_right_motor.setPower(-power);
+        idle();
+        return;
+    }
+
+    private void forward(double power) {
+        robot.front_left_motor.setPower(power);
+        robot.front_right_motor.setPower(power);
+        robot.back_left_motor.setPower(power);
+        robot.back_right_motor.setPower(power);
+        idle();
+        return;
+    }
+
+    private void halt() {
+        robot.back_left_motor.setPower(0);
+        robot.back_right_motor.setPower(0);
+        robot.front_left_motor.setPower(0);
+        robot.front_right_motor.setPower(0);
+        idle();
+        return;
+    }
+
+    private void driveGyroStraight(double angle, double powerGyro) {
+        double target = angle;  //Starting direction
+        zAccumulated = robot.gyro.getIntegratedZValue();  //Current direction
+
+        while ((robot.lineSensor.getRawLightDetected() < 30) && opModeIsActive()) {
+            leftSpeed = powerGyro - (zAccumulated - target) / 100.0;  //Calculate speed for each side
+            rightSpeed = powerGyro + (zAccumulated - target) / 100.0;  //See Gyro Straight video for detailed explanation
+            leftSpeed = Range.clip(leftSpeed, -1, 1);
+            rightSpeed = Range.clip(rightSpeed, -1, 1);
+            drive(leftSpeed, rightSpeed);
+            zAccumulated = robot.gyro.getIntegratedZValue();
+            telemetry.addData("Driving, ods value is", robot.lineSensor.getRawLightDetected());
+            telemetry.addData("Current Integrated Z value is:", zAccumulated);
+            telemetry.update();
+            idle();
+        }
+        //drive(0,0);
     }
 
     private void drive(double left, double right) {

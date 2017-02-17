@@ -88,6 +88,10 @@ public class FIRE extends LinearOpMode {
         while (robot.gyro.isCalibrating()) {
 
         }
+        telemetry.addData("left:", robot.left_color_sensor.getI2cAddress());
+        telemetry.addData("right:", robot.right_color_sensor.getI2cAddress());
+
+        telemetry.update();
         robot.gyro.resetZAxisIntegrator();
 
 
@@ -96,12 +100,8 @@ public class FIRE extends LinearOpMode {
 //            sleep(50);
 //            idle();
 //        }
-        telemetry.addData(">", "Gyro Calibrated.  Press Start.");
-        telemetry.update();
-        robot.front_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.back_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.front_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.back_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+       // telemetry.addData(">", "Gyro Calibrated.  Press Start.");
+
         waitForStart();
         runtime.reset();
         fire();
@@ -109,22 +109,37 @@ public class FIRE extends LinearOpMode {
 
     private void fire()
     {
-        ElapsedTime runtime = new ElapsedTime();
-        runtime.reset();
-        double n = 60;
-        for(int i = 0; i < 1; i += .1)
-        {
+
+        robot.ball_feeder.setPosition(47.0/180.0);
+
+        for (float i = 0; i < 1; i += .01) {
             robot.right_balllauncher.setPower(i);
+            sleep(20);
+            idle();
         }
-        sleep(500);
-        robot.ball_feeder.setPosition(120.0/180.0 + n/180.0);
-        robot.ball_feeder.setPosition(.5);
-        for (int j = 1; j>0; j-= .1){
+        robot.right_balllauncher.setPower(1);
+        sleep(1500);
+
+        robot.ball_feeder.setPosition(177.0/180.0);
+        sleep(1500);
+
+        // robot.ball_feeder.setPosition(20/180);
+        robot.ball_feeder.setPosition(47.0/180.0);
+        sleep(1000);
+        robot.ball_feeder.setPosition(177.0/180.0);
+        sleep(1500);
+        for (float j = 1; (j > 0 && opModeIsActive()); j -= .01) {
             robot.right_balllauncher.setPower(j);
+            sleep(20);
+            idle();
         }
         return;
 
 
     }
-}
+
+
+
+    }
+
 
