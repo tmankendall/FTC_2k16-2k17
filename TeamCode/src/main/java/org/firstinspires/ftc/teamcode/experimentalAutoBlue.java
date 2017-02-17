@@ -278,13 +278,13 @@ public class experimentalAutoBlue extends LinearOpMode {
         //getColors();
         //fire();
         sleep(5000);
+        verifyBlue();
         /*while (robot.wallDetector.isPressed() == false && opModeIsActive()) {
                 forward(.5);
             }*/
         forward(.2);
         //idle();
         sleep(400);
-        verifyBlue();
 
             /*forward(.1);
             sleep(1000);

@@ -273,13 +273,13 @@ public class VerifyRed extends LinearOpMode {
         //getColors();
         //fire();
         sleep(5000);
+        verifyRed();
         /*while (robot.wallDetector.isPressed() == false && opModeIsActive()) {
                 forward(.5);
             }*/
         forward(.2);
         //idle();
         sleep(400);
-        verifyRed();
 
             /*forward(.1);
             sleep(1000);
