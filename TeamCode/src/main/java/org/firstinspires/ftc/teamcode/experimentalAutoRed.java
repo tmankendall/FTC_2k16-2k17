@@ -126,7 +126,7 @@ public class experimentalAutoRed extends LinearOpMode {
             telemetry.update();
 //        driveNoLine(-35, .5);
             halt();
-            driveGyroStraight(-35, .2);
+            driveGyroStraight(-35, .7);
 //        driveLine(-90, .5);
             if (isStopRequested()) {
                 halt();
@@ -150,9 +150,23 @@ public class experimentalAutoRed extends LinearOpMode {
             //fire();
             //ColorAlignRed();
             //pressRed();
+        if(isStopRequested() == false) {
 
 
+            while (robot.wallDetector.isPressed() == false) {
+                driveGyroStraight(-90, -1);
+
+            }
+            if (robot.wallDetector.isPressed() == true) {
+                drive(-1, -1);
+                sleep(1500);
+                halt();
+            }
+        }
+
+        if(isStopRequested() == true){
             halt();
+        }
 
     }
 //    private void driveNoLine(int angle, double power){
@@ -492,13 +506,13 @@ public class experimentalAutoRed extends LinearOpMode {
             correction = (followingValue - currentLightDetected);
             telemetry.update();
             if(correction <= 0) {
-                leftSpeed = .5 - correction*4.0;
-                rightSpeed = .5;
+                leftSpeed = .8 - correction*4.0;
+                rightSpeed = .8;
                 drive(leftSpeed, rightSpeed);
             }
             if(correction > 0) {
-                leftSpeed = .5 ;
-                rightSpeed = .5 + correction*4.0;
+                leftSpeed = .8 ;
+                rightSpeed = .8 + correction*4.0;
                 drive(leftSpeed, rightSpeed);
             }
             telemetry.addData("Correction: ", correction);

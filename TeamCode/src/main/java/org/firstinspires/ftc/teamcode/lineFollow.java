@@ -103,8 +103,25 @@ public class lineFollow extends LinearOpMode {
         robot.back_right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
         waitForStart();
         runtime.reset();
-        driveGyroStraight(0,.3);
+        driveGyroStraight(0,.7);
         followLine();
+        if(isStopRequested() == false) {
+
+
+            while (robot.wallDetector.isPressed() == false) {
+                driveGyroStraight(-90, -1);
+
+            }
+            if (robot.wallDetector.isPressed() == true) {
+                drive(-1, -1);
+                sleep(1500);
+                halt();
+            }
+        }
+
+        if(isStopRequested() == true){
+            halt();
+        }
     }
 
 
@@ -152,13 +169,13 @@ public class lineFollow extends LinearOpMode {
             correction = (followingValue - currentLightDetected);
             telemetry.update();
             if(correction <= 0) {
-                leftSpeed = .5 - correction*4;
-                rightSpeed = .5;
+                leftSpeed = .8 - correction*4;
+                rightSpeed = .8;
                 drive(leftSpeed, rightSpeed);
             }
             if(correction > 0) {
-                leftSpeed = .5 + correction*4;
-                rightSpeed = .5;
+                leftSpeed = .8 + correction*4;
+                rightSpeed = .8;
                 drive(leftSpeed, rightSpeed);
             }
             currentLightDetected = robot.lineSensor.getRawLightDetected();
