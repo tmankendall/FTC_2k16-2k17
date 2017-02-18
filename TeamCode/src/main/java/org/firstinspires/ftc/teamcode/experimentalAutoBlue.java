@@ -150,7 +150,7 @@ public class experimentalAutoBlue extends LinearOpMode {
         if(isStopRequested()== false) {
             verifyBlue();
         }
-        fire();
+        //fire();
         //ColorAlignRed();
         //pressRed();
 

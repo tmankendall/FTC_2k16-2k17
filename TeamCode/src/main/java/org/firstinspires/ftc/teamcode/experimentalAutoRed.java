@@ -147,7 +147,7 @@ public class experimentalAutoRed extends LinearOpMode {
             if (isStopRequested() == false) {
                 verifyRed();
             }
-            fire();
+            //fire();
             //ColorAlignRed();
             //pressRed();
 
