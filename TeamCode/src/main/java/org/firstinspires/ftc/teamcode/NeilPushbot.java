@@ -3,6 +3,7 @@
 package org.firstinspires.ftc.teamcode;
 //CLEAN IT UP
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
@@ -78,7 +79,9 @@ public class NeilPushbot
     public ModernRoboticsDigitalTouchSensor wallDetector = null;
     private ElapsedTime period  = new ElapsedTime();
     public DeviceInterfaceModule joshThisIsForYou = null;
-
+    public CRServo ArmRotation = null;
+    public Servo ArmGrabber = null;
+    public DcMotor ArmCrane = null;
     /* Constructor */
     public NeilPushbot(){
 
@@ -101,12 +104,15 @@ public class NeilPushbot
         lineSensor        = hwMap.opticalDistanceSensor.get("frontUSensor");
         wallDetector        = (ModernRoboticsDigitalTouchSensor)hwMap.touchSensor.get("Wall_Detector");
         joshThisIsForYou    = hwMap.deviceInterfaceModule.get("Device Interface Module 2");
-
-        right_balllauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        right_balllauncher .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         front_left_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         front_right_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         back_left_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         back_right_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        ArmRotation    = hwMap.crservo.get("ArmRotation");
+        ArmGrabber = hwMap.servo.get("ArmGrabber");
+        ArmCrane = hwMap.dcMotor.get("ArmCrane");
 
 
         //leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
@@ -121,6 +127,7 @@ public class NeilPushbot
         // Set all motors to zero power
         forklift.setPower(0);
         right_balllauncher.setPower(0);
+        ArmCrane.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
