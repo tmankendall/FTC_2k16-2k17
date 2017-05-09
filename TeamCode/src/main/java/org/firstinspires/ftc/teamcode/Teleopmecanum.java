@@ -74,7 +74,7 @@ public class Teleopmecanum extends OpMode{
     double pushingButton = 120.0/180.0;
     int n = 0;
     double j = .5;
-    double apple = .5;
+    double currentPositionOfForkliftGrabber = 1.0;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -90,6 +90,7 @@ public class Teleopmecanum extends OpMode{
         telemetry.addData("Say", "Hello Driver");
         telemetry.addData("Say", "Remember the driving contorls\nDirectional left joystick, turn angle with right\nRight Trigger is the pulley\n X, B, and Y are speeds for the launcher\n");
         telemetry.update();
+        robot.ForkliftGrabber.setPosition(1);
     }
 
     /*
@@ -113,25 +114,24 @@ public class Teleopmecanum extends OpMode{
      */
     @Override
     public void loop() {
+
         double left;
         double right;
         double threshold = .02;
-        //robot.ball_feeder.setPosition(1);
-        //robot.ForkliftGrabber.setPosition(0);
-        // positional based driving
-        //telemetry.addData("The joystick", gamepad2.left_stick_y);
-        //telemetry.addData("The joystick x", gamepad2.left_stick_x);
+        telemetry.addData("ODS Value", robot.lineSensor.getRawLightDetected());
+        telemetry.addData("Current Position", currentPositionOfForkliftGrabber);
         telemetry.update();
-        //robot.left_color_sensor.setI2cAddress();
-        //up = -1, right = +1, others opposite
         double frontPower = - gamepad1.left_stick_y;
         double rightPower = gamepad1.left_stick_x;
+
+
+
         if(java.lang.Math.abs(gamepad1.left_stick_y) > threshold || java.lang.Math.abs(gamepad1.left_stick_x) > threshold)
         {
-            robot.front_right_motor.setPower((frontPower - .7*rightPower)*.65);
-            robot.front_left_motor.setPower((frontPower + .7*rightPower)*.65);
-            robot.back_right_motor.setPower((frontPower + .7*rightPower)*.45);
-            robot.back_left_motor.setPower((frontPower - .7*rightPower)*.45);
+            robot.front_right_motor.setPower((frontPower - .5*rightPower)*.65);
+            robot.front_left_motor.setPower((frontPower + .5*rightPower)*.65);
+            robot.back_right_motor.setPower((frontPower + .8*rightPower)*.65);
+            robot.back_left_motor.setPower((frontPower - .8*rightPower)*.65);
         }
         else if (java.lang.Math.abs(gamepad1.right_stick_x) < threshold)
         {
@@ -141,15 +141,18 @@ public class Teleopmecanum extends OpMode{
             robot.back_right_motor.setPower(0);
         }
 
+
         if (java.lang.Math.abs(gamepad1.right_stick_x) > threshold)
         {
-            robot.front_right_motor.setPower((robot.front_right_motor.getPower() + gamepad1.right_stick_x)*2.0);
-            robot.front_left_motor.setPower((robot.front_left_motor.getPower() - gamepad1.right_stick_x)*2.0);
-            robot.back_right_motor.setPower((robot.back_right_motor.getPower() + gamepad1.right_stick_x)*2.0);
-            robot.back_left_motor.setPower((robot.back_left_motor.getPower() - gamepad1.right_stick_x)*2.0);
+            robot.front_right_motor.setPower((robot.front_right_motor.getPower() + .7*gamepad1.right_stick_x)*1.3);
+            robot.front_left_motor.setPower((robot.front_left_motor.getPower() - .7*gamepad1.right_stick_x)*1.3);
+            robot.back_right_motor.setPower((robot.back_right_motor.getPower() + .7*gamepad1.right_stick_x)*1.3);
+            robot.back_left_motor.setPower((robot.back_left_motor.getPower() - .7*gamepad1.right_stick_x)*1.3);
         }
 
-        robot.right_balllauncher.setPower(-gamepad2.right_trigger);
+
+
+        robot.right_balllauncher.setPower(-gamepad2.right_trigger * .75);
 
         if (gamepad2.left_bumper)
         {
@@ -159,26 +162,29 @@ public class Teleopmecanum extends OpMode{
         {
             robot.ball_feeder.setPosition(177.0/180.0);
         }
-//        if (gamepad2.right_bumper){
-//            robot.ForkliftGrabber.setPosition(0.0/180.0);
-//        }
-//
-//        if  (gamepad2.left_bumper){
-//            robot.ForkliftGrabber.setPosition(160.0/180.0);
-//        }
-
 
         if(gamepad2.dpad_down)
         {
-            apple -= .01;
-            robot.ForkliftGrabber.setPosition(apple);
+            currentPositionOfForkliftGrabber = currentPositionOfForkliftGrabber -.01;
+            robot.ForkliftGrabber.setPosition(currentPositionOfForkliftGrabber);
         }
+
         if(gamepad2.dpad_up)
         {
-            apple += .01;
-            robot.ForkliftGrabber.setPosition(apple);
+            currentPositionOfForkliftGrabber = currentPositionOfForkliftGrabber + .01;
+            robot.ForkliftGrabber.setPosition(currentPositionOfForkliftGrabber);
+            telemetry.addData("Current Position", currentPositionOfForkliftGrabber);
         }
-        apple = Range.clip(apple, 0, 1);
+
+        if(currentPositionOfForkliftGrabber > 1)
+        {
+            currentPositionOfForkliftGrabber = 1;
+        }
+
+        if( currentPositionOfForkliftGrabber < 0)
+        {
+            currentPositionOfForkliftGrabber = 0;
+        }
 
         if(gamepad2.y) {
             robot.forklift.setPower(1);
@@ -193,19 +199,19 @@ public class Teleopmecanum extends OpMode{
 
 
 
-    }
-
-    private void fire()
-    {
-        ElapsedTime runtime = new ElapsedTime();
-        runtime.reset();
-        robot.right_balllauncher.setPower(1);
-        robot.ball_feeder.setPosition(120.0/180.0 + n/180.0);
-        robot.ball_feeder.setPosition(.5);
-        robot.right_balllauncher.setPower(0);
-        return;
 
     }
+
+//    private void fire()
+//    {
+//        ElapsedTime runtime = new ElapsedTime();
+//        runtime.reset();
+//        robot.right_balllauncher.setPower(.8);
+//        robot.ball_feeder.setPosition(120.0/180.0 + n/180.0);
+//        robot.ball_feeder.setPosition(.5);
+//        robot.right_balllauncher.setPower(0);
+//        return;
+//    }
 
     @Override
     public void stop() {

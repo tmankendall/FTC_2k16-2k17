@@ -63,8 +63,8 @@ public class experimentalAutoBlue extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     NeilPushbot robot = new NeilPushbot();
     double standardLightValue = 0;
-    double followingValue = .02;
-    double whiteLightValue = .02;
+    double followingValue = .015;
+    double whiteLightValue = .015;
     float redColorRight;
     float blueColorRight;
     float redColorLeft;
@@ -89,10 +89,10 @@ public class experimentalAutoBlue extends LinearOpMode {
         telemetry.update();
         robot.init(hardwareMap);
 
-        robot.front_left_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        robot.front_right_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        robot.back_left_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        robot.back_right_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        robot.front_left_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.front_right_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.back_left_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.back_right_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         telemetry.addData(">", "Gyro Calibrating. Do Not move!");
         telemetry.update();
@@ -117,25 +117,26 @@ public class experimentalAutoBlue extends LinearOpMode {
         waitForStart();
         runtime.reset();
         robot.ball_feeder.setPosition(47.0/180.0);
+        robot.ForkliftGrabber.setPosition(1);
 
         //     driveForTimeLeft(0, 5000);
 
 
 
         driveForTime(0,500);
-        GyroTurn(35);
+        GyroTurn(-48);
         telemetry.addLine("driving no value");
         telemetry.update();
 //        driveNoLine(-35, .5);
         halt();
-        driveGyroStraight(35, .2);
+        driveGyroStraight(-48, .2);
 //        driveLine(-90, .5);
         if (isStopRequested())
         {
             halt();
             stop();
         }
-        GyroTurn(90);
+        GyroTurn(-75);
         //driveGyroStraight(35, .3);
         if(isStopRequested() == false) {
             followLine();
@@ -254,7 +255,7 @@ public class experimentalAutoBlue extends LinearOpMode {
     private void verifyBlue(){
         getBlue();
         getRed();
-        if (blueColor>500){
+        if (blueColor>700){
             //fire();
             halt();
             telemetry.addData("I found the blue color!", "yay!");
@@ -273,18 +274,19 @@ public class experimentalAutoBlue extends LinearOpMode {
         halt();
         reverse(.1);
         idle();
-        sleep(300);
+        sleep(100);
         halt();
         //getColors();
         //fire();
-        sleep(5000);
+        sleep(1000);
         verifyBlue();
+        sleep(1000);
         /*while (robot.wallDetector.isPressed() == false && opModeIsActive()) {
                 forward(.5);
             }*/
-        forward(.2);
+        forward(.5);
         //idle();
-        sleep(400);
+        sleep(50);
 
             /*forward(.1);
             sleep(1000);
@@ -411,12 +413,39 @@ public class experimentalAutoBlue extends LinearOpMode {
     }
 
     private void driveGyroStraight(double angle, double powerGyro) {
+        telemetry.addLine("we made it here");
+        telemetry.update();
         double target = angle;  //Starting direction
         zAccumulated = robot.gyro.getIntegratedZValue();  //Current direction
 
-        while (opModeIsActive() && robot.lineSensor.getRawLightDetected() < followingValue) {
-            leftSpeed = powerGyro + (zAccumulated - target) / 100.0;  //Calculate speed for each side
-            rightSpeed = powerGyro - (zAccumulated - target) / 100.0;  //See Gyro Straight video for detailed explanation
+        double[] values = new double[5];
+        int n = 0;
+
+        for(int i = 0; i < 5; i++)
+        {
+            values[i] = 0;
+            idle();
+        }
+        double average = 0;
+
+
+        while (opModeIsActive() && average < followingValue) {
+
+            average = 0;
+            values[n] = robot.lineSensor.getRawLightDetected();
+
+            if(n == 5)
+            {
+                n = 0;
+            }
+
+            for(int i = 0; i < 5; i++)
+            {
+                average += values[i];
+            }
+            average = average/5.0;
+            leftSpeed = powerGyro - (zAccumulated - target) / 100.0;  //Calculate speed for each side
+            rightSpeed = powerGyro + (zAccumulated - target) / 100.0;  //See Gyro Straight video for detailed explanation
             leftSpeed = Range.clip(leftSpeed, -1, 1);
             rightSpeed = Range.clip(rightSpeed, -1, 1);
             drive(leftSpeed, rightSpeed);
@@ -490,18 +519,18 @@ public class experimentalAutoBlue extends LinearOpMode {
             telemetry.addData("I found the Line", "");
             telemetry.update();
         }
-
-        while (robot.wallDetector.isPressed() == false && opModeIsActive()) {
+        double initialTime = getRuntime();
+        while ((getRuntime() - initialTime < 700) && opModeIsActive()) {
             correction = (followingValue - currentLightDetected);
             telemetry.update();
             if(correction <= 0) {
-                leftSpeed = .5 - correction*4.0;
-                rightSpeed = .5;
+                leftSpeed = .3 ;
+                rightSpeed = .3 - correction*100.0;
                 drive(leftSpeed, rightSpeed);
             }
             if(correction > 0) {
-                leftSpeed = .5 ;
-                rightSpeed = .5 + correction*4.0;
+                leftSpeed = .3 + correction*100.0;
+                rightSpeed = .3 ;
                 drive(leftSpeed, rightSpeed);
             }
             telemetry.addData("Correction: ", correction);

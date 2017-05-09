@@ -80,8 +80,10 @@ public class NeilPushbot
     private ElapsedTime period  = new ElapsedTime();
     public DeviceInterfaceModule joshThisIsForYou = null;
     public CRServo ArmRotation = null;
-    public Servo ArmGrabber = null;
-    public DcMotor ArmCrane = null;
+    public Servo ArmSweeper = null;
+    //public Servo ArmGrabber = null;
+    //public DcMotor ArmCrane = null;
+    //public Servo ArmSwing = null;
     /* Constructor */
     public NeilPushbot(){
 
@@ -92,6 +94,7 @@ public class NeilPushbot
 
         // Save reference to Hardware map
         ForkliftGrabber = hwMap.servo.get("ForkliftGrabber");
+        ArmSweeper = hwMap.servo.get("ArmSweeper");
         // Define and Initialize Motors
         forklift            = hwMap.dcMotor.get("forklift");
         ball_feeder         = hwMap.servo.get("ball_feeder");
@@ -110,24 +113,25 @@ public class NeilPushbot
         back_left_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         back_right_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
+
         ArmRotation    = hwMap.crservo.get("ArmRotation");
-        ArmGrabber = hwMap.servo.get("ArmGrabber");
-        ArmCrane = hwMap.dcMotor.get("ArmCrane");
+        //ArmGrabber = hwMap.servo.get("ArmGrabber");
+        //ArmCrane = hwMap.dcMotor.get("ArmCrane");
 
-
+        //ArmSwing = hwMap.servo.get("ArmSwing");
         //leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         //rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         front_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        back_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //back_right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         front_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
         back_left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
         joshThisIsForYou.setDigitalChannelMode(3, DigitalChannelController.Mode.OUTPUT);
         joshThisIsForYou.setDigitalChannelMode(4, DigitalChannelController.Mode.OUTPUT);
-
+        ArmSweeper.setPosition(21.0/180.0);
         // Set all motors to zero power
         forklift.setPower(0);
         right_balllauncher.setPower(0);
-        ArmCrane.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        back_right_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -141,7 +145,7 @@ public class NeilPushbot
 //        right_motor.setPower(0);
         front_right_motor.setPower(0);
         front_left_motor.setPower(0);
-        back_right_motor.setPower(0);
+        //back_right_motor.setPower(0);
         back_left_motor.setPower(0);
 
         // values is a reference to the hsvValues array.

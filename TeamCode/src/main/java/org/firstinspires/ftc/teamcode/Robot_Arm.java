@@ -122,27 +122,126 @@ public class Robot_Arm extends OpMode{
         //up = -1, right = +1, others opposite
         double frontPower = -gamepad1.left_stick_y;
         double rightPower = gamepad1.left_stick_x;
-        if (gamepad1.dpad_up) {
-            robot.ArmCrane.setPower(1);//extend arm
-        } else {
-            robot.ArmCrane.setPower(0);
+
+
+       /* if (gamepad1.right_trigger>0) {
+            robot.back_right_motor.setPower(gamepad1.right_trigger);
+        }
+        else {
+
+            robot.back_right_motor.setPower(-gamepad1.left_trigger);
+        }
+        if (gamepad2.right_trigger>0){
+            robot.ArmRotation.setPower(gamepad2.right_trigger);
+
+        }
+        else {
+            robot.ArmRotation.setPower(-gamepad2.left_trigger);
+        }*/
+        //robot.ArmRotation.setPower(rightPower);
+        /*if (gamepad1.dpad_up) {
+            robot.back_right_motor.setPower(.25);//extend arm
         }
         if (gamepad1.dpad_down) {
-            robot.ArmCrane.setPower(-1); //retract arm
-        } else {
-            robot.ArmCrane.setPower(0);
+            robot.back_right_motor.setPower(-.25); //retract arm
         }
-        if (gamepad2.a) {
-            robot.ArmGrabber.setPosition(0.0 / 180.0);//open claw
+        if (gamepad1.x){
+            robot.back_right_motor.setPower(0);
+        }*/
+        if (gamepad1.x) {
+            robot.ball_feeder.setPosition(90.0 / 180.0);//open claw
+           // robot.back_right_motor.setPower(.5);
         }
-        if (gamepad2.b) {
-            robot.ArmGrabber.setPosition(180.0 / 180.0);//close claw
+        if (gamepad1.b) {
+            robot.ball_feeder.setPosition(0.0 / 180.0);//c.0lose claw
+           // robot.back_right_motor.setPower(-.5);
         }
-        if (gamepad2.right_bumper) {
+
+        /*if (gamepad2.right_bumper) {
             robot.ArmRotation.setPower(-0.5); //rotate arm
+        }
+        else{
+            robot.ArmRotation.setPower(0);
         }
         if (gamepad2.left_bumper) {
             robot.ArmRotation.setPower(0.5); //rotate arm
+        }
+        else{
+            robot.ArmRotation.setPower(0);
+        }
+        if (gamepad2.x){
+            robot.ArmRotation.setPower(0);
+        }*/
+        if (gamepad1.a){
+            robot.ForkliftGrabber.setPosition(0.0/180.0);
+            //robot.ArmRotation.setPower(.5);
+        }
+
+        if (gamepad1.y){
+            robot.ForkliftGrabber.setPosition(180.0/180.0);
+            //robot.ArmRotation.setPower(-.5);
+        }
+
+//robot.ForkliftGrabber.setPosition(gamepad1.right_trigger);
+        if (gamepad1.right_bumper){
+robot.ForkliftGrabber.setPosition(140.0/180.0);
+
+        }
+         if (gamepad1.left_bumper){
+            //robot.ArmRotation.setPosition(.4);
+        }
+        if (gamepad1.dpad_left){
+            //robot.back_right_motor.setPower(.5);
+        }
+        if (gamepad1.dpad_right){
+            //robot.back_right_motor.setPower(-.5);
+        }
+
+        if(gamepad1.x){
+            robot.back_right_motor.setPower(0);
+            //robot.ArmRotation.setPosition(0.5);
+        }
+        robot.back_right_motor.setPower(gamepad1.left_stick_y/5);
+        if (gamepad1.dpad_right){
+            robot.ArmRotation.setPower(-.05);
+        }
+        if (gamepad1.dpad_left){
+            robot.ArmRotation.setPower(.08);
+        }
+        if (gamepad1.dpad_up){
+            robot.back_right_motor.setPower(-.12);
+
+        }
+        if (gamepad1.dpad_down){
+            robot.back_right_motor.setPower(.12);
+        }
+        //robot.ArmRotation.setPower(-gamepad1.left_stick_x);
+        robot.ArmRotation.setPower(-gamepad1.right_stick_x);
+        if (gamepad1.left_bumper){
+            for(double i = 21.0; i<180.0; i+=.45){
+                robot.ArmSweeper.setPosition(i/180.0);
+
+            }
+
+
+            for (double j = 180.0; j>21.0; j-=1){
+                robot.ArmSweeper.setPosition(j/180.0);
+            }
+        }
+        else{
+            robot.ArmSweeper.setPosition(30.0/180.0);
+        }
+
+        if (gamepad1.right_trigger>0){
+            for (double i = 30.0; i<180.0; i+=.05){
+                robot.back_right_motor.setPower(-.2);
+                robot.ArmRotation.setPower(.8);//negative extends, clockwise positive
+            }
+            for (double i = 30.0; i<180.0; i+=.05){
+                robot.back_right_motor.setPower(.2);
+                robot.ArmRotation.setPower(-.8);//negative extends, clockwise positive
+            }
+
         }
     }
     @Override
