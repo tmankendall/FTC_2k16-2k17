@@ -124,30 +124,6 @@ public class Robot_Arm extends OpMode{
         double rightPower = gamepad1.left_stick_x;
 
 
-       /* if (gamepad1.right_trigger>0) {
-            robot.back_right_motor.setPower(gamepad1.right_trigger);
-        }
-        else {
-
-            robot.back_right_motor.setPower(-gamepad1.left_trigger);
-        }
-        if (gamepad2.right_trigger>0){
-            robot.ArmRotation.setPower(gamepad2.right_trigger);
-
-        }
-        else {
-            robot.ArmRotation.setPower(-gamepad2.left_trigger);
-        }*/
-        //robot.ArmRotation.setPower(rightPower);
-        /*if (gamepad1.dpad_up) {
-            robot.back_right_motor.setPower(.25);//extend arm
-        }
-        if (gamepad1.dpad_down) {
-            robot.back_right_motor.setPower(-.25); //retract arm
-        }
-        if (gamepad1.x){
-            robot.back_right_motor.setPower(0);
-        }*/
         if (gamepad1.x) {
             robot.ball_feeder.setPosition(90.0 / 180.0);//open claw
            // robot.back_right_motor.setPower(.5);
@@ -157,21 +133,6 @@ public class Robot_Arm extends OpMode{
            // robot.back_right_motor.setPower(-.5);
         }
 
-        /*if (gamepad2.right_bumper) {
-            robot.ArmRotation.setPower(-0.5); //rotate arm
-        }
-        else{
-            robot.ArmRotation.setPower(0);
-        }
-        if (gamepad2.left_bumper) {
-            robot.ArmRotation.setPower(0.5); //rotate arm
-        }
-        else{
-            robot.ArmRotation.setPower(0);
-        }
-        if (gamepad2.x){
-            robot.ArmRotation.setPower(0);
-        }*/
         if (gamepad1.a){
             robot.ForkliftGrabber.setPosition(0.0/180.0);
             //robot.ArmRotation.setPower(.5);
@@ -182,9 +143,8 @@ public class Robot_Arm extends OpMode{
             //robot.ArmRotation.setPower(-.5);
         }
 
-//robot.ForkliftGrabber.setPosition(gamepad1.right_trigger);
         if (gamepad1.right_bumper){
-robot.ForkliftGrabber.setPosition(140.0/180.0);
+        robot.ForkliftGrabber.setPosition(140.0/180.0);
 
         }
          if (gamepad1.left_bumper){
