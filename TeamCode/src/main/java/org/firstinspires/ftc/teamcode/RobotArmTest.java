@@ -113,6 +113,40 @@ public class RobotArmTest extends LinearOpMode {
         while(gamepad1.a == false)
         {}
 
+        while(gamepad1.a == false){
+            if(Math.abs(gamepad1.left_stick_y) > .1) {
+                robot.sweeper.setPower(gamepad1.left_stick_y);
+            }
+            if(Math.abs(gamepad1.right_stick_y) > .1) {
+                robot.baseRotation.setPower(gamepad1.right_stick_y);
+            }
+            if(Math.abs(gamepad2.left_stick_y) > .1) {
+                robot.extension.setPower(gamepad2.left_stick_y);
+            }
+        }
+        while(gamepad1.a == false){
+            if(Math.abs(gamepad1.left_stick_y) > .1) {
+                robot.sweeper.setPower(.1*gamepad1.left_stick_y);
+            }
+            if(Math.abs(gamepad1.right_stick_y) > .1) {
+                robot.baseRotation.setPower(.1*gamepad1.right_stick_y);
+            }
+            if(Math.abs(gamepad2.left_stick_y) > .1) {
+                robot.extension.setPower(.1*gamepad2.left_stick_y);
+            }
+        }
+        while(gamepad1.a == false){
+            if(Math.abs(gamepad1.left_stick_y) > .1) {
+                robot.sweeper.setPower(.01*gamepad1.left_stick_y);
+            }
+            if(Math.abs(gamepad1.right_stick_y) > .1) {
+                robot.baseRotation.setPower(.01*gamepad1.right_stick_y);
+            }
+            if(Math.abs(gamepad2.left_stick_y) > .1) {
+                robot.extension.setPower(.01*gamepad2.left_stick_y);
+            }
+        }
+
         runtime.reset();
         robot.extension.setPower(.5);
         while(runtime.seconds() < 1.0)
@@ -122,9 +156,42 @@ public class RobotArmTest extends LinearOpMode {
         while(gamepad1.a == false)
         {}
 
-        
+        while(gamepad1.a == false){
+            if(Math.abs(gamepad1.left_stick_y) > .1) {
+                robot.sweeper.setPower(gamepad1.left_stick_y);
+            }
+            if(Math.abs(gamepad1.right_stick_y) > .1) {
+                robot.baseRotation.setPower(gamepad1.right_stick_y);
+            }
+            if(Math.abs(gamepad2.left_stick_y) > .1) {
+                robot.extension.setPower(gamepad2.left_stick_y);
+            }
+        }
+        while(gamepad1.a == false){
+            if(Math.abs(gamepad1.left_stick_y) > .1) {
+                robot.sweeper.setPower(.1*gamepad1.left_stick_y);
+            }
+            if(Math.abs(gamepad1.right_stick_y) > .1) {
+                robot.baseRotation.setPower(.1*gamepad1.right_stick_y);
+            }
+            if(Math.abs(gamepad2.left_stick_y) > .1) {
+                robot.extension.setPower(.1*gamepad2.left_stick_y);
+            }
+        }
+        while(gamepad1.a == false){
+            if(Math.abs(gamepad1.left_stick_y) > .1) {
+                robot.sweeper.setPower(.01*gamepad1.left_stick_y);
+            }
+            if(Math.abs(gamepad1.right_stick_y) > .1) {
+                robot.baseRotation.setPower(.01*gamepad1.right_stick_y);
+            }
+            if(Math.abs(gamepad2.left_stick_y) > .1) {
+                robot.extension.setPower(.01*gamepad2.left_stick_y);
+            }
+        }
+
         runtime.reset();
-        robot.extension.setPower(.5);
+        robot.sweeper.setPower(.5);
         while(runtime.seconds() < 1.0)
         {}
         robot.baseRotation.setPower(0);
