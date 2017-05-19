@@ -51,7 +51,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @TeleOp(name="Template: Linear OpMode", group="Linear Opmode")  // @Autonomous(...) is the other common choice
-@Disabled
+//@Disabled
 public class RobotArmCode extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -181,8 +181,17 @@ public class RobotArmCode extends LinearOpMode {
             if(Math.abs(gamepad1.right_stick_x) > .1) {
                 robot.baseRotation.setPower(gamepad1.right_stick_x);
             }
+            else
+            {
+                robot.baseRotation.setPower(0);
+            }
+
             if(Math.abs(gamepad1.left_stick_y) > .1) {
                 robot.extension.setPower(gamepad1.left_stick_y);
+            }
+            else
+            {
+                robot.extension.setPower(0);
             }
 
             //GamePad 2 fine
@@ -206,11 +215,15 @@ public class RobotArmCode extends LinearOpMode {
 
             if(gamepad2.left_trigger > .1)
             {
-                robot.baseRotation.setPower(.1*gamepad2.left_trigger);
+                robot.baseRotation.setPower(.5*gamepad2.left_trigger);
             }
             else if(gamepad2.right_trigger > .1)
             {
-                robot.baseRotation.setPower(-.1*gamepad2.right_trigger);
+                robot.baseRotation.setPower(-.5*gamepad2.right_trigger);
+            }
+            else if(Math.abs(gamepad1.right_stick_x) < .1)
+            {
+                robot.baseRotation.setPower(0);
             }
 
             if (gamepad2.dpad_up)

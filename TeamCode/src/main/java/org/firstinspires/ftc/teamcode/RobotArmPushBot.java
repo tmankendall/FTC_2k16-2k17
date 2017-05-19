@@ -58,9 +58,11 @@ public class RobotArmPushBot
     }
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap hwMap) {
-        extension       = hwMap.dcMotor.get("extender");
-        baseRotation    = hwMap.crservo.get("baseRotate");
-        sweeper         = hwMap.crservo.get("sweeper");
+        extension       = hwMap.dcMotor.get("back_right_motor");
+        baseRotation    = hwMap.crservo.get("ArmRotation");
+        sweeper         = hwMap.servo.get("ArmSweeper");
+        wrist           = hwMap.servo.get("ball_feeder");
+        grabber         = hwMap.servo.get("ForkliftGrabber");
         extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }
