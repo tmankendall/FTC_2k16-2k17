@@ -58,7 +58,6 @@ public class RobotArmTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
-
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");

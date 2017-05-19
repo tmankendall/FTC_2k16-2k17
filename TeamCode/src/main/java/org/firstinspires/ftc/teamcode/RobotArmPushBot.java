@@ -45,9 +45,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class RobotArmPushBot
 {
     /* Public OpMode members. */
-    public DcMotor extension    = null;
-    public CRServo baseRotation = null;
-    public CRServo sweeper      = null;
+    public  DcMotor extension    = null;
+    public  CRServo baseRotation = null;
+    public  Servo sweeper      = null;
+    public  Servo wrist = null;
+    public Servo grabber = null;
     private ElapsedTime period  = new ElapsedTime();
 
     public RobotArmPushBot(){

@@ -117,36 +117,7 @@ public class Robot_Arm extends OpMode{
         // positional based driving
         //telemetry.addData("The joystick", gamepad2.left_stick_y);
         //telemetry.addData("The joystick x", gamepad2.left_stick_x);
-        telemetry.update();
-        //robot.left_color_sensor.setI2cAddress();
-        //up = -1, right = +1, others opposite
-        double frontPower = -gamepad1.left_stick_y;
-        double rightPower = gamepad1.left_stick_x;
 
-
-        if (gamepad1.x) {
-            robot.ball_feeder.setPosition(90.0 / 180.0);//open claw
-           // robot.back_right_motor.setPower(.5);
-        }
-        if (gamepad1.b) {
-            robot.ball_feeder.setPosition(0.0 / 180.0);//c.0lose claw
-           // robot.back_right_motor.setPower(-.5);
-        }
-
-        if (gamepad1.a){
-            robot.ForkliftGrabber.setPosition(0.0/180.0);
-            //robot.ArmRotation.setPower(.5);
-        }
-
-        if (gamepad1.y){
-            robot.ForkliftGrabber.setPosition(180.0/180.0);
-            //robot.ArmRotation.setPower(-.5);
-        }
-
-        if (gamepad1.right_bumper){
-        robot.ForkliftGrabber.setPosition(140.0/180.0);
-
-        }
          if (gamepad1.left_bumper){
             //robot.ArmRotation.setPosition(.4);
         }
